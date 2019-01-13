@@ -40,7 +40,7 @@ public class AnswerEntity {
 	@SequenceGenerator(name = "AnswerSequence", sequenceName = "answer_sequence")
 	private Long ansId;
 
-	@Column(name = "ans_str")
+	@Column(name = "ans_str", length = 2000)
 	private String ans;
 
 	@OneToOne

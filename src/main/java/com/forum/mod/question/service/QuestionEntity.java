@@ -35,7 +35,7 @@ public class QuestionEntity {
 	@SequenceGenerator(name = "QuestionSequence", sequenceName = "question_sequence")
 	private Long quesId;
 
-	@Column(name = "ques_str")
+	@Column(name = "ques_str", length = 1000)
 	private String ques;
 
 	@OneToOne

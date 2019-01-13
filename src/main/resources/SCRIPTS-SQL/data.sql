@@ -1,48 +1,48 @@
 --inserting dummy data in user table
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (1, 'one', 'YjI1bGNBPT0=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (2, 'two', 'ZEhkdmNBPT0=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (3, 'three', 'ZEdoeVpXVnc=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (4, 'four', 'Wm05MWNuQT0=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (5, 'five', 'Wm1sMlpYQT0=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (6, 'six', 'YzJsNGNBPT0=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (7, 'seven', 'YzJWMlpXNXc=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (8, 'eight', 'WldsbmFIUnc=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (9, 'nine', 'Ym1sdVpYQT0=', 'mail', 'bio');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (10, 'ten', 'ZEdWdWNBPT0=', 'mail', 'bio');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (1, 'one', 'YjI1bGNBPT0=', 'one@mail.com', 'I am user one. I am swag.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (2, 'two', 'ZEhkdmNBPT0=', 'two@mail.com', 'I am user two. I like to play cricket.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (3, 'three', 'ZEdoeVpXVnc=', 'three@mail.com', 'I am user three. I like to ask questions.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (4, 'four', 'Wm05MWNuQT0=', 'four@mail.com', 'I am user four. I am cool.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (5, 'five', 'Wm1sMlpYQT0=', 'five@mail.com', 'I am user five. Bring them on.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (6, 'six', 'YzJsNGNBPT0=', 'six@mail.com', 'I am user six. Lets answer some questions.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (7, 'seven', 'YzJWMlpXNXc=', 'seven@mail.com', 'I am user seven. I am a genius.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (8, 'eight', 'WldsbmFIUnc=', 'eight@mail.com', 'I am use eight. Let all chill down.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (9, 'nine', 'Ym1sdVpYQT0=', 'nine@mail.com', 'I am user nine. I am an avid reader.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (10, 'ten', 'ZEdWdWNBPT0=', 'ten@mail.com', 'I am user ten. I am the last user.');
 
 --inserting dummy data in question table
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (1, 'what is question one?', 'science', 1);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (2, 'what is question two?', 'history', 2);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (3, 'what is question three?', 'technology', 3);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (4, 'what is question four?', 'technology', 4);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (5, 'what is question five?', 'history', 4);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (6, 'what is question six?', 'science', 8);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (7, 'what is question seven?', 'science', 2);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (8, 'what is question eight?', 'history', 1);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (9, 'what is question nine?', 'technology', 4);
-insert into table_question (ques_id, ques_str, ques_category, asked_by) values (10, 'what is question ten?', 'science', 3);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (1, 'What is question one?', 'science', 1);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (2, 'What is question two?', 'history', 2);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (3, 'What is question three?', 'technology', 3);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (4, 'What is question four?', 'technology', 4);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (5, 'What is question five?', 'history', 4);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (6, 'What is question six?', 'science', 8);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (7, 'What is question seven?', 'science', 2);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (8, 'What is question eight?', 'history', 1);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (9, 'What is question nine?', 'technology', 4);
+insert into table_question (ques_id, ques_str, ques_category, asked_by) values (10, 'What is question ten?', 'science', 3);
 
 --inserting dummy data in answer table
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (1, 'this is answer one', 1, 1);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (2, 'this is answer two', 1, 2);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (3, 'this is answer three', 1, 3);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (4, 'this is answer four', 1, 4);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (5, 'this is answer five', 2, 1);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (6, 'this is answer six', 2, 2);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (7, 'this is answer seven', 2, 3);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (8, 'this is answer eight', 3, 4);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (9, 'this is answer nine', 5, 6);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (10, 'this is answer ten', 5, 7);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (11, 'this is answer eleven', 6, 6);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (12, 'this is answer twelve', 6, 7);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (13, 'this is answer thirteen', 7, 6);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (14, 'this is answer fourteen', 7, 7);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (15, 'this is answer fifteen', 3, 6);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (16, 'this is answer sixteen', 1, 8);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (17, 'this is answer seventeen', 5, 10);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (18, 'this is answer eighteen', 6, 9);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (19, 'this is answer nineteen', 9, 9);
-insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (20, 'this is answer twenty', 10, 10);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (1, 'This is answer one. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 1, 1);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (2, 'This is answer two. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 1, 2);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (3, 'This is answer three. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 1, 3);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (4, 'This is answer four. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 1, 4);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (5, 'This is answer five. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 2, 1);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (6, 'This is answer six. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 2, 2);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (7, 'This is answer seven. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 2, 3);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (8, 'This is answer eight. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 3, 4);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (9, 'This is answer nine. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 5, 6);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (10, 'This is answer ten. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 5, 7);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (11, 'This is answer eleven. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 6, 6);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (12, 'This is answer twelve. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 6, 7);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (13, 'This is answer thirteen. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 7, 6);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (14, 'This is answer fourteen. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 7, 7);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (15, 'This is answer fifteen. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 3, 6);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (16, 'This is answer sixteen. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 1, 8);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (17, 'This is answer seventeen. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 5, 10);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (18, 'This is answer eighteen. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 6, 9);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (19, 'This is answer nineteen. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 9, 9);
+insert into table_answer (ans_id, ans_str, ques_id ,answered_by) values (20, 'This is answer twenty. A clone is a copy of a repository that lives on your computer instead of on a websites server somewhere, or the act of making that copy. With your clone you can edit the files in your preferred editor and use Git to keep track of your changes without having to be online. It is, however, connected to the remote version so that changes can be synced between the two. You can push your local changes to the remote to keep them synced when youre online.', 10, 10);
 
 --inserting dummy data in question like table
 insert into table_question_like (ques_id, user_id) values (1, 2);
@@ -137,6 +137,13 @@ select * from table_question;
 select * from table_answer;
 select * from table_question_like;
 select * from table_answer_like;
+
+--dropping tables
+drop table table_user;
+drop table table_question;
+drop table table_answer;
+drop table table_question_like;
+drop table table_answer_like;
 
 --selecting questions ordered by likes
 select ques_id, count(*) as x
