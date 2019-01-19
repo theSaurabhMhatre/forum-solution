@@ -24,6 +24,8 @@ These APIs are being used by - [forum-solution-ui](https://github.com/theSaurabh
     POST    /forum/questions/{questionId}/like (com.forum.mod.question.resource.QuestionResource)
     GET     /forum/questions/{userId}/likes (com.forum.mod.question.resource.QuestionResource)
     GET     /forum/questions/{userId}/totallikes (com.forum.mod.question.resource.QuestionResource)
+    GET     /forum/questions/{userId}/user/answered (com.forum.mod.question.resource.QuestionResource)
+    GET     /forum/questions/{userId}/user/asked (com.forum.mod.question.resource.QuestionResource)
     POST    /forum/users (com.forum.mod.user.resource.UserResource)
     GET     /forum/users/ranking (com.forum.mod.user.resource.UserResource)
     DELETE  /forum/users/{userId} (com.forum.mod.user.resource.UserResource)
