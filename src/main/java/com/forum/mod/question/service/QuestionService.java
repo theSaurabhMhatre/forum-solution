@@ -102,6 +102,45 @@ public class QuestionService {
 		}
 	}
 
+	public List<Object> getLikesBySpecificQuestions(List<Long> quesIds) throws FetchException {
+		try {
+			List<Object> questionLikes = likeRepo.getLikesBySpecificQuestions(quesIds);
+			if (questionLikes != null) {
+				return questionLikes;
+			} else {
+				throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+			}
+		} catch (Exception ex) {
+			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+		}
+	}
+	
+	public List<Object> getLikesByQuestionsByUser(Long userId) throws FetchException {
+		try {
+			List<Object> questionLikes = likeRepo.getLikesByQuestionsByUser(userId);
+			if (questionLikes != null) {
+				return questionLikes;
+			} else {
+				throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+			}
+		} catch (Exception ex) {
+			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+		}
+	}
+
+	public List<Object> getLikesByQuestionsAnsweredByUser(Long userId) throws FetchException {
+		try {
+			List<Object> questionLikes = likeRepo.getLikesByQuestionsAnsweredByUser(userId);
+			if (questionLikes != null) {
+				return questionLikes;
+			} else {
+				throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+			}
+		} catch (Exception ex) {
+			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+		}
+	}
+	
 	public Long getLikesByQuestion(Long quesId) throws FetchException {
 		try {
 			Long likes = likeRepo.getLikesByQuestion(quesId);

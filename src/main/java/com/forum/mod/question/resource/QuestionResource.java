@@ -118,4 +118,30 @@ public class QuestionResource {
 		return response;
 	}
 	
+	@GET
+	@UnitOfWork
+	@Path(value = "/{userId}/user/asked")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getQuestionsByUser(@PathParam("userId") Long userId) {
+		ResponseEntity responseEntity = responseFactory
+				.getQuestionsByUser(userId);
+		Response response = Response
+				.status(responseEntity.getResponseStatus().getStatusCode())
+				.entity(responseEntity).build();
+		return response;
+	}
+
+	@GET
+	@UnitOfWork
+	@Path(value = "/{userId}/user/answered")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getQuestionsAnsweredByUser(@PathParam("userId") Long userId) {
+		ResponseEntity responseEntity = responseFactory
+				.getQuestionsAnsweredByUser(userId);
+		Response response = Response
+				.status(responseEntity.getResponseStatus().getStatusCode())
+				.entity(responseEntity).build();
+		return response;
+	}
+	
 }

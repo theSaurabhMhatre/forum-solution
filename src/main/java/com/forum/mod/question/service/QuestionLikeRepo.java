@@ -48,7 +48,25 @@ public class QuestionLikeRepo {
 		List<Object> quesLikes = query.list();
 		return quesLikes;
 	}
+	
+	public List<Object> getLikesByQuestionsByUser(Long userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedNativeQuery("getLikesByQuestionsByUserQuery")
+				.setParameter("userId", userId).addScalar("qlikes", LongType.INSTANCE)
+				.addScalar("quesId", LongType.INSTANCE);
+		List<Object> quesLikes = query.list();
+		return quesLikes;
+	}
 
+	public List<Object> getLikesByQuestionsAnsweredByUser(Long userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedNativeQuery("getLikesByQuestionsAnsweredByUserQuery")
+				.setParameter("userId", userId).addScalar("qlikes", LongType.INSTANCE)
+				.addScalar("quesId", LongType.INSTANCE);
+		List<Object> quesLikes = query.list();
+		return quesLikes;
+	}
+	
 	public Long getLikesByQuestion(Long quesId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("getLikesByQuestionQuery")
@@ -57,6 +75,14 @@ public class QuestionLikeRepo {
 		return likes;
 	}
 
+	public List<Object> getLikesBySpecificQuestions(List<Long> quesIds) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("getLikesBySpecificQuestionsQuery")
+				.setParameterList("quesIds", quesIds);
+		List<Object> quesLikes = query.list();
+		return quesLikes;
+	}
+	
 	public List<Integer> getQuestionsLikedByUser(Long userId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("getQuestionsLikedByUserQuery")

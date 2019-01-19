@@ -16,6 +16,12 @@ import com.forum.app.key.QuestionLikeKey;
 @Entity
 @Table(name = "table_question_like")
 @NamedQueries({
+		@NamedQuery(name = "getLikesBySpecificQuestionsQuery", query = "select count(*) as likes, "
+				+ "quesLike.quesLikeKey.question.quesId "
+				+ "from QuestionLikeEntity quesLike "
+				+ "where quesLike.quesLikeKey.question.quesId in (:quesIds) "
+				+ "group by quesLike.quesLikeKey.question.quesId "
+				+ "order by likes"),
 		@NamedQuery(name = "getLikesByQuestionsQuery", query = "select count(*) as likes, "
 				+ "quesLike.quesLikeKey.question.quesId "
 				+ "from QuestionLikeEntity quesLike "
@@ -31,16 +37,36 @@ import com.forum.app.key.QuestionLikeKey;
 				+ "where quesLike.quesLikeKey.question.quesId = :quesId"),
 		@NamedQuery(name = "deleteQuesLikesByUserIdQuery", query = "delete from QuestionLikeEntity quesLike "
 				+ "where quesLike.quesLikeKey.user.userId = :userId") })
-@NamedNativeQueries({ 
-		@NamedNativeQuery(name = "getUsersQuestionsLikesQuery", query = "select count(*) as qLikes "
-				+ "from table_question ques, table_question_like likes "
-				+ "where ques.ques_id = likes.ques_id and "
-				+ "ques.asked_by = :userId"),
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "getLikesByQuestionsByUserQuery", query = "select count(*) as qLikes, "
+				+ "ques_id as quesId "
+				+ "from table_question_like "
+				+ "where ques_id "
+				+ "in ("
+				+ "select ques_id "
+				+ "from table_question "
+				+ "where asked_by = :userId "
+				+ ") group by ques_id "
+				+ "order by qLikes"),
+		@NamedNativeQuery(name = "getLikesByQuestionsAnsweredByUserQuery", query = "select count(*) as qLikes, "
+				+ "ques_id as quesId "
+				+ "from table_question_like "
+				+ "where ques_id "
+				+ "in ("
+				+ "select ques_id "
+				+ "from table_answer "
+				+ "where answered_by = :userId "
+				+ ") group by ques_id "
+				+ "order by qLikes"),
 		@NamedNativeQuery(name = "getAllUsersQuestionsLikesQuery", query = "select count(*), x.user_id "
 				+ "from table_question ques, table_question_like likes, table_user x "
 				+ "where ques.ques_id = likes.ques_id and ques.asked_by = x.user_id "
 				+ "group by x.user_id "
-				+ "order by x.user_id") })
+				+ "order by x.user_id"), 
+		@NamedNativeQuery(name = "getUsersQuestionsLikesQuery", query = "select count(*) as qLikes "
+				+ "from table_question ques, table_question_like likes "
+				+ "where ques.ques_id = likes.ques_id and "
+				+ "ques.asked_by = :userId") })
 public class QuestionLikeEntity {
 	@EmbeddedId
 	@JsonIgnore

@@ -149,7 +149,6 @@ public class QuestionBusinessFactory {
 		}
 	}
 
-	// set likes
 	public QuestionEntity updateQuestion(Long quesId, QuestionEntity question)
 			throws ForumException {
 		if (question != null && quesId != null
@@ -233,6 +232,71 @@ public class QuestionBusinessFactory {
 		} else {
 			throw new ForumException(
 					ForumValidation.VALIDATION_FAILURE.getMessage());
+		}
+	}
+	
+	public List<QuestionEntity> getQuestionsByUser(Long userId)
+			throws ForumException {
+		if(userId != null) {
+			List<QuestionEntity> questions = questionService
+					.getQuestionsByUser(userId);
+			List<Object> quesLikes = questionService.getLikesByQuestionsByUser(userId);
+			for (QuestionEntity ques : questions) {
+				ques.setAskedBy(ques.getUser().getUserId());
+				for (Object quesLike : quesLikes) {
+					Object[] currentQuesLike = (Object[]) quesLike;
+					Long quesId = (Long) currentQuesLike[1];
+					if (ques.getQuesId().equals(quesId)) {
+						Long likes = (Long) currentQuesLike[0];
+						ques.setLikes(likes);
+						break;
+					}
+					ques.setLikes(0L);
+				}
+				if (ques.getLikes() == null) {
+					ques.setLikes(0L);
+				}
+			}
+			return questions;
+		} else {
+			throw new ForumException(
+					ForumValidation.VALIDATION_FAILURE.getMessage());
+		}
+	}
+	
+	public List<QuestionEntity> getQuestionsAnsweredByUser(Long userId) 
+			throws ForumException{
+		if(userId != null) {
+			List<QuestionEntity> questions = new ArrayList<QuestionEntity>();
+			List<Long> quesIds = new ArrayList<Long>();
+			List<AnswerEntity> answers = ansService.getAnswersByUser(userId);
+			for(AnswerEntity answer : answers) {
+				UserEntity askedBy = answer.getQuestion().getUser();
+				answer.getQuestion().setAskedBy(askedBy.getUserId());
+				quesIds.add(answer.getQuestion().getQuesId());
+				questions.add(answer.getQuestion());
+			}
+			List<Object> quesLikes = questionService.getLikesBySpecificQuestions(quesIds);
+			for (QuestionEntity ques : questions) {
+				ques.setAskedBy(ques.getUser().getUserId());
+				for (Object quesLike : quesLikes) {
+					Object[] currentQuesLike = (Object[]) quesLike;
+					Long quesId = (Long) currentQuesLike[1];
+					if (ques.getQuesId().equals(quesId)) {
+						Long likes = (Long) currentQuesLike[0];
+						ques.setLikes(likes);
+						break;
+					}
+					ques.setLikes(0L);
+				}
+				if (ques.getLikes() == null) {
+					ques.setLikes(0L);
+				}
+			}
+			return questions;
+		} else {
+			throw new ForumException(
+					ForumValidation.VALIDATION_FAILURE.getMessage());			
 		}
 	}
 

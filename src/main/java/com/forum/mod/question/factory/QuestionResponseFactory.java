@@ -136,4 +136,38 @@ public class QuestionResponseFactory {
 		}
 	}
 	
+	public ResponseEntity getQuestionsByUser(Long userId) {
+		ResponseEntity response = new ResponseEntity();
+		try {
+			List<QuestionEntity> questions = businessFactory
+					.getQuestionsByUser(userId);
+			response.setResponseStatus(Response.Status.OK);
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseObject(questions);
+			return response;
+		} catch (ForumException ex) {
+			response.setResponseStatus(Response.Status.BAD_REQUEST);
+			response.setResponseMessage(ex.getMessage());
+			response.setResponseObject(ex.getMessage());
+			return response;
+		}
+	}
+
+	public ResponseEntity getQuestionsAnsweredByUser(Long userId) {
+		ResponseEntity response = new ResponseEntity();
+		try {
+			List<QuestionEntity> questions = businessFactory
+					.getQuestionsAnsweredByUser(userId);
+			response.setResponseStatus(Response.Status.OK);
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseObject(questions);
+			return response;
+		} catch (ForumException ex) {
+			response.setResponseStatus(Response.Status.BAD_REQUEST);
+			response.setResponseMessage(ex.getMessage());
+			response.setResponseObject(ex.getMessage());
+			return response;
+		}
+	}
+	
 }
