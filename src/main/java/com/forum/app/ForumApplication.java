@@ -99,9 +99,16 @@ public class ForumApplication extends Application<ForumConfiguration> {
 		ForumHealthCheck healthCheck = new ForumHealthCheck(client);
 		environment.healthChecks().register("ForumHealthCheck", healthCheck);
 
-		// enabling CORS
+		// Enable CORS headers
 		final FilterRegistration.Dynamic cors = environment.servlets()
-				.addFilter("crossOriginRequsts", CrossOriginFilter.class);
+				.addFilter("crossOriginRequests", CrossOriginFilter.class);
+		// Configure CORS parameters
+	    cors.setInitParameter("allowedOrigins", "*");
+	    cors.setInitParameter("allowedHeaders", 
+	    		"X-Requested-With, Content-Type, Accept, Origin");
+	    cors.setInitParameter("allowedMethods", 
+	    		"OPTIONS, GET, PUT, POST, DELETE, HEAD");
+	    // Add URL mapping
 		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class),
 				true, "/*");
 	}

@@ -3,7 +3,9 @@ package com.forum.mod.question.factory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -96,6 +98,18 @@ public class QuestionBusinessFactory {
 		return sortedQuestions;
 	}
 
+	public List<QuestionEntity> removeDuplicateQuestions(List<QuestionEntity> questions){
+		Map<Long, QuestionEntity> questionsMap = new HashMap<Long, QuestionEntity>(); 
+		for(QuestionEntity ques : questions) {
+			if(questionsMap.containsKey(ques.getQuesId()) == false) {
+				questionsMap.put(ques.getQuesId(), ques);
+			}
+		} 
+		List<QuestionEntity> distinctQuestions = 
+				new ArrayList<QuestionEntity>(questionsMap.values());
+		return distinctQuestions;
+	}
+	
 	public List<Object> getQuestionsWithMostLikedAns() throws FetchException {
 		List<QuestionEntity> questions = questionService.getQuestions();
 		List<Object> quesLikes = questionService.getLikesByQuestions();
@@ -293,7 +307,8 @@ public class QuestionBusinessFactory {
 					ques.setLikes(0L);
 				}
 			}
-			return questions;
+			List<QuestionEntity> distinctQuestions = removeDuplicateQuestions(questions);
+			return distinctQuestions;
 		} else {
 			throw new ForumException(
 					ForumValidation.VALIDATION_FAILURE.getMessage());			
