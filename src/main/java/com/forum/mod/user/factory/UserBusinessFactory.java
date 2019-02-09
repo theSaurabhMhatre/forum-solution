@@ -21,6 +21,7 @@ public class UserBusinessFactory {
 	private static final String USER_NAME = "name";
 	private static final String USER_PSWD = "pswd";
 	private static final String USER_BIO = "bio";
+	private static final String USER_MAIL = "mail";
 	private static final String USER_SECRET = "secret";
 	
 	private QuestionService questionService;
@@ -95,13 +96,16 @@ public class UserBusinessFactory {
 			case USER_NAME: 
 				currentUserEntity.setUserName(userEntity.getUserName());
 				break;
+			case USER_MAIL: 
+				currentUserEntity.setUserMail(userEntity.getUserMail());
+				break;
+			case USER_BIO:	
+				currentUserEntity.setUserBio(userEntity.getUserBio());
+				break;
 			case USER_PSWD: 							
 				String password = userEntity.getUserPswd();
 				String encodedPassword = StringUtility.encodeString(password);
 				currentUserEntity.setUserPswd(encodedPassword);
-				break;
-			case USER_BIO:	
-				currentUserEntity.setUserBio(userEntity.getUserBio());
 				break;
 			default:
 				throw new ForumException(ForumError.MODIFY_ERROR.getMessage());
@@ -114,7 +118,7 @@ public class UserBusinessFactory {
 			throws ForumException {
 		if (userId != null && userEntity != null
 				&& userId.equals(userEntity.getUserId())) {
-			if(attribute != null && (attribute.equals(USER_NAME) ||
+			if(attribute != null && (attribute.equals(USER_NAME) || attribute.equals(USER_MAIL) ||
 					attribute.equals(USER_PSWD) || attribute.equals(USER_BIO))) {
 				userEntity = performUpdate(userId, userEntity, attribute);
 				UserEntity userView = null;

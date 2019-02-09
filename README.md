@@ -30,7 +30,7 @@ These APIs are being used by - [forum-solution-ui](https://github.com/theSaurabh
     GET     /forum/users/ranking (com.forum.mod.user.resource.UserResource)
     DELETE  /forum/users/{userId} (com.forum.mod.user.resource.UserResource)
     GET     /forum/users/{userId} (com.forum.mod.user.resource.UserResource)
-    PUT     /forum/users/{userId} (com.forum.mod.user.resource.UserResource)
+    PUT     /forum/users/{userId}/{attribute} (com.forum.mod.user.resource.UserResource)
     POST    /forum/users/{userName}/validate (com.forum.mod.user.resource.UserResource)
 
 ## Dependencies
