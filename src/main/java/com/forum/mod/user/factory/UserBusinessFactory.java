@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.forum.app.constant.ForumError;
 import com.forum.app.constant.ForumValidation;
 import com.forum.app.exception.ForumException;
 import com.forum.app.util.LikeUtility;
@@ -17,6 +18,11 @@ import com.forum.mod.user.service.UserEntity;
 import com.forum.mod.user.service.UserService;
 
 public class UserBusinessFactory {
+	private static final String USER_NAME = "name";
+	private static final String USER_PSWD = "pswd";
+	private static final String USER_BIO = "bio";
+	private static final String USER_SECRET = "secret";
+	
 	private QuestionService questionService;
 	private UserService userService;
 	private AnswerService ansService;
@@ -27,7 +33,7 @@ public class UserBusinessFactory {
 		this.ansService = ansService;
 		this.userService = userService;
 	}
-
+	
 	public UserEntity getUser(Long userId) throws ForumException {
 		if (userId != null) {
 			UserEntity userEntity = null;
@@ -42,7 +48,7 @@ public class UserBusinessFactory {
 						.decodeString(encodedPassword);
 				userView.setUserPswd(decodedPassword);
 				*/
-				userView.setUserPswd("SECRET");
+				userView.setUserPswd(USER_SECRET);
 			} catch (CloneNotSupportedException ex) {
 				throw new ForumException(
 						ForumValidation.VALIDATION_FAILURE.getMessage());
@@ -70,7 +76,7 @@ public class UserBusinessFactory {
 						.decodeString(encodedPassword);
 				userView.setUserPswd(decodedPassword);
 				*/
-				userView.setUserPswd("SECRET");
+				userView.setUserPswd(USER_SECRET);
 			} catch (CloneNotSupportedException ex) {
 				throw new ForumException(
 						ForumValidation.VALIDATION_FAILURE.getMessage());
@@ -82,28 +88,55 @@ public class UserBusinessFactory {
 		}
 	}
 
-	public UserEntity updateUser(Long userId, UserEntity userEntity)
+	public UserEntity performUpdate(Long userId, UserEntity userEntity,
+			String attribute) throws ForumException {
+		UserEntity currentUserEntity = userService.getUser(userId);
+		switch(attribute) {
+			case USER_NAME: 
+				currentUserEntity.setUserName(userEntity.getUserName());
+				break;
+			case USER_PSWD: 							
+				String password = userEntity.getUserPswd();
+				String encodedPassword = StringUtility.encodeString(password);
+				currentUserEntity.setUserPswd(encodedPassword);
+				break;
+			case USER_BIO:	
+				currentUserEntity.setUserBio(userEntity.getUserBio());
+				break;
+			default:
+				throw new ForumException(ForumError.MODIFY_ERROR.getMessage());
+		}
+		userEntity = userService.modifyUser(currentUserEntity);
+		return userEntity;
+	}
+	
+	public UserEntity updateUser(Long userId, UserEntity userEntity, String attribute)
 			throws ForumException {
 		if (userId != null && userEntity != null
 				&& userId.equals(userEntity.getUserId())) {
-			if (userEntity.getUserPswd() != null) {
-				String password = userEntity.getUserPswd();
-				String encodedPassword = StringUtility.encodeString(password);
-				userEntity.setUserPswd(encodedPassword);
-			}
-			userEntity = userService.modifyUser(userEntity);
-			UserEntity userView = null;
-			try {
-				userView = (UserEntity) userEntity.clone();
-				String encodedPassword = userView.getUserPswd();
-				String decodedPassword = StringUtility
-						.decodeString(encodedPassword);
-				userView.setUserPswd(decodedPassword);
-			} catch (CloneNotSupportedException ex) {
+			if(attribute != null && (attribute.equals(USER_NAME) ||
+					attribute.equals(USER_PSWD) || attribute.equals(USER_BIO))) {
+				userEntity = performUpdate(userId, userEntity, attribute);
+				UserEntity userView = null;
+				try {
+					userView = (UserEntity) userEntity.clone();
+					//uncomment if password is to be sent in response
+					/*
+					String encodedPassword = userView.getUserPswd();
+					String decodedPassword = StringUtility
+							.decodeString(encodedPassword);
+					userView.setUserPswd(decodedPassword);
+					*/
+					userView.setUserPswd(USER_SECRET);
+				} catch (CloneNotSupportedException ex) {
+					throw new ForumException(
+							ForumValidation.VALIDATION_FAILURE.getMessage());
+				}
+				return userView;
+			} else {
 				throw new ForumException(
 						ForumValidation.VALIDATION_FAILURE.getMessage());
 			}
-			return userView;
 		} else {
 			throw new ForumException(
 					ForumValidation.VALIDATION_FAILURE.getMessage());
@@ -168,7 +201,7 @@ public class UserBusinessFactory {
 						.decodeString(encodedPassword);
 				userView.setUserPswd(decodedPassword);
 				*/
-				userView.setUserPswd("SECRET");
+				userView.setUserPswd(USER_SECRET);
 			} catch (CloneNotSupportedException ex) {
 				throw new ForumException(
 						ForumValidation.VALIDATION_FAILURE.getMessage());

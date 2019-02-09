@@ -51,13 +51,13 @@ public class UserResource {
 
 	@PUT
 	@UnitOfWork
-	@Path(value = "/{userId}")
+	@Path(value = "/{userId}/{attribute}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateUser(@PathParam("userId") Long userId,
-			UserEntity userEntity) {
+			@PathParam("attribute") String attribute, UserEntity userEntity) {
 		ResponseEntity responseEntity = responseFactory.updateUser(userId,
-				userEntity);
+				userEntity, attribute);
 		Response response = Response
 				.status(responseEntity.getResponseStatus().getStatusCode())
 				.entity(responseEntity).build();

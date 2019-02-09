@@ -1,12 +1,12 @@
 --inserting dummy data in user table
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (1, 'one', 'YjI1bGNBPT0=', 'one@mail.com', 'I am user one. I am swag.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (1, 'one', 'YjI1bGNBPT0=', 'one@mail.com', 'I am user one. I have got a lot of swag.');
 insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (2, 'two', 'ZEhkdmNBPT0=', 'two@mail.com', 'I am user two. I like to play cricket.');
 insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (3, 'three', 'ZEdoeVpXVnc=', 'three@mail.com', 'I am user three. I like to ask questions.');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (4, 'four', 'Wm05MWNuQT0=', 'four@mail.com', 'I am user four. I am cool.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (4, 'four', 'Wm05MWNuQT0=', 'four@mail.com', 'I am user four. I am cool, like really cool.');
 insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (5, 'five', 'Wm1sMlpYQT0=', 'five@mail.com', 'I am user five. Bring them on.');
 insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (6, 'six', 'YzJsNGNBPT0=', 'six@mail.com', 'I am user six. Lets answer some questions.');
 insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (7, 'seven', 'YzJWMlpXNXc=', 'seven@mail.com', 'I am user seven. I am a genius.');
-insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (8, 'eight', 'WldsbmFIUnc=', 'eight@mail.com', 'I am use eight. Let all chill down.');
+insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (8, 'eight', 'WldsbmFIUnc=', 'eight@mail.com', 'I am use eight. Let us all chill down.');
 insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (9, 'nine', 'Ym1sdVpYQT0=', 'nine@mail.com', 'I am user nine. I am an avid reader.');
 insert into table_user (user_id, user_name, user_pswd, user_mail, user_bio) values (10, 'ten', 'ZEdWdWNBPT0=', 'ten@mail.com', 'I am user ten. I am the last user.');
 
@@ -125,11 +125,11 @@ insert into table_answer_like (ans_id, ques_id, user_id) values (20, 10, 9);
 insert into table_answer_like (ans_id, ques_id, user_id) values (20, 10, 4);
 
 --removing data from tables
-delete from table_user;
-delete from table_question;
-delete from table_answer;
-delete from table_question_like;
 delete from table_answer_like;
+delete from table_question_like;
+delete from table_answer;
+delete from table_question;
+delete from table_user;
 
 --selecting data from tables
 select * from table_user;

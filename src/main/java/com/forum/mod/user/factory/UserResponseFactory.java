@@ -50,10 +50,10 @@ public class UserResponseFactory {
 		}
 	}
 
-	public ResponseEntity updateUser(Long userId, UserEntity userEntity) {
+	public ResponseEntity updateUser(Long userId, UserEntity userEntity, String attribute) {
 		ResponseEntity response = new ResponseEntity();
 		try {
-			userEntity = businessFactory.updateUser(userId, userEntity);
+			userEntity = businessFactory.updateUser(userId, userEntity, attribute);
 			response.setResponseStatus(Response.Status.OK);
 			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS
 					.getMessage());

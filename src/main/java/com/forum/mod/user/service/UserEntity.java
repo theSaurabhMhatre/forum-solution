@@ -29,7 +29,7 @@ public class UserEntity implements Cloneable {
 	@SequenceGenerator(name = "UserSequence", sequenceName = "user_sequence")
 	private Long userId;
 
-	@Column(name = "user_name")
+	@Column(name = "user_name", unique = true)
 	private String userName;
 
 	@Column(name = "user_pswd")

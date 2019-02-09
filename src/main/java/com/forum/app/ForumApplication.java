@@ -16,6 +16,7 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.hibernate.SessionFactory;
 
+import com.forum.app.provider.PersistenceExceptionMapper;
 import com.forum.mod.answer.factory.AnswerBusinessFactory;
 import com.forum.mod.answer.factory.AnswerResponseFactory;
 import com.forum.mod.answer.resource.AnswerResource;
@@ -99,6 +100,10 @@ public class ForumApplication extends Application<ForumConfiguration> {
 		ForumHealthCheck healthCheck = new ForumHealthCheck(client);
 		environment.healthChecks().register("ForumHealthCheck", healthCheck);
 
+		// Registering Persistence Exception Mapper
+		PersistenceExceptionMapper exceptionMapper = new PersistenceExceptionMapper();
+		environment.jersey().register(exceptionMapper);
+		
 		// Enable CORS headers
 		final FilterRegistration.Dynamic cors = environment.servlets()
 				.addFilter("crossOriginRequests", CrossOriginFilter.class);
