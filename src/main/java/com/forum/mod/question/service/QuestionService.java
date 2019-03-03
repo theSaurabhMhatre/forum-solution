@@ -17,7 +17,8 @@ public class QuestionService {
 		this.likeRepo = likeRepo;
 	}
 
-	public QuestionEntity getQuestion(Long quesId) throws FetchException {
+	public QuestionEntity getQuestion(Long quesId)
+			throws FetchException {
 		try {
 			QuestionEntity question = questionRepo.getQuestion(quesId);
 			if (question != null) {
@@ -30,9 +31,10 @@ public class QuestionService {
 		}
 	}
 
-	public List<QuestionEntity> getQuestions() throws FetchException {
+	public List<QuestionEntity> getQuestions(String keyword, String category) 
+			throws FetchException {
 		try {
-			List<QuestionEntity> questions = questionRepo.getQuestions();
+			List<QuestionEntity> questions = questionRepo.getQuestions(keyword, category);
 			if (questions != null) {
 				return questions;
 			} else {
@@ -57,7 +59,8 @@ public class QuestionService {
 		}
 	}
 
-	public void deleteQuestion(Long quesId) throws DeleteException {
+	public void deleteQuestion(Long quesId)
+			throws DeleteException {
 		try {
 			questionRepo.deleteQuestion(quesId);
 		} catch (Exception ex) {
@@ -65,7 +68,8 @@ public class QuestionService {
 		}
 	}
 
-	public void deleteQuesByUserId(Long userId) throws DeleteException {
+	public void deleteQuesByUserId(Long userId)
+			throws DeleteException {
 		try {
 			questionRepo.deleteQuesByUserId(userId);
 		} catch (Exception ex) {
@@ -73,7 +77,8 @@ public class QuestionService {
 		}
 	}
 
-	public void deleteQuesLikesByQuesId(Long quesId) throws DeleteException {
+	public void deleteQuesLikesByQuesId(Long quesId)
+			throws DeleteException {
 		try {
 			likeRepo.deleteQuesLikesByQuesId(quesId);
 		} catch (Exception ex) {
@@ -81,7 +86,8 @@ public class QuestionService {
 		}
 	}
 
-	public void deleteQuesLikesByUserId(Long userId) throws DeleteException {
+	public void deleteQuesLikesByUserId(Long userId)
+			throws DeleteException {
 		try {
 			likeRepo.deleteQuesLikesByUserId(userId);
 		} catch (Exception ex) {
@@ -89,9 +95,10 @@ public class QuestionService {
 		}
 	}
 
-	public List<Object> getLikesByQuestions() throws FetchException {
+	public List<Object> getLikesByQuestions(String keyword, String category)
+			throws FetchException {
 		try {
-			List<Object> questionLikes = likeRepo.getLikesByQuestions();
+			List<Object> questionLikes = likeRepo.getLikesByQuestions(keyword, category);
 			if (questionLikes != null) {
 				return questionLikes;
 			} else {
@@ -102,7 +109,8 @@ public class QuestionService {
 		}
 	}
 
-	public List<Object> getLikesBySpecificQuestions(List<Long> quesIds) throws FetchException {
+	public List<Object> getLikesBySpecificQuestions(List<Long> quesIds)
+			throws FetchException {
 		try {
 			List<Object> questionLikes = likeRepo.getLikesBySpecificQuestions(quesIds);
 			if (questionLikes != null) {
@@ -115,7 +123,8 @@ public class QuestionService {
 		}
 	}
 	
-	public List<Object> getLikesByQuestionsByUser(Long userId) throws FetchException {
+	public List<Object> getLikesByQuestionsByUser(Long userId)
+			throws FetchException {
 		try {
 			List<Object> questionLikes = likeRepo.getLikesByQuestionsByUser(userId);
 			if (questionLikes != null) {
@@ -128,7 +137,8 @@ public class QuestionService {
 		}
 	}
 
-	public List<Object> getLikesByQuestionsAnsweredByUser(Long userId) throws FetchException {
+	public List<Object> getLikesByQuestionsAnsweredByUser(Long userId)
+			throws FetchException {
 		try {
 			List<Object> questionLikes = likeRepo.getLikesByQuestionsAnsweredByUser(userId);
 			if (questionLikes != null) {
@@ -141,7 +151,8 @@ public class QuestionService {
 		}
 	}
 	
-	public Long getLikesByQuestion(Long quesId) throws FetchException {
+	public Long getLikesByQuestion(Long quesId)
+			throws FetchException {
 		try {
 			Long likes = likeRepo.getLikesByQuestion(quesId);
 			if (likes != null) {

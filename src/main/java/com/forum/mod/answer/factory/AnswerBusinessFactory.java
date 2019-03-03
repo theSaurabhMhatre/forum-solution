@@ -1,13 +1,12 @@
 package com.forum.mod.answer.factory;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import com.forum.app.constant.ForumValidation;
 import com.forum.app.exception.ForumException;
 import com.forum.app.key.AnswerLikeKey;
+import com.forum.app.util.SortUtility;
 import com.forum.mod.answer.service.AnswerEntity;
 import com.forum.mod.answer.service.AnswerLikeEntity;
 import com.forum.mod.answer.service.AnswerService;
@@ -21,30 +20,15 @@ public class AnswerBusinessFactory {
 	private AnswerService ansService;
 	private UserService userService;
 
+	public AnswerBusinessFactory() {
+		super();
+	}
+	
 	public AnswerBusinessFactory(QuestionService quesService,
 			AnswerService ansService, UserService userService) {
 		this.quesService = quesService;
 		this.ansService = ansService;
 		this.userService = userService;
-	}
-
-	private Set<AnswerEntity> sortAnswers(List<AnswerEntity> answers) {
-		Set<AnswerEntity> sortedAnswers = new TreeSet<AnswerEntity>(
-				new Comparator<AnswerEntity>() {
-					public int compare(AnswerEntity ansOne, AnswerEntity ansTwo) {
-						Long one = ansOne.getLikes();
-						Long two = ansTwo.getLikes();
-						if (one > two) {
-							return -1;
-						} else {
-							return 1;
-						}
-					}
-				});
-		for (AnswerEntity answer : answers) {
-			sortedAnswers.add(answer);
-		}
-		return sortedAnswers;
 	}
 
 	public Set<AnswerEntity> getAnswersByQuestion(Long quesId)
@@ -71,7 +55,8 @@ public class AnswerBusinessFactory {
 					answer.setLikes(0L);
 				}
 			}
-			return sortAnswers(answers);
+			Set<AnswerEntity> sortedAnswers = SortUtility.sortAnswers(answers); 
+			return sortedAnswers;
 		} else {
 			throw new ForumException(
 					ForumValidation.VALIDATION_FAILURE.getMessage());
@@ -100,7 +85,6 @@ public class AnswerBusinessFactory {
 		}
 	}
 
-	// set likes
 	public AnswerEntity updateAnswer(Long ansId, AnswerEntity answer)
 			throws ForumException {
 		if (answer != null && ansId != null && ansId.equals(answer.getAnsId())) {
@@ -189,5 +173,5 @@ public class AnswerBusinessFactory {
 					ForumValidation.VALIDATION_FAILURE.getMessage());
 		}
 	}
-
+	
 }

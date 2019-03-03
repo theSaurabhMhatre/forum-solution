@@ -25,28 +25,30 @@ public class QuestionRepo extends AbstractDAO<QuestionEntity> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<QuestionEntity> getQuestions() {
+	public List<QuestionEntity> getQuestions(String keyword, String category) {
 		List<QuestionEntity> questions = super.namedQuery("getQuestionsQuery")
+				.setParameter("keyword", keyword)
+				.setParameter("category", category)
 				.list();
 		return questions;
 	}
 
 	public void deleteQuestion(Long quesId) {
-		Query query = super.namedQuery("deleteQuestionQuery").setParameter(
-				"quesId", quesId);
+		Query query = super.namedQuery("deleteQuestionQuery")
+				.setParameter("quesId", quesId);
 		query.executeUpdate();
 	}
 
 	public void deleteQuesByUserId(Long userId) {
-		Query query = super.namedQuery("deleteQuesByUserIdQuery").setParameter(
-				"userId", userId);
+		Query query = super.namedQuery("deleteQuesByUserIdQuery")
+				.setParameter("userId", userId);
 		query.executeUpdate();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<QuestionEntity> getQuestionsByUser(Long userId) {
-		Query query = super.namedQuery("getQuestionsByUserQuery").setParameter(
-				"userId", userId);
+		Query query = super.namedQuery("getQuestionsByUserQuery")
+				.setParameter("userId", userId);
 		List<QuestionEntity> questions = query.list();
 		return questions;
 	}

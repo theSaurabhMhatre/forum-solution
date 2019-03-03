@@ -13,6 +13,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "table_user")
 @NamedQueries({
+		@NamedQuery(name = "checkAvailabilityQuery", query = "select user from UserEntity user "
+				+ "where lower(user.userName) like :userName"),
 		@NamedQuery(name = "validateUserQuery", query = "select user from UserEntity user "
 				+ "where user.userName like :userName and "
 				+ "user.userPswd like :userPswd"),

@@ -44,6 +44,12 @@ public class UserRepo extends AbstractDAO<UserEntity> {
 		return userEntity;
 	}
 	
+	public UserEntity checkAvailability(String userName) {
+		UserEntity userEntity = super.uniqueResult(namedQuery("checkAvailabilityQuery")
+				.setParameter("userName", userName));
+		return userEntity;
+	}
+	
 	public List<Long> getUserIds(){
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("getUserIdsQuery");

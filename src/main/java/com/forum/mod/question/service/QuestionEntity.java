@@ -21,6 +21,8 @@ import com.forum.mod.user.service.UserEntity;
 @Table(name = "table_question")
 @NamedQueries({
 		@NamedQuery(name = "getQuestionsQuery", query = "from QuestionEntity ques "
+				+ "where lower(ques.ques) like lower(:keyword) "
+				+ "and lower(ques.category) like lower(:category) "
 				+ "order by ques.quesId"),
 		@NamedQuery(name = "deleteQuestionQuery", query = "delete from QuestionEntity ques "
 				+ "where ques.quesId = :quesId"),

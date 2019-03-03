@@ -16,8 +16,7 @@ public class AnswerRepo extends AbstractDAO<AnswerEntity> {
 
 	@SuppressWarnings("unchecked")
 	public List<AnswerEntity> getAnswersByQuestion(Long quesId) {
-		List<AnswerEntity> answers = super
-				.namedQuery("getAnswersByQuestionQuery")
+		List<AnswerEntity> answers = super.namedQuery("getAnswersByQuestionQuery")
 				.setParameter("quesId", quesId).list();
 		return answers;
 	}
@@ -33,20 +32,20 @@ public class AnswerRepo extends AbstractDAO<AnswerEntity> {
 	}
 
 	public void deleteAnswer(Long ansId) {
-		Query query = super.namedQuery("deleteAnswerQuery").setParameter(
-				"ansId", ansId);
+		Query query = super.namedQuery("deleteAnswerQuery")
+				.setParameter("ansId", ansId);
 		query.executeUpdate();
 	}
 
 	public void deleteAnsByQuesId(Long quesId) {
-		Query query = super.namedQuery("deleteAnsByQuesIdQuery").setParameter(
-				"quesId", quesId);
+		Query query = super.namedQuery("deleteAnsByQuesIdQuery")
+				.setParameter("quesId", quesId);
 		query.executeUpdate();
 	}
 
 	public void deleteAnsByUserId(Long userId) {
-		Query query = super.namedQuery("deleteAnsByUserIdQuery").setParameter(
-				"userId", userId);
+		Query query = super.namedQuery("deleteAnsByUserIdQuery")
+				.setParameter("userId", userId);
 		query.executeUpdate();
 	}
 
@@ -59,9 +58,18 @@ public class AnswerRepo extends AbstractDAO<AnswerEntity> {
 
 	@SuppressWarnings("unchecked")
 	public List<AnswerEntity> getAnswersByUser(Long userId) {
-		Query query = super.namedQuery("getAnswersByUserQuery").setParameter(
-				"userId", userId);
+		Query query = super.namedQuery("getAnswersByUserQuery")
+				.setParameter("userId", userId);
 		List<AnswerEntity> answers = query.list();
+		return answers;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AnswerEntity> getAnswers(String keyword, String category) {
+		List<AnswerEntity> answers = super.namedQuery("getAnswersQuery")
+				.setParameter("keyword", keyword)
+				.setParameter("category", category)
+				.list();
 		return answers;
 	}
 

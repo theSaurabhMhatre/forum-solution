@@ -1,7 +1,5 @@
 package com.forum.mod.user.resource;
 
-import io.dropwizard.hibernate.UnitOfWork;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,6 +14,8 @@ import javax.ws.rs.core.Response;
 import com.forum.app.common.ResponseEntity;
 import com.forum.mod.user.factory.UserResponseFactory;
 import com.forum.mod.user.service.UserEntity;
+
+import io.dropwizard.hibernate.UnitOfWork;
 
 @Path(value = "/forum/users")
 public class UserResource {
@@ -90,6 +90,19 @@ public class UserResource {
 				.entity(responseEntity).build();
 		return response;
 	}
+
+	@GET
+	@UnitOfWork
+	@Path(value = "/{userName}/available")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response checkAvailability(@PathParam("userName") String userName) {
+		ResponseEntity responseEntity = responseFactory.checkAvailability(userName);
+		Response response = Response
+				.status(responseEntity.getResponseStatus().getStatusCode())
+				.entity(responseEntity).build();
+		return response;
+	}	
 	
 	@GET
 	@UnitOfWork

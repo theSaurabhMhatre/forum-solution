@@ -65,6 +65,19 @@ public class UserService {
 		}
 	}
 	
+	public UserEntity checkAvailability(String userName) throws FetchException {
+		try {
+			UserEntity userEntity = userRepo.checkAvailability(userName);
+			if (userEntity != null) {
+				return userEntity;
+			} else {
+				throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+			}
+		} catch (Exception ex) {
+			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+		}
+	}	
+	
 	public List<Long> getUserIds() throws FetchException {
 		try {
 			List<Long> userIds = userRepo.getUserIds();

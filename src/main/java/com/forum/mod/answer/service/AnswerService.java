@@ -231,4 +231,32 @@ public class AnswerService {
 		}
 	}
 
+	public List<AnswerEntity> getAnswers(String keyword, String category) 
+			throws FetchException {
+		try {
+			List<AnswerEntity> answers = answerRepo.getAnswers(keyword, category);
+			if (answers != null) {
+				return answers;
+			} else {
+				throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+			}
+		} catch (Exception ex) {
+			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+		}
+	}	
+	
+	public List<Object> getLikesByAnswers(String keyword, String category)
+			throws FetchException {
+		try {
+			List<Object> answerLikes = likeRepo.getLikesByAnswers(keyword, category);
+			if (answerLikes != null) {
+				return answerLikes;
+			} else {
+				throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+			}
+		} catch (Exception ex) {
+			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+		}
+	}
+	
 }

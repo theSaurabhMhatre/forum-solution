@@ -2,17 +2,16 @@ package com.forum.mod.question.factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import com.forum.app.constant.ForumValidation;
 import com.forum.app.exception.FetchException;
 import com.forum.app.exception.ForumException;
 import com.forum.app.key.QuestionLikeKey;
+import com.forum.app.util.SortUtility;
 import com.forum.mod.answer.service.AnswerEntity;
 import com.forum.mod.answer.service.AnswerService;
 import com.forum.mod.question.service.QuestionEntity;
@@ -22,10 +21,25 @@ import com.forum.mod.user.service.UserEntity;
 import com.forum.mod.user.service.UserService;
 
 public class QuestionBusinessFactory {
+	private static final String TYPE_QUESTION = "question";
+	private static final String TYPE_ANSWER = "answer";
+	private static final String TYPE_ALL = "all";
+	private static final String CAT_TECHNOLOGY = "technology";
+	private static final String CAT_SCIENCE = "science";
+	private static final String CAT_HISTORY = "history";
+	private static final String CAT_COMICS = "comics";
+	private static final String CAT_OTHERS = "others";
+	private static final String CAT_ALL = "all";
+	private static final String NO_ANSWER = "This question has not been answered yet!";
+	
 	private QuestionService questionService;
 	private UserService userService;
 	private AnswerService ansService;
 
+	public QuestionBusinessFactory() {
+		super();
+	}
+	
 	public QuestionBusinessFactory(QuestionService questionService,
 			AnswerService ansService, UserService userService) {
 		this.questionService = questionService;
@@ -68,7 +82,7 @@ public class QuestionBusinessFactory {
 			} catch (ForumException ex) {
 				AnswerEntity ans = new AnswerEntity();
 				ans.setAnsId(0L);
-				ans.setAns("NOANSWER");
+				ans.setAns(NO_ANSWER);
 				ans.setAnsweredBy(0L);
 				ans.setQuesId(0L);
 				ans.setLikes(0L);
@@ -78,27 +92,7 @@ public class QuestionBusinessFactory {
 		return ansByQuestions;
 	}
 
-	public Set<QuestionEntity> sortQuestions(List<QuestionEntity> questions) {
-		Set<QuestionEntity> sortedQuestions = new TreeSet<QuestionEntity>(
-				new Comparator<QuestionEntity>() {
-					public int compare(QuestionEntity quesOne,
-							QuestionEntity quesTwo) {
-						Long one = quesOne.getLikes();
-						Long two = quesTwo.getLikes();
-						if (one > two) {
-							return -1;
-						} else {
-							return 1;
-						}
-					}
-				});
-		for (QuestionEntity ques : questions) {
-			sortedQuestions.add(ques);
-		}
-		return sortedQuestions;
-	}
-
-	public List<QuestionEntity> removeDuplicateQuestions(List<QuestionEntity> questions){
+	public List<QuestionEntity> removeDuplicateQuestions(List<QuestionEntity> questions) {
 		Map<Long, QuestionEntity> questionsMap = new HashMap<Long, QuestionEntity>(); 
 		for(QuestionEntity ques : questions) {
 			if(questionsMap.containsKey(ques.getQuesId()) == false) {
@@ -110,9 +104,17 @@ public class QuestionBusinessFactory {
 		return distinctQuestions;
 	}
 	
-	public List<Object> getQuestionsWithMostLikedAns() throws FetchException {
-		List<QuestionEntity> questions = questionService.getQuestions();
-		List<Object> quesLikes = questionService.getLikesByQuestions();
+	public List<Object> getQuestionsWithMostLikedAns(String...searchCriteria) 
+			throws FetchException {
+		// default values to be used when fetching all questions
+		String keyword = "%%";
+		String category = "%%";
+		if(searchCriteria.length > 0) {
+			keyword = "%" + searchCriteria[0] + "%";
+			category = searchCriteria[1].equals(CAT_ALL) ? category : searchCriteria[1];
+		}
+		List<QuestionEntity> questions = questionService.getQuestions(keyword, category);
+		List<Object> quesLikes = questionService.getLikesByQuestions(keyword, category);
 		for (QuestionEntity ques : questions) {
 			ques.setAskedBy(ques.getUser().getUserId());
 			for (Object quesLike : quesLikes) {
@@ -129,7 +131,7 @@ public class QuestionBusinessFactory {
 				ques.setLikes(0L);
 			}
 		}
-		Set<QuestionEntity> sortedQuestions = sortQuestions(questions);
+		Set<QuestionEntity> sortedQuestions = SortUtility.sortQuestions(questions);
 		List<Object> questionsList = Arrays.asList(sortedQuestions.toArray());
 		List<Long> quesIds = new ArrayList<Long>();
 		for (Object current : questionsList) {
@@ -279,10 +281,10 @@ public class QuestionBusinessFactory {
 	}
 	
 	public List<QuestionEntity> getQuestionsAnsweredByUser(Long userId) 
-			throws ForumException{
+			throws ForumException {
 		if(userId != null) {
-			List<QuestionEntity> questions = new ArrayList<QuestionEntity>();
 			List<Long> quesIds = new ArrayList<Long>();
+			List<QuestionEntity> questions = new ArrayList<QuestionEntity>();
 			List<AnswerEntity> answers = ansService.getAnswersByUser(userId);
 			for(AnswerEntity answer : answers) {
 				UserEntity askedBy = answer.getQuestion().getUser();
@@ -312,6 +314,147 @@ public class QuestionBusinessFactory {
 		} else {
 			throw new ForumException(
 					ForumValidation.VALIDATION_FAILURE.getMessage());			
+		}
+	}
+	
+	public List<Object> getAnswersByCriteria(String...searchCriteria) 
+			throws FetchException{
+		// default values to be used when fetching all answers
+		String keyword = "%%";
+		String category = "%%";
+		if(searchCriteria.length > 0) {
+			keyword = "%" + searchCriteria[0] + "%";
+			category = searchCriteria[1].equals(CAT_ALL) ? category : searchCriteria[1];
+		}
+		List<Long> quesIds = new ArrayList<Long>();
+		List<QuestionEntity> questions = new ArrayList<QuestionEntity>();
+		List<AnswerEntity> answers = ansService.getAnswers(keyword, category);
+		List<Object> ansLikes = ansService.getLikesByAnswers(keyword, category);
+		for(AnswerEntity ans : answers) {
+			QuestionEntity ques = ans.getQuestion();
+			UserEntity user = ans.getUser();
+			ans.setAnsweredBy(user.getUserId());
+			ans.setQuesId(ques.getQuesId());
+			questions.add(ques);
+			quesIds.add(ques.getQuesId());
+			for(Object ansLike : ansLikes) {
+				Object[] currentAnsLike = (Object[]) ansLike;
+				Long ansId = (Long) currentAnsLike[1];
+				if(ans.getAnsId().equals(ansId)) {
+					Long likes = (Long) currentAnsLike[0];
+					ans.setLikes(likes);
+					break;
+				}
+				ans.setLikes(0L);
+			}
+			if(ans.getLikes() == null) {
+				ans.setLikes(0L);
+			}
+		}
+		Set<AnswerEntity> sortedAnswers = SortUtility.sortAnswers(answers);
+		List<Object> answersList = Arrays.asList(sortedAnswers.toArray());
+		List<Object> quesLikes = questionService.getLikesBySpecificQuestions(quesIds);
+		for (QuestionEntity ques : questions) {
+			ques.setAskedBy(ques.getUser().getUserId());
+			for (Object quesLike : quesLikes) {
+				Object[] currentQuesLike = (Object[]) quesLike;
+				Long quesId = (Long) currentQuesLike[1];
+				if (ques.getQuesId().equals(quesId)) {
+					Long likes = (Long) currentQuesLike[0];
+					ques.setLikes(likes);
+					break;
+				}
+				ques.setLikes(0L);
+			}
+			if (ques.getLikes() == null) {
+				ques.setLikes(0L);
+			}
+		}
+		List<QuestionEntity> questionsList = new ArrayList<QuestionEntity>();
+		for(Object answer : answersList) {
+			AnswerEntity current = (AnswerEntity) answer;
+			for(QuestionEntity ques : questions) {
+				Long quesId = ques.getQuesId();
+				if(current.getQuesId().equals(quesId)) {
+					questionsList.add(ques);
+				}
+			}
+		}
+		List<Object> result = new ArrayList<Object>();
+		result.add(questionsList);
+		result.add(answersList);
+		return result;
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public List<Object> getSearchResults(String type, String category, String keyword) 
+			throws ForumException {
+		if(type != null && category != null && keyword != null 
+				&& (category.equals(CAT_TECHNOLOGY) || category.equals(CAT_SCIENCE) 
+						|| category.equals(CAT_HISTORY) || category.equals(CAT_COMICS)
+						|| category.equals(CAT_OTHERS) || category.equals(CAT_ALL)) ) {
+			List<Object> searchResults = new ArrayList<Object>();
+			Map<String, Integer> count = new HashMap<String, Integer>();
+			String[] searchCriteria = {keyword, category, type};
+			switch(type) {
+				case TYPE_QUESTION:
+					searchResults = getQuestionsWithMostLikedAns(searchCriteria);
+					count.put("questions",((List<QuestionEntity>)searchResults.get(0)).size());
+					count.put("answers", 0);
+					break;
+				case TYPE_ANSWER:
+					searchResults = getAnswersByCriteria(searchCriteria);
+					count.put("answers",((List<AnswerEntity>)searchResults.get(0)).size());
+					count.put("questions", 0);
+					break;
+				case TYPE_ALL:
+					List<QuestionEntity> questionsList = new ArrayList<QuestionEntity>();
+					List<AnswerEntity> answersList = new ArrayList<AnswerEntity>();
+					searchResults = getQuestionsWithMostLikedAns(searchCriteria);
+					count.put("questions",((List<QuestionEntity>)searchResults.get(0)).size());
+					List<QuestionEntity> tempQuesList = (List<QuestionEntity>) searchResults.get(0);
+					questionsList.addAll(tempQuesList);
+					List<AnswerEntity> tempAnsList = (List<AnswerEntity>) searchResults.get(1);
+					answersList.addAll(tempAnsList);
+					searchResults.clear();
+					searchResults = getAnswersByCriteria(searchCriteria);
+					count.put("answers",((List<AnswerEntity>)searchResults.get(0)).size());
+					tempQuesList = (List<QuestionEntity>) searchResults.get(0);
+					tempAnsList = (List<AnswerEntity>) searchResults.get(1);
+					// excluding results already fetched
+					Integer innerIndex = null;
+					Integer outerIndex = null;
+					Integer innerResults = questionsList.size();
+					Integer outerResults = tempQuesList.size();
+					for(outerIndex = 0; outerIndex < outerResults; outerIndex++) {
+						for(innerIndex = 0; innerIndex < innerResults; innerIndex++) {
+							if(answersList.get(innerIndex).getAns().equals(NO_ANSWER)) {
+								continue;
+							} else if(questionsList.get(innerIndex).getQuesId()
+									.equals(tempQuesList.get(outerIndex).getQuesId()) && 
+									answersList.get(innerIndex).getAnsId()
+									.equals(tempAnsList.get(outerIndex).getAnsId())) {
+								break;
+							}
+						}
+						if(innerIndex.equals(innerResults)) {
+							questionsList.add(tempQuesList.get(outerIndex));
+							answersList.add(tempAnsList.get(outerIndex));
+						}
+					}
+					searchResults.clear();
+					searchResults.add(questionsList);
+					searchResults.add(answersList);
+					break;
+				default:
+					throw new ForumException(
+							ForumValidation.VALIDATION_FAILURE.getMessage());
+			}
+			searchResults.add(count);
+			return searchResults;
+		} else {
+			throw new ForumException(
+					ForumValidation.VALIDATION_FAILURE.getMessage());
 		}
 	}
 

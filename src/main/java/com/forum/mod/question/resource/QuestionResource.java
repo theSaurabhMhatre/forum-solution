@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -138,6 +139,20 @@ public class QuestionResource {
 	public Response getQuestionsAnsweredByUser(@PathParam("userId") Long userId) {
 		ResponseEntity responseEntity = responseFactory
 				.getQuestionsAnsweredByUser(userId);
+		Response response = Response
+				.status(responseEntity.getResponseStatus().getStatusCode())
+				.entity(responseEntity).build();
+		return response;
+	}
+	
+	@GET
+	@UnitOfWork
+	@Path(value = "/search")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSearchResults(@QueryParam("type") String type, 
+			@QueryParam("category") String category, @QueryParam("keyword") String keyword) {
+		ResponseEntity responseEntity = responseFactory
+				.getSearchResults(type, category, keyword);
 		Response response = Response
 				.status(responseEntity.getResponseStatus().getStatusCode())
 				.entity(responseEntity).build();

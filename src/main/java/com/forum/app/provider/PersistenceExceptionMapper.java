@@ -41,6 +41,8 @@ public class PersistenceExceptionMapper implements ExceptionMapper<PersistenceEx
 			message = PersistenceError.JDBC_CONNECTION_EXCEPTION.getMessage();
 		} else if (exception.getCause() instanceof GenericJDBCException) {
 			message = PersistenceError.GENERIC_JDBC_EXCEPTION.getMessage();
+		} else {
+			message = exception.getMessage();
 		}
 		responseEntity.setResponseMessage(message);
 		responseEntity.setResponseObject(message);

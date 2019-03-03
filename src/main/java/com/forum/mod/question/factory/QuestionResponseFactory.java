@@ -170,4 +170,21 @@ public class QuestionResponseFactory {
 		}
 	}
 	
+	public ResponseEntity getSearchResults(String type, String category, String keyword) {
+		ResponseEntity response = new ResponseEntity();
+		try {
+			List<Object> searchResult = businessFactory
+					.getSearchResults(type, category, keyword);
+			response.setResponseStatus(Response.Status.OK);
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseObject(searchResult);
+			return response;
+		} catch (ForumException ex) {
+			response.setResponseStatus(Response.Status.BAD_REQUEST);
+			response.setResponseMessage(ex.getMessage());
+			response.setResponseObject(ex.getMessage());
+			return response;
+		}
+	} 
+	
 }

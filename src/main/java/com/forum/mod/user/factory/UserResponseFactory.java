@@ -101,6 +101,23 @@ public class UserResponseFactory {
 		}
 	}
 	
+	public ResponseEntity checkAvailability(String userName) {
+		ResponseEntity response = new ResponseEntity();
+		try {
+			Boolean available = businessFactory.checkAvailability(userName);
+			response.setResponseStatus(Response.Status.OK);
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
+					.getMessage());
+			response.setResponseObject(available);
+			return response;
+		} catch (ForumException ex) {
+			response.setResponseStatus(Response.Status.BAD_REQUEST);
+			response.setResponseMessage(ex.getMessage());
+			response.setResponseObject(ex.getMessage());
+			return response;
+		}
+	}	
+	
 	public ResponseEntity getUserRankings() {
 		ResponseEntity response = new ResponseEntity();
 		try {

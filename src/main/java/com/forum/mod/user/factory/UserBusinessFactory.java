@@ -28,6 +28,10 @@ public class UserBusinessFactory {
 	private UserService userService;
 	private AnswerService ansService;
 
+	public UserBusinessFactory() {
+		super();
+	}
+	
 	public UserBusinessFactory(QuestionService questionService,
 			AnswerService ansService, UserService userService) {
 		this.questionService = questionService;
@@ -211,6 +215,16 @@ public class UserBusinessFactory {
 						ForumValidation.VALIDATION_FAILURE.getMessage());
 			}
 			return userView;
+		} else {
+			throw new ForumException(
+					ForumValidation.VALIDATION_FAILURE.getMessage());
+		}
+	}
+	
+	public Boolean checkAvailability(String userName) throws ForumException {
+		if(userName != null) {
+			userService.checkAvailability(userName.toLowerCase());
+			return true;
 		} else {
 			throw new ForumException(
 					ForumValidation.VALIDATION_FAILURE.getMessage());

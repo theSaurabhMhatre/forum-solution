@@ -223,3 +223,33 @@ where ques.ques_id = likes.ques_id
 and ques.asked_by = x.user_id
 group by x.user_id
 order by x.user_id;
+
+--search queries
+select * from table_question
+where ques_str like '%test%'
+and ques_category like 'history'
+order by ques_id;
+
+select count(*) as likes, quesLike.ques_id
+from table_question_like quesLike, table_question ques
+where quesLike.ques_id = ques.ques_id 
+and ques.ques_str like '%%'
+and ques.ques_category like '%%'
+group by quesLike.ques_id
+order by likes;
+
+select ans.* from table_answer ans, table_question ques 
+where ans.ques_id = ques.ques_id
+and ans.ans_str like '%test%'
+and ques.ques_category like '%%';
+
+select count(*) as likes, ans_id 
+from table_answer_like
+where ans_id in
+(
+select ans.ans_id from table_answer ans, table_question ques 
+where ans.ques_id = ques.ques_id
+and ans.ans_str like '%demo%'
+and ques.ques_category like '%%'
+)
+group by ans_id;

@@ -42,9 +42,11 @@ public class QuestionLikeRepo {
 		query.executeUpdate();
 	}
 
-	public List<Object> getLikesByQuestions() {
+	public List<Object> getLikesByQuestions(String keyword, String category) {
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.getNamedQuery("getLikesByQuestionsQuery");
+		Query query = session.getNamedQuery("getLikesByQuestionsQuery")
+				.setParameter("keyword", keyword)
+				.setParameter("category", category);
 		List<Object> quesLikes = query.list();
 		return quesLikes;
 	}
@@ -52,7 +54,8 @@ public class QuestionLikeRepo {
 	public List<Object> getLikesByQuestionsByUser(Long userId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedNativeQuery("getLikesByQuestionsByUserQuery")
-				.setParameter("userId", userId).addScalar("qlikes", LongType.INSTANCE)
+				.setParameter("userId", userId)
+				.addScalar("qlikes", LongType.INSTANCE)
 				.addScalar("quesId", LongType.INSTANCE);
 		List<Object> quesLikes = query.list();
 		return quesLikes;
@@ -61,7 +64,8 @@ public class QuestionLikeRepo {
 	public List<Object> getLikesByQuestionsAnsweredByUser(Long userId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedNativeQuery("getLikesByQuestionsAnsweredByUserQuery")
-				.setParameter("userId", userId).addScalar("qlikes", LongType.INSTANCE)
+				.setParameter("userId", userId)
+				.addScalar("qlikes", LongType.INSTANCE)
 				.addScalar("quesId", LongType.INSTANCE);
 		List<Object> quesLikes = query.list();
 		return quesLikes;
@@ -94,7 +98,8 @@ public class QuestionLikeRepo {
 	public Long getUsersQuestionsLikes(Long userId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedNativeQuery("getUsersQuestionsLikesQuery")
-				.setParameter("userId", userId).addScalar("qLikes", LongType.INSTANCE);
+				.setParameter("userId", userId)
+				.addScalar("qLikes", LongType.INSTANCE);
 		Long likes = (Long) query.list().get(0);
 		return likes;
 	}

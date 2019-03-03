@@ -52,6 +52,15 @@ import com.forum.app.key.AnswerLikeKey;
 				+ ") as second "
 				+ "where first.ques_id = second.ques_id " 
 				+ "and first.y = second.x"),
+		@NamedNativeQuery(name = "getLikesByAnswersQuery", query = "select count(*) as likes, ans_id  "
+				+ "from table_answer_like "
+				+ "where ans_id in ( "
+				+ "select ans.ans_id "
+				+ "from table_answer ans, table_question ques "
+				+ "where ans.ques_id = ques.ques_id "
+				+ "and ans.ans_str like :keyword "
+				+ "and ques.ques_category like :category "
+				+ ") group by ans_id"),
 		@NamedNativeQuery(name = "getUsersAnswersLikesQuery", query = "select count(*) as aLikes "
 				+ "from table_answer ans, table_answer_like likes "
 				+ "where ans.ans_id = likes.ans_id and "

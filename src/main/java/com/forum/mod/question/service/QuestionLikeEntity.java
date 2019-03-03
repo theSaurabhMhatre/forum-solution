@@ -24,7 +24,10 @@ import com.forum.app.key.QuestionLikeKey;
 				+ "order by likes"),
 		@NamedQuery(name = "getLikesByQuestionsQuery", query = "select count(*) as likes, "
 				+ "quesLike.quesLikeKey.question.quesId "
-				+ "from QuestionLikeEntity quesLike "
+				+ "from QuestionLikeEntity quesLike, QuestionEntity ques "
+				+ "where quesLike.quesLikeKey.question.quesId = ques.quesId "
+				+ "and ques.ques like :keyword "
+				+ "and ques.category like :category "
 				+ "group by quesLike.quesLikeKey.question.quesId "
 				+ "order by likes"),
 		@NamedQuery(name = "getLikesByQuestionQuery", query = "select count(*) as likes "
