@@ -149,6 +149,15 @@ public class AnswerService {
 		}
 	}
 
+	public void dislikeAnswer(AnswerLikeEntity ansLike)
+			throws ModifyException {
+		try {
+			likeRepo.dislikeAnswer(ansLike);
+		} catch (Exception ex) {
+			throw new ModifyException(ForumError.DELETE_ERROR.getMessage());
+		}
+	}	
+	
 	public List<Integer> getAnswersLikedByUser(Long userId)
 			throws FetchException {
 		try {

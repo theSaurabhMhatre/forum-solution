@@ -94,6 +94,21 @@ public class AnswerResource {
 		return response;
 	}
 
+	@DELETE
+	@UnitOfWork
+	@Path(value = "/{ansId}/dislike")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response dislikeAnswer(@PathParam("ansId") Long ansId,
+			AnswerLikeEntity ansLike) {
+		ResponseEntity responseEntity = responseFactory.dislikeAnswer(ansId,
+				ansLike);
+		Response response = Response
+				.status(responseEntity.getResponseStatus().getStatusCode())
+				.entity(responseEntity).build();
+		return response;
+	}	
+	
 	@GET
 	@UnitOfWork
 	@Path(value = "/{userId}/likes")

@@ -24,7 +24,8 @@ public class AnswerResponseFactory {
 			Set<AnswerEntity> answers = businessFactory
 					.getAnswersByQuestion(quesId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
+					.getMessage());
 			response.setResponseObject(answers);
 			return response;
 		} catch (ForumException ex) {
@@ -76,7 +77,8 @@ public class AnswerResponseFactory {
 			response.setResponseStatus(Response.Status.OK);
 			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS
 					.getMessage());
-			response.setResponseObject(ForumSuccess.DELETE_SUCCESS.getMessage());
+			response.setResponseObject(ForumSuccess.DELETE_SUCCESS
+					.getMessage());
 			return response;
 		} catch (Exception ex) {
 			response.setResponseStatus(Response.Status.BAD_REQUEST);
@@ -102,6 +104,24 @@ public class AnswerResponseFactory {
 			return response;
 		}
 	}
+	
+	public ResponseEntity dislikeAnswer(Long ansId, AnswerLikeEntity ansLike) {
+		ResponseEntity response = new ResponseEntity();
+		try {
+			businessFactory.dislikeAnswer(ansId, ansLike);
+			response.setResponseStatus(Response.Status.OK);
+			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS
+					.getMessage());
+			response.setResponseObject(ForumSuccess.DELETE_SUCCESS
+					.getMessage());
+			return response;
+		} catch (Exception ex) {
+			response.setResponseStatus(Response.Status.BAD_REQUEST);
+			response.setResponseMessage(ex.getMessage());
+			response.setResponseObject(ex.getMessage());
+			return response;
+		}
+	}	
 
 	public ResponseEntity getAnswersLikedByUser(Long userId) {
 		ResponseEntity response = new ResponseEntity();
@@ -109,7 +129,8 @@ public class AnswerResponseFactory {
 			List<Integer> answerLikes = businessFactory
 					.getAnswersLikedByUser(userId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
+					.getMessage());
 			response.setResponseObject(answerLikes);
 			return response;
 		} catch (ForumException ex) {
@@ -126,7 +147,8 @@ public class AnswerResponseFactory {
 			Long answerLikes = businessFactory
 					.getUsersAnswersLikes(userId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
+					.getMessage());
 			response.setResponseObject(answerLikes);
 			return response;
 		} catch (ForumException ex) {

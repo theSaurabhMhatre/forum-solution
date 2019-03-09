@@ -25,6 +25,8 @@ public class QuestionLikeRepo {
 	}
 
 	public void dislikeQuestion(QuestionLikeEntity quesLike) {
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(quesLike);
 		return;
 	}
 

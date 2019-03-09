@@ -179,6 +179,15 @@ public class QuestionService {
 		}
 	}
 
+	public void dislikeQuestion(QuestionLikeEntity quesLike)
+			throws ModifyException {
+		try {
+			likeRepo.dislikeQuestion(quesLike);
+		} catch (Exception ex) {
+			throw new ModifyException(ForumError.DELETE_ERROR.getMessage());
+		}
+	}	
+	
 	public List<Integer> getQuestionsLikedByUser(Long userId)
 			throws FetchException {
 		try {

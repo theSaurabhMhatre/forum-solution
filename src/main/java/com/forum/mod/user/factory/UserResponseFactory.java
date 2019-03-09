@@ -22,7 +22,8 @@ public class UserResponseFactory {
 		try {
 			UserEntity userEntity = businessFactory.getUser(userId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
+					.getMessage());
 			response.setResponseObject(userEntity);
 			return response;
 		} catch (ForumException ex) {
@@ -74,7 +75,8 @@ public class UserResponseFactory {
 			response.setResponseStatus(Response.Status.OK);
 			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS
 					.getMessage());
-			response.setResponseObject(ForumSuccess.DELETE_SUCCESS.getMessage());
+			response.setResponseObject(ForumSuccess.DELETE_SUCCESS
+					.getMessage());
 			return response;
 		} catch (ForumException ex) {
 			response.setResponseStatus(Response.Status.BAD_REQUEST);
@@ -123,7 +125,8 @@ public class UserResponseFactory {
 		try {
 			List<List<Object>> userRankings = businessFactory.getUserRankings();
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
+					.getMessage());
 			response.setResponseObject(userRankings);
 			return response;
 		} catch (ForumException ex) {

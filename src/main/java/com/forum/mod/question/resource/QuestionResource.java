@@ -92,6 +92,21 @@ public class QuestionResource {
 				.entity(responseEntity).build();
 		return response;
 	}
+	
+	@DELETE
+	@UnitOfWork
+	@Path(value = "/{questionId}/dislike")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response dislikeQuestion(@PathParam("questionId") Long quesId,
+			QuestionLikeEntity quesLike) {
+		ResponseEntity responseEntity = responseFactory.dislikeQuestion(quesId,
+				quesLike);
+		Response response = Response
+				.status(responseEntity.getResponseStatus().getStatusCode())
+				.entity(responseEntity).build();
+		return response;
+	}
 
 	@GET
 	@UnitOfWork

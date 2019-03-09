@@ -150,6 +150,33 @@ public class AnswerBusinessFactory {
 		}
 	}
 
+	public void dislikeAnswer(Long ansId, AnswerLikeEntity ansLike)
+			throws ForumException {
+		if (ansId != null && ansLike != null
+				&& ansId.equals(ansLike.getAnsId())) {
+			Long userId = ansLike.getUserId();
+			Long quesId = ansLike.getQuesId();
+			if (ansId != null && userId != null && quesId != null) {
+				UserEntity user = userService.getUser(userId);
+				QuestionEntity ques = quesService.getQuestion(quesId);
+				AnswerEntity ans = ansService.getAnswer(ansLike.getAnsId());
+				AnswerLikeKey key = new AnswerLikeKey();
+				key.setUser(user);
+				key.setQuestion(ques);
+				key.setAnswer(ans);
+				ansLike.setAnsLikeKey(key);
+				ansService.dislikeAnswer(ansLike);
+				return;
+			} else {
+				throw new ForumException(
+						ForumValidation.VALIDATION_FAILURE.getMessage());
+			}
+		} else {
+			throw new ForumException(
+					ForumValidation.VALIDATION_FAILURE.getMessage());
+		}
+	}	
+	
 	public List<Integer> getAnswersLikedByUser(Long userId)
 			throws ForumException {
 		if (userId != null) {

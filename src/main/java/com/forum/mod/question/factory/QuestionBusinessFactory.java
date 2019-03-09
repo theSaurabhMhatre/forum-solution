@@ -227,6 +227,31 @@ public class QuestionBusinessFactory {
 		}
 	}
 
+	public void dislikeQuestion(Long quesId,
+			QuestionLikeEntity quesLike) throws ForumException {
+		if (quesId != null && quesLike != null
+				&& quesId.equals(quesLike.getQuesId())) {
+			Long userId = quesLike.getUserId();
+			if (quesId != null && userId != null) {
+				QuestionEntity ques = questionService.getQuestion(quesLike
+						.getQuesId());
+				UserEntity user = userService.getUser(userId);
+				QuestionLikeKey key = new QuestionLikeKey();
+				key.setQuestion(ques);
+				key.setUser(user);
+				quesLike.setQuesLikeKey(key);
+				questionService.dislikeQuestion(quesLike);
+				return;
+			} else {
+				throw new ForumException(
+						ForumValidation.VALIDATION_FAILURE.getMessage());
+			}
+		} else {
+			throw new ForumException(
+					ForumValidation.VALIDATION_FAILURE.getMessage());
+		}
+	}	
+	
 	public List<Integer> getQuestionsLikedByUser(Long userId)
 			throws ForumException {
 		if (userId != null) {
