@@ -161,8 +161,9 @@ public class QuestionResponseFactory {
 	public ResponseEntity getQuestionsByUser(Long userId) {
 		ResponseEntity response = new ResponseEntity();
 		try {
+			Boolean withLikes = true;
 			List<QuestionEntity> questions = businessFactory
-					.getQuestionsByUser(userId);
+					.getQuestionsByUser(userId, withLikes);
 			response.setResponseStatus(Response.Status.OK);
 			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
 					.getMessage());

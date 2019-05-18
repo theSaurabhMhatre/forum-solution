@@ -56,6 +56,26 @@ public class QuestionEntity {
 	@JsonProperty(value = "likes")
 	private Long likes;
 
+	public enum Category {
+		TECHNOLOGY("TECHNOLOGY"),
+		SCIENCE("SCIENCE"),
+		HISTORY("HISTORY"),
+		COMICS("COMICS"),
+		OTHERS("OTHERS"),
+		ALL("ALL");
+		
+		private String value;
+		
+		private Category(String value) {
+			this.value = value;
+		}
+		
+		public String getCategory() {
+			return this.value.toLowerCase();
+		}
+		
+	}	
+	
 	public Long getLikes() {
 		return likes;
 	}

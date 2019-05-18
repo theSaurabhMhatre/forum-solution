@@ -6,15 +6,17 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.forum.app.core.DatabaseUtility;
+
 import io.dropwizard.hibernate.AbstractDAO;
 
 @SuppressWarnings({ "deprecation", "rawtypes", "unchecked" })
 public class UserRepo extends AbstractDAO<UserEntity> {
 	private SessionFactory sessionFactory;
 
-	public UserRepo(SessionFactory sessionFactory) {
-		super(sessionFactory);
-		this.sessionFactory = sessionFactory;
+	public UserRepo() {
+		super(DatabaseUtility.getSessionFactory());
+		this.sessionFactory = DatabaseUtility.getSessionFactory();
 	}
 
 	public UserEntity getUser(Long userId) {

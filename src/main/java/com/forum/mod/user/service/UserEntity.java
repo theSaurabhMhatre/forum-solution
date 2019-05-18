@@ -10,6 +10,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.forum.app.constant.ForumError;
+import com.forum.app.exception.ForumException;
+
 @Entity
 @Table(name = "table_user")
 @NamedQueries({
@@ -43,6 +46,25 @@ public class UserEntity implements Cloneable {
 	@Column(name = "user_bio")
 	private String userBio;
 
+	public enum Attribute {
+		USER_NAME("USER_NAME"),
+		USER_PSWD("USER_PSWD"),
+		USER_BIO("USER_BIO"),
+		USER_MAIL("USER_MAIL"),
+		USER_SECRET("USER_SECRET");
+		
+		private String value;
+		
+		private Attribute(String value) {
+			this.value = value;
+		}
+		
+		public String getAttribute() {
+			return this.value.toLowerCase();
+		}
+		
+	}
+	
 	public Long getUserId() {
 		return userId;
 	}
@@ -83,10 +105,15 @@ public class UserEntity implements Cloneable {
 		this.userBio = userBio;
 	}
 
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		UserEntity userEntity = (UserEntity) super.clone();
+	public UserEntity cloneUser() throws ForumException {
+		UserEntity userEntity = null;
+		try {
+			userEntity = (UserEntity) super.clone();
+		} catch (Exception ex) {
+			throw new ForumException(
+					ForumError.MODIFY_ERROR.getMessage());
+		}
 		return userEntity;
 	}
-
+	
 }

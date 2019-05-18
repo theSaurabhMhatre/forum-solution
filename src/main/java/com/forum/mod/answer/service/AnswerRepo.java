@@ -5,13 +5,14 @@ import io.dropwizard.hibernate.AbstractDAO;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.SessionFactory;
+
+import com.forum.app.core.DatabaseUtility;
 
 @SuppressWarnings({ "rawtypes", "deprecation" })
 public class AnswerRepo extends AbstractDAO<AnswerEntity> {
 
-	public AnswerRepo(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public AnswerRepo() {
+		super(DatabaseUtility.getSessionFactory());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,5 +73,5 @@ public class AnswerRepo extends AbstractDAO<AnswerEntity> {
 				.list();
 		return answers;
 	}
-
+	
 }

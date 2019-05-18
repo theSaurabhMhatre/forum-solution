@@ -12,9 +12,9 @@ public class QuestionService {
 	private QuestionRepo questionRepo;
 	private QuestionLikeRepo likeRepo;
 
-	public QuestionService(QuestionRepo questionRepo, QuestionLikeRepo likeRepo) {
-		this.questionRepo = questionRepo;
-		this.likeRepo = likeRepo;
+	public QuestionService() {
+		this.questionRepo = new QuestionRepo();
+		this.likeRepo = new QuestionLikeRepo();
 	}
 
 	public QuestionEntity getQuestion(Long quesId)

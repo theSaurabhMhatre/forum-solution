@@ -7,14 +7,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.type.LongType;
 
+import com.forum.app.core.DatabaseUtility;
 import com.forum.app.key.AnswerLikeKey;
 
 @SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 public class AnswerLikeRepo {
 	private SessionFactory sessionFactory;
 
-	public AnswerLikeRepo(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	public AnswerLikeRepo() {
+		this.sessionFactory = DatabaseUtility.getSessionFactory();
 	}
 
 	public AnswerLikeKey likeAnswer(AnswerLikeEntity ansLike) {

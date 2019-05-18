@@ -58,8 +58,8 @@ import com.forum.app.key.AnswerLikeKey;
 				+ "select ans.ans_id "
 				+ "from table_answer ans, table_question ques "
 				+ "where ans.ques_id = ques.ques_id "
-				+ "and ans.ans_str like :keyword "
-				+ "and ques.ques_category like :category "
+				+ "and lower(ans.ans_str) like lower(:keyword) "
+				+ "and lower(ques.ques_category) like lower(:category) "
 				+ ") group by ans_id"),
 		@NamedNativeQuery(name = "getUsersAnswersLikesQuery", query = "select count(*) as aLikes "
 				+ "from table_answer ans, table_answer_like likes "

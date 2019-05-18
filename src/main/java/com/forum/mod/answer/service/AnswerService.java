@@ -12,9 +12,9 @@ public class AnswerService {
 	private AnswerRepo answerRepo;
 	private AnswerLikeRepo likeRepo;
 
-	public AnswerService(AnswerRepo answerRepo, AnswerLikeRepo likeRepo) {
-		this.answerRepo = answerRepo;
-		this.likeRepo = likeRepo;
+	public AnswerService() {
+		this.answerRepo = new AnswerRepo();
+		this.likeRepo = new AnswerLikeRepo();
 	}
 
 	public List<AnswerEntity> getAnswersByQuestion(Long quesId)

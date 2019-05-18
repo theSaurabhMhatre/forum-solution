@@ -10,8 +10,8 @@ import com.forum.app.exception.ModifyException;
 public class UserService {
 	private UserRepo userRepo;
 
-	public UserService(UserRepo userRepo) {
-		this.userRepo = userRepo;
+	public UserService() {
+		this.userRepo = new UserRepo();
 	}
 
 	public UserEntity getUser(Long userId) throws FetchException {

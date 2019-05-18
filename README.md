@@ -29,6 +29,7 @@ These APIs are being used by - [forum-solution-ui](https://github.com/theSaurabh
     GET     /forum/questions/{userId}/totallikes (com.forum.mod.question.resource.QuestionResource)
     GET     /forum/questions/{userId}/user/answered (com.forum.mod.question.resource.QuestionResource)
     GET     /forum/questions/{userId}/user/asked (com.forum.mod.question.resource.QuestionResource)
+    GET     /forum/search (com.forum.mod.search.resource.SearchResource)
     POST    /forum/users (com.forum.mod.user.resource.UserResource)
     GET     /forum/users/ranking (com.forum.mod.user.resource.UserResource)
     DELETE  /forum/users/{userId} (com.forum.mod.user.resource.UserResource)
