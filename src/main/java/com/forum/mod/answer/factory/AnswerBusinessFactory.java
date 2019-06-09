@@ -2,6 +2,7 @@ package com.forum.mod.answer.factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -20,30 +21,36 @@ import com.forum.mod.user.factory.UserBusinessFactory;
 import com.forum.mod.user.factory.UserValidationFactory;
 import com.forum.mod.user.service.UserEntity;
 
+/**
+ * This class performs all the business logic before and/or after storing
+ * and retrieving data to and from the database for AnswerEntity and
+ * AnswerLikeEntity objects. All other business factories communicate with
+ * AnswerService via this class.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class AnswerBusinessFactory {
 	private final String NO_ANSWER = "This question has not been answered yet!";
-	
+
 	private AnswerService ansService;
 	private UserBusinessFactory userBusinessFactory;
 	private QuestionBusinessFactory quesBusinessFactory;
-	
+
 	public AnswerBusinessFactory() {
 		ansService = new AnswerService();
 	}
 
-	public void setBusinessFactories(UserBusinessFactory userBusinessFactory, 
+	public void setBusinessFactories(UserBusinessFactory userBusinessFactory,
 			QuestionBusinessFactory quesBusinessFactory) {
 		this.userBusinessFactory = userBusinessFactory;
 		this.quesBusinessFactory = quesBusinessFactory;
 	}
-	
-	public Set<AnswerEntity> getAnswersByQuestion(Long quesId)
-			throws ForumException {
+
+	public Set<AnswerEntity> getAnswersByQuestion(Long quesId) throws ForumException {
 		QuestionValidationFactory.validateQuestionId(quesId);
-		List<AnswerEntity> answers = ansService
-				.getAnswersByQuestion(quesId);
-		List<Object> ansLikes = ansService
-				.getLikesByAnswersByQuestion(quesId);
+		List<AnswerEntity> answers = ansService.getAnswersByQuestion(quesId);
+		List<Object> ansLikes = ansService.getLikesByAnswersByQuestion(quesId);
 		for (AnswerEntity answer : answers) {
 			answer.setQuesId(answer.getQuestion().getQuesId());
 			answer.setAnsweredBy(answer.getUser().getUserId());
@@ -61,7 +68,7 @@ public class AnswerBusinessFactory {
 				answer.setLikes(0L);
 			}
 		}
-		Set<AnswerEntity> sortedAnswers = SortUtility.sortAnswers(answers); 
+		Set<AnswerEntity> sortedAnswers = SortUtility.sortAnswers(answers);
 		return sortedAnswers;
 	}
 
@@ -70,27 +77,25 @@ public class AnswerBusinessFactory {
 		Long userId = answer.getAnsweredBy();
 		Long quesId = answer.getQuesId();
 		UserEntity user = userBusinessFactory.getUser(userId);
-		// UserEntity user = userService.getUser(userId);
 		QuestionEntity question = quesBusinessFactory.getQuestion(quesId);
-		// QuestionEntity question = quesService.getQuestion(quesId);
 		answer.setUser(user);
 		answer.setQuestion(question);
 		answer.setLikes(0L);
+		answer.setAnsCreatedOn(new Date());
+		answer.setAnsModifiedOn(new Date());
 		answer = ansService.modifyAnswer(answer);
 		return answer;
 	}
 
-	public AnswerEntity updateAnswer(Long ansId, AnswerEntity answer)
-			throws ForumException {
+	public AnswerEntity updateAnswer(Long ansId, AnswerEntity answer) throws ForumException {
 		AnswerValidationFactory.validateUpdateAnswer(ansId, answer);
 		Long userId = answer.getAnsweredBy();
 		Long quesId = answer.getQuesId();
 		UserEntity user = userBusinessFactory.getUser(userId);
-		// UserEntity user = userService.getUser(userId);
 		QuestionEntity question = quesBusinessFactory.getQuestion(quesId);
-		// QuestionEntity question = quesService.getQuestion(quesId);
 		answer.setUser(user);
 		answer.setQuestion(question);
+		answer.setAnsModifiedOn(new Date());
 		answer = ansService.modifyAnswer(answer);
 		Long likes = ansService.getLikesByAnswer(ansId);
 		answer.setLikes(likes);
@@ -103,21 +108,19 @@ public class AnswerBusinessFactory {
 		ansService.deleteAnswer(ansId);
 	}
 
-	public AnswerLikeEntity likeAnswer(Long ansId, AnswerLikeEntity ansLike)
-			throws ForumException {
+	public AnswerLikeEntity likeAnswer(Long ansId, AnswerLikeEntity ansLike) throws ForumException {
 		AnswerValidationFactory.validateLikeOperation(ansId, ansLike);
 		Long userId = ansLike.getUserId();
 		Long quesId = ansLike.getQuesId();
 		UserEntity user = userBusinessFactory.getUser(userId);
-		// UserEntity user = userService.getUser(userId);
 		QuestionEntity ques = quesBusinessFactory.getQuestion(quesId);
-		// QuestionEntity ques = quesService.getQuestion(quesId);
 		AnswerEntity ans = ansService.getAnswer(ansLike.getAnsId());
 		AnswerLikeKey key = new AnswerLikeKey();
 		key.setUser(user);
 		key.setQuestion(ques);
 		key.setAnswer(ans);
 		ansLike.setAnsLikeKey(key);
+		ansLike.setAnsLikedOn(new Date());
 		key = ansService.likeAnswer(ansLike);
 		ansLike.setUserId(key.getUser().getUserId());
 		ansLike.setQuesId(key.getQuestion().getQuesId());
@@ -125,15 +128,12 @@ public class AnswerBusinessFactory {
 		return ansLike;
 	}
 
-	public void dislikeAnswer(Long ansId, AnswerLikeEntity ansLike)
-			throws ForumException {
+	public void dislikeAnswer(Long ansId, AnswerLikeEntity ansLike) throws ForumException {
 		AnswerValidationFactory.validateLikeOperation(ansId, ansLike);
 		Long userId = ansLike.getUserId();
 		Long quesId = ansLike.getQuesId();
 		UserEntity user = userBusinessFactory.getUser(userId);
-		// UserEntity user = userService.getUser(userId);
 		QuestionEntity ques = quesBusinessFactory.getQuestion(quesId);
-		// QuestionEntity ques = quesService.getQuestion(quesId);
 		AnswerEntity ans = ansService.getAnswer(ansLike.getAnsId());
 		AnswerLikeKey key = new AnswerLikeKey();
 		key.setUser(user);
@@ -142,12 +142,10 @@ public class AnswerBusinessFactory {
 		ansLike.setAnsLikeKey(key);
 		ansService.dislikeAnswer(ansLike);
 		return;
-	}	
-	
-	public List<Object> getMostLikedAnsByQuestions(List<Long> quesIds)
-			throws FetchException {
-		List<Object> ansByQuestionsTemp = ansService
-				.getMostLikedAnsByQuestions();
+	}
+
+	public List<Object> getMostLikedAnsByQuestions(List<Long> quesIds) throws FetchException {
+		List<Object> ansByQuestionsTemp = ansService.getMostLikedAnsByQuestions();
 		List<Object> ansByQuestions = new ArrayList<Object>();
 		outer: for (Long quesId : quesIds) {
 			for (Object current : ansByQuestionsTemp) {
@@ -187,41 +185,39 @@ public class AnswerBusinessFactory {
 			}
 		}
 		return ansByQuestions;
-	}	
-	
-	public List<Object> getAnswersByCriteria(String...searchCriteria) 
-			throws ForumException {
+	}
+
+	public List<Object> getAnswersByCriteria(String... searchCriteria) throws ForumException {
 		AnswerValidationFactory.validateSearchCriteria(searchCriteria);
 		// default values to be used when fetching all answers
 		String keyword = "%%";
 		String category = "%%";
-		if(searchCriteria.length > 0) {
+		if (searchCriteria.length > 0) {
 			keyword = "%" + searchCriteria[0] + "%";
-			category = searchCriteria[1].equals(Category.ALL.getCategory())
-					? category : searchCriteria[1];
+			category = searchCriteria[1].equals(Category.ALL.getCategory()) ? category : searchCriteria[1];
 		}
 		List<Long> quesIds = new ArrayList<Long>();
 		List<QuestionEntity> questions = new ArrayList<QuestionEntity>();
 		List<AnswerEntity> answers = ansService.getAnswers(keyword, category);
 		List<Object> ansLikes = ansService.getLikesByAnswers(keyword, category);
-		for(AnswerEntity ans : answers) {
+		for (AnswerEntity ans : answers) {
 			QuestionEntity ques = ans.getQuestion();
 			UserEntity user = ans.getUser();
 			ans.setAnsweredBy(user.getUserId());
 			ans.setQuesId(ques.getQuesId());
 			questions.add(ques);
 			quesIds.add(ques.getQuesId());
-			for(Object ansLike : ansLikes) {
+			for (Object ansLike : ansLikes) {
 				Object[] currentAnsLike = (Object[]) ansLike;
 				Long ansId = (Long) currentAnsLike[1];
-				if(ans.getAnsId().equals(ansId)) {
+				if (ans.getAnsId().equals(ansId)) {
 					Long likes = (Long) currentAnsLike[0];
 					ans.setLikes(likes);
 					break;
 				}
 				ans.setLikes(0L);
 			}
-			if(ans.getLikes() == null) {
+			if (ans.getLikes() == null) {
 				ans.setLikes(0L);
 			}
 		}
@@ -245,11 +241,11 @@ public class AnswerBusinessFactory {
 			}
 		}
 		List<QuestionEntity> questionsList = new ArrayList<QuestionEntity>();
-		for(Object answer : answersList) {
+		for (Object answer : answersList) {
 			AnswerEntity current = (AnswerEntity) answer;
-			for(QuestionEntity ques : questions) {
+			for (QuestionEntity ques : questions) {
 				Long quesId = ques.getQuesId();
-				if(current.getQuesId().equals(quesId)) {
+				if (current.getQuesId().equals(quesId)) {
 					questionsList.add(ques);
 					break;
 				}
@@ -259,49 +255,40 @@ public class AnswerBusinessFactory {
 		result.add(questionsList);
 		result.add(answersList);
 		return result;
-	}	
-	
-	public List<Integer> getAnswersLikedByUser(Long userId)
-			throws ForumException {
+	}
+
+	public List<Integer> getAnswersLikedByUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
-		List<Integer> answerLikes = ansService
-				.getAnswersLikedByUser(userId);
+		List<Integer> answerLikes = ansService.getAnswersLikedByUser(userId);
 		return answerLikes;
 	}
-	
-	public Long getUsersAnswersLikes(Long userId)
-			throws ForumException {
+
+	public Long getUsersAnswersLikes(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
-		Long totalLikes = ansService
-				.getUsersAnswersLikes(userId);
+		Long totalLikes = ansService.getUsersAnswersLikes(userId);
 		return totalLikes;
 	}
-	
-	public List<Object> getAllUsersAnswersLikes()
-			throws ForumException {
-		List<Object> ansLikesByUsers = ansService
-				.getAllUsersAnswersLikes();
+
+	public List<Object> getAllUsersAnswersLikes() throws ForumException {
+		List<Object> ansLikesByUsers = ansService.getAllUsersAnswersLikes();
 		return ansLikesByUsers;
 	}
-	
-	public List<AnswerEntity> getAnswersByUser(Long userId)
-			throws ForumException {
+
+	public List<AnswerEntity> getAnswersByUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
 		List<AnswerEntity> answers = ansService.getAnswersByUser(userId);
 		return answers;
 	}
-	
-	public void deleteAnsLikesByUserId(Long userId) 
-			throws ForumException {
+
+	public void deleteAnsLikesByUserId(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
 		ansService.deleteAnsLikesByUserId(userId);
 	}
-	
-	public void deleteAnswerByQuesId(Long quesId) 
-			throws ForumException {
+
+	public void deleteAnswerByQuesId(Long quesId) throws ForumException {
 		QuestionValidationFactory.validateQuestionId(quesId);
 		ansService.deleteAnsLikesByQuesId(quesId);
 		ansService.deleteAnsByQuesId(quesId);
 	}
-	
+
 }

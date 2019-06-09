@@ -1,6 +1,11 @@
 #application name
 appName: forum-solution
 
+#CORS configuration
+allowedOrigins: http://localhost:8080
+allowedHeaders: X-Requested-With, Content-Type, Accept, Origin
+allowedMethods: OPTIONS, GET, PUT, POST, DELETE, HEAD
+
 #port settings
 server:
   applicationConnectors:
@@ -17,4 +22,4 @@ database:
     hibernate.dialect: org.hibernate.dialect.H2Dialect
     hibernate.show_sql: false
     hibernate.format_sql: false
-    hibernate.hbm2ddl.auto: update
+    hibernate.hbm2ddl.auto: validate

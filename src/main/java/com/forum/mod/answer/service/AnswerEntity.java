@@ -1,5 +1,7 @@
 package com.forum.mod.answer.service;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,25 +13,35 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.forum.mod.question.service.QuestionEntity;
 import com.forum.mod.user.service.UserEntity;
 
+/**
+ * This class represents the AnswerEntity POJO and the mapping of the same to
+ * the corresponding database table. It also contains queries used by AnswerRepo
+ * to query the table corresponding to AnswerEntity.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 @Entity
 @Table(name = "table_answer")
 @NamedQueries({
-		@NamedQuery(name = "getAnswersQuery", query = "from AnswerEntity ans "
+		@NamedQuery(name = "getAnswersQuery", query = "from AnswerEntity ans " 
 				+ "where ans.question.quesId in ( "
-				+ "select ques.quesId "
-				+ "from QuestionEntity "
+				+ "select ques.quesId " + "from QuestionEntity " 
 				+ "where lower(ques.category) like lower(:category) "
 				+ ") and lower(ans.ans) like lower(:keyword)"),
 		@NamedQuery(name = "getAnswersByQuestionQuery", query = "from AnswerEntity ans "
 				+ "where ans.question.quesId = :quesId"),
-		@NamedQuery(name = "deleteAnswerQuery", query = "delete from AnswerEntity ans "
+		@NamedQuery(name = "deleteAnswerQuery", query = "delete from AnswerEntity ans " 
 				+ "where ans.ansId = :ansId"),
 		@NamedQuery(name = "deleteAnsByQuesIdQuery", query = "delete from AnswerEntity ans "
 				+ "where ans.question.quesId = :quesId"),
@@ -70,6 +82,16 @@ public class AnswerEntity {
 	@Transient
 	@JsonProperty("likes")
 	private Long likes;
+
+	@Column(name = "ans_created_on")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+	private Date ansCreatedOn;
+
+	@Column(name = "ans_modified_on")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+	private Date ansModifiedOn;
 
 	public Long getAnsId() {
 		return ansId;
@@ -125,6 +147,22 @@ public class AnswerEntity {
 
 	public void setLikes(Long likes) {
 		this.likes = likes;
+	}
+
+	public Date getAnsCreatedOn() {
+		return ansCreatedOn;
+	}
+
+	public void setAnsCreatedOn(Date ansCreatedOn) {
+		this.ansCreatedOn = ansCreatedOn;
+	}
+
+	public Date getAnsModifiedOn() {
+		return ansModifiedOn;
+	}
+
+	public void setAnsModifiedOn(Date ansModifiedOn) {
+		this.ansModifiedOn = ansModifiedOn;
 	}
 
 }

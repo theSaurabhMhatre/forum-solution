@@ -12,25 +12,30 @@ import com.forum.mod.search.factory.SearchResponseFactory;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
+/**
+ * This class exposes a collection of search API end points which can be used to
+ * perform a variety of search operations on QuestionEntity and AnswerEntity.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 @Path(value = "/forum/search")
 public class SearchResource {
 	private SearchResponseFactory responseFactory;
-	
+
 	public SearchResource(SearchResponseFactory responseFactory) {
 		this.responseFactory = responseFactory;
 	}
-	
+
 	@GET
 	@UnitOfWork
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSearchResults(@QueryParam("type") String type, 
-			@QueryParam("category") String category, @QueryParam("keyword") String keyword) {
-		ResponseEntity responseEntity = responseFactory
-				.getSearchResults(type, category, keyword);
-		Response response = Response
-				.status(responseEntity.getResponseStatus().getStatusCode())
-				.entity(responseEntity).build();
+	public Response getSearchResults(@QueryParam("type") String type, @QueryParam("category") String category,
+			@QueryParam("keyword") String keyword) {
+		ResponseEntity responseEntity = responseFactory.getSearchResults(type, category, keyword);
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
 		return response;
 	}
-	
+
 }

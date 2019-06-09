@@ -4,11 +4,17 @@ import io.dropwizard.hibernate.AbstractDAO;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 
 import com.forum.app.core.DatabaseUtility;
 
-@SuppressWarnings({ "rawtypes", "deprecation" })
+/**
+ * This class uses the queries defined in QuestionEntity to query
+ * the corresponding database table.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class QuestionRepo extends AbstractDAO<QuestionEntity> {
 
 	public QuestionRepo() {
@@ -27,30 +33,25 @@ public class QuestionRepo extends AbstractDAO<QuestionEntity> {
 
 	@SuppressWarnings("unchecked")
 	public List<QuestionEntity> getQuestions(String keyword, String category) {
-		List<QuestionEntity> questions = super.namedQuery("getQuestionsQuery")
-				.setParameter("keyword", keyword)
-				.setParameter("category", category)
-				.list();
+		List<QuestionEntity> questions = super.namedQuery("getQuestionsQuery").setParameter("keyword", keyword)
+				.setParameter("category", category).list();
 		return questions;
 	}
 
 	public void deleteQuestion(Long quesId) {
-		Query query = super.namedQuery("deleteQuestionQuery")
-				.setParameter("quesId", quesId);
+		Query query = super.namedQuery("deleteQuestionQuery").setParameter("quesId", quesId);
 		query.executeUpdate();
 	}
 
 	public void deleteQuesByUserId(Long userId) {
-		Query query = super.namedQuery("deleteQuesByUserIdQuery")
-				.setParameter("userId", userId);
+		Query query = super.namedQuery("deleteQuesByUserIdQuery").setParameter("userId", userId);
 		query.executeUpdate();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<QuestionEntity> getQuestionsByUser(Long userId) {
-		Query query = super.namedQuery("getQuestionsByUserQuery")
-				.setParameter("userId", userId);
-		List<QuestionEntity> questions = query.list();
+		Query query = super.namedQuery("getQuestionsByUserQuery").setParameter("userId", userId);
+		List<QuestionEntity> questions = query.getResultList();
 		return questions;
 	}
 

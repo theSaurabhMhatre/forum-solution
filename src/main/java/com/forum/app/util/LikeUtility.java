@@ -7,9 +7,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Utility class to perform various likes related operations.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class LikeUtility {
 	public static final Integer COLUMNS = 2;
 
+	/**
+	 * Maps likes to the corresponding users, maps 0 to a user if no likes are
+	 * present corresponding to the user.
+	 * 
+	 * @param List<Object> likes
+	 * @param Integer totalUsers
+	 * @return Long[][] normalizedLikes
+	 */
 	@Deprecated
 	public static Long[][] normalizeLikesArray(List<Object> likes, Integer totalUsers) {
 		Long[][] normalizedLikes = new Long[totalUsers + 1][COLUMNS];
@@ -28,7 +42,15 @@ public class LikeUtility {
 		}
 		return normalizedLikes;
 	}
-	
+
+	/**
+	 * Maps likes to the corresponding users, maps 0 to a user if no likes are
+	 * present corresponding to the user.
+	 * 
+	 * @param List<Object> likes
+	 * @param List<Long> userIds
+	 * @return Map<Long, Long> normalizedLikes
+	 */
 	public static Map<Long, Long> normalizeLikes(List<Object> likes, List<Long> userIds) {
 		Map<Long, Long> normalizedLikes = new HashMap<Long, Long>();
 		Object[] likeArray = null;
@@ -40,8 +62,8 @@ public class LikeUtility {
 			userLikes = Long.parseLong(likeArray[0].toString());
 			normalizedLikes.put(userId, userLikes);
 		}
-		for(Long currentUserId : userIds) {
-			if(normalizedLikes.containsKey(currentUserId)) {
+		for (Long currentUserId : userIds) {
+			if (normalizedLikes.containsKey(currentUserId)) {
 				continue;
 			} else {
 				normalizedLikes.put(currentUserId, 0L);
@@ -49,11 +71,17 @@ public class LikeUtility {
 		}
 		return normalizedLikes;
 	}
-	
-	public static void sortLikes(List<List<Object>> userRankings){
-		Collections.sort(userRankings, new Comparator<List<Object>>(){
+
+	/**
+	 * Sorts the List<List<Object>> passed according to the total number of likes
+	 * present at the 4th index in descending order.
+	 * 
+	 * @param List<List<Object>> userRankings
+	 */
+	public static void sortLikes(List<List<Object>> userRankings) {
+		Collections.sort(userRankings, new Comparator<List<Object>>() {
 			public int compare(List<Object> listOne, List<Object> listTwo) {
-				if((Long) listOne.get(4) < (Long) listTwo.get(4)) {
+				if ((Long) listOne.get(4) < (Long) listTwo.get(4)) {
 					return 1;
 				} else {
 					return -1;

@@ -6,19 +6,33 @@ import javax.ws.rs.client.Client;
 import com.codahale.metrics.health.HealthCheck;
 import com.forum.app.util.HibernateUtility;
 
+/**
+ * This performs a basic health check to prevent the health check warning from
+ * being displayed during application start.
+ * 
+ * TODO: Add more actual, solid health checks.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class ForumHealthCheck extends HealthCheck {
 	@SuppressWarnings("unused")
 	private Client client;
-	
+
 	public ForumHealthCheck(Client client) {
 		super();
 		this.client = client;
 	}
 
+	/**
+	 * Performs a simple health check by trying to create an EntityManagerFactory.
+	 * 
+	 * @return Result
+	 * 
+	 */
 	@Override
 	protected Result check() throws Exception {
-		EntityManagerFactory entityManagerFactory = HibernateUtility
-				.getEntityManagerFactory();
+		EntityManagerFactory entityManagerFactory = HibernateUtility.getEntityManagerFactory();
 		if (entityManagerFactory != null) {
 			HibernateUtility.closeEntityManagerfactory();
 			return Result.healthy("Healthy");

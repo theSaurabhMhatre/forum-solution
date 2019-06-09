@@ -8,6 +8,14 @@ import com.forum.app.exception.FetchException;
 import com.forum.app.exception.ModifyException;
 import com.forum.app.key.AnswerLikeKey;
 
+/**
+ * This class acts as an intermediate class between the AnswerBusinessFactory 
+ * and the AnswerRepo/AnswerLikeRepo and throws exceptions in case something
+ * fails.   
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class AnswerService {
 	private AnswerRepo answerRepo;
 	private AnswerLikeRepo likeRepo;
@@ -17,11 +25,9 @@ public class AnswerService {
 		this.likeRepo = new AnswerLikeRepo();
 	}
 
-	public List<AnswerEntity> getAnswersByQuestion(Long quesId)
-			throws FetchException {
+	public List<AnswerEntity> getAnswersByQuestion(Long quesId) throws FetchException {
 		try {
-			List<AnswerEntity> answers = answerRepo
-					.getAnswersByQuestion(quesId);
+			List<AnswerEntity> answers = answerRepo.getAnswersByQuestion(quesId);
 			if (answers != null) {
 				return answers;
 			} else {
@@ -45,8 +51,7 @@ public class AnswerService {
 		}
 	}
 
-	public AnswerEntity modifyAnswer(AnswerEntity answer)
-			throws ModifyException {
+	public AnswerEntity modifyAnswer(AnswerEntity answer) throws ModifyException {
 		try {
 			answer = answerRepo.modifyAnswer(answer);
 			if (answer != null) {
@@ -107,11 +112,9 @@ public class AnswerService {
 		}
 	}
 
-	public List<Object> getLikesByAnswersByQuestion(Long quesId)
-			throws FetchException {
+	public List<Object> getLikesByAnswersByQuestion(Long quesId) throws FetchException {
 		try {
-			List<Object> answerLikes = likeRepo
-					.getLikesByAnswersByQuestion(quesId);
+			List<Object> answerLikes = likeRepo.getLikesByAnswersByQuestion(quesId);
 			if (answerLikes != null) {
 				return answerLikes;
 			} else {
@@ -135,8 +138,7 @@ public class AnswerService {
 		}
 	}
 
-	public AnswerLikeKey likeAnswer(AnswerLikeEntity ansLike)
-			throws ModifyException {
+	public AnswerLikeKey likeAnswer(AnswerLikeEntity ansLike) throws ModifyException {
 		try {
 			AnswerLikeKey key = likeRepo.likeAnswer(ansLike);
 			if (ansLike != null) {
@@ -149,17 +151,15 @@ public class AnswerService {
 		}
 	}
 
-	public void dislikeAnswer(AnswerLikeEntity ansLike)
-			throws ModifyException {
+	public void dislikeAnswer(AnswerLikeEntity ansLike) throws ModifyException {
 		try {
 			likeRepo.dislikeAnswer(ansLike);
 		} catch (Exception ex) {
 			throw new ModifyException(ForumError.DELETE_ERROR.getMessage());
 		}
-	}	
-	
-	public List<Integer> getAnswersLikedByUser(Long userId)
-			throws FetchException {
+	}
+
+	public List<Integer> getAnswersLikedByUser(Long userId) throws FetchException {
 		try {
 			List<Integer> answerLikes = likeRepo.getAnswersLikedByUser(userId);
 			if (answerLikes != null) {
@@ -172,8 +172,7 @@ public class AnswerService {
 		}
 	}
 
-	public Long getUsersAnswersLikes(Long userId)
-			throws FetchException {
+	public Long getUsersAnswersLikes(Long userId) throws FetchException {
 		try {
 			Long totalLikes = likeRepo.getUsersAnswersLikes(userId);
 			if (totalLikes != null) {
@@ -185,9 +184,8 @@ public class AnswerService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
-	public List<Object> getAllUsersAnswersLikes()
-			throws FetchException {
+
+	public List<Object> getAllUsersAnswersLikes() throws FetchException {
 		try {
 			List<Object> ansLikesByUsers = likeRepo.getAllUsersAnswersLikes();
 			if (ansLikesByUsers != null) {
@@ -199,7 +197,7 @@ public class AnswerService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
+
 	public List<Object> getMostLikedAnsByQuestions() throws FetchException {
 		try {
 			List<Object> result = likeRepo.getMostLikedAnsByQuestions();
@@ -226,8 +224,7 @@ public class AnswerService {
 		}
 	}
 
-	public List<AnswerEntity> getAnswersByUser(Long userId)
-			throws FetchException {
+	public List<AnswerEntity> getAnswersByUser(Long userId) throws FetchException {
 		try {
 			List<AnswerEntity> answers = answerRepo.getAnswersByUser(userId);
 			if (answers != null) {
@@ -240,8 +237,7 @@ public class AnswerService {
 		}
 	}
 
-	public List<AnswerEntity> getAnswers(String keyword, String category) 
-			throws FetchException {
+	public List<AnswerEntity> getAnswers(String keyword, String category) throws FetchException {
 		try {
 			List<AnswerEntity> answers = answerRepo.getAnswers(keyword, category);
 			if (answers != null) {
@@ -252,10 +248,9 @@ public class AnswerService {
 		} catch (Exception ex) {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
-	}	
-	
-	public List<Object> getLikesByAnswers(String keyword, String category)
-			throws FetchException {
+	}
+
+	public List<Object> getLikesByAnswers(String keyword, String category) throws FetchException {
 		try {
 			List<Object> answerLikes = likeRepo.getLikesByAnswers(keyword, category);
 			if (answerLikes != null) {
@@ -267,5 +262,5 @@ public class AnswerService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
+
 }

@@ -27,12 +27,22 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+/**
+ * This is the entry point of the application. It initializes all the resources,
+ * health checks, exception mappers and sets up the CORS configuration. It also
+ * sets up the dependencies required by the resources.
+ * 
+ * TODO: Integrate swagger.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class ForumApplication extends Application<ForumConfiguration> {
 
 	public static void main(String[] args) throws Exception {
 		new ForumApplication().run(args);
 	}
-	
+
 	@Override
 	public void initialize(Bootstrap<ForumConfiguration> bootstrap) {
 		super.initialize(bootstrap);
@@ -40,34 +50,25 @@ public class ForumApplication extends Application<ForumConfiguration> {
 	}
 
 	@Override
-	public void run(ForumConfiguration configuration, Environment environment)
-			throws Exception {
+	public void run(ForumConfiguration configuration, Environment environment) throws Exception {
 		// Initializing business factories
 		UserBusinessFactory userBusinessFactory = new UserBusinessFactory();
 		QuestionBusinessFactory quesBusinessFactory = new QuestionBusinessFactory();
 		AnswerBusinessFactory ansBusinessFactory = new AnswerBusinessFactory();
 		SearchBusinessFactory searchBusinessFactory = new SearchBusinessFactory();
-		
+
 		// Setting business factory dependencies
-		userBusinessFactory.setBusinessFactories(
-				ansBusinessFactory, quesBusinessFactory);
-		quesBusinessFactory.setBusinessFactories(
-				userBusinessFactory, ansBusinessFactory);
-		ansBusinessFactory.setBusinessFactories(
-				userBusinessFactory, quesBusinessFactory);
-		searchBusinessFactory.setBusinessFactories(
-				ansBusinessFactory, quesBusinessFactory);
-		
+		userBusinessFactory.setBusinessFactories(ansBusinessFactory, quesBusinessFactory);
+		quesBusinessFactory.setBusinessFactories(userBusinessFactory, ansBusinessFactory);
+		ansBusinessFactory.setBusinessFactories(userBusinessFactory, quesBusinessFactory);
+		searchBusinessFactory.setBusinessFactories(ansBusinessFactory, quesBusinessFactory);
+
 		// Initializing response factories
-		UserResponseFactory userResponseFactory = 
-				new UserResponseFactory(userBusinessFactory);
-		QuestionResponseFactory quesResponseFactory = 
-				new QuestionResponseFactory(quesBusinessFactory);
-		AnswerResponseFactory ansResponseFactory = 
-				new AnswerResponseFactory(ansBusinessFactory);
-		SearchResponseFactory searchResponseFactory = 
-				new SearchResponseFactory(searchBusinessFactory);
-		
+		UserResponseFactory userResponseFactory = new UserResponseFactory(userBusinessFactory);
+		QuestionResponseFactory quesResponseFactory = new QuestionResponseFactory(quesBusinessFactory);
+		AnswerResponseFactory ansResponseFactory = new AnswerResponseFactory(ansBusinessFactory);
+		SearchResponseFactory searchResponseFactory = new SearchResponseFactory(searchBusinessFactory);
+
 		// Registering UserResource
 		environment.jersey().register(new UserResource(userResponseFactory));
 		// Registering QuestionResource
@@ -88,19 +89,16 @@ public class ForumApplication extends Application<ForumConfiguration> {
 		// Registering Persistence Exception Mapper
 		PersistenceExceptionMapper exceptionMapper = new PersistenceExceptionMapper();
 		environment.jersey().register(exceptionMapper);
-		
+
 		// Enable CORS headers
-		final FilterRegistration.Dynamic cors = environment.servlets()
-				.addFilter("crossOriginRequests", CrossOriginFilter.class);
+		final FilterRegistration.Dynamic cors = environment.servlets().addFilter("crossOriginRequests",
+				CrossOriginFilter.class);
 		// Configure CORS parameters
-	    cors.setInitParameter("allowedOrigins", "http://localhost:8080");
-	    cors.setInitParameter("allowedHeaders", 
-	    		"X-Requested-With, Content-Type, Accept, Origin");
-	    cors.setInitParameter("allowedMethods", 
-	    		"OPTIONS, GET, PUT, POST, DELETE, HEAD");
-	    // Add URL mapping
-		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class),
-				true, "/*");
+		cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, configuration.getAllowedOrigins());
+		cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, configuration.getAllowedHeaders());
+		cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, configuration.getAllowedMethods());
+		// Add URL mapping
+		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 	}
 
 }

@@ -7,6 +7,13 @@ import com.forum.app.exception.DeleteException;
 import com.forum.app.exception.FetchException;
 import com.forum.app.exception.ModifyException;
 
+/**
+ * This class acts as an intermediate class between the UserBusinessFactory and
+ * the UserRepo and throws exceptions in case something fails.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class UserService {
 	private UserRepo userRepo;
 
@@ -64,7 +71,7 @@ public class UserService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
+
 	public UserEntity checkAvailability(String userName) throws FetchException {
 		try {
 			UserEntity userEntity = userRepo.checkAvailability(userName);
@@ -76,8 +83,8 @@ public class UserService {
 		} catch (Exception ex) {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
-	}	
-	
+	}
+
 	public List<Long> getUserIds() throws FetchException {
 		try {
 			List<Long> userIds = userRepo.getUserIds();
@@ -90,7 +97,7 @@ public class UserService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
+
 	public List<Object> getAllUsers() throws FetchException {
 		try {
 			List<Object> users = userRepo.getAllUsers();
@@ -103,5 +110,5 @@ public class UserService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
+
 }

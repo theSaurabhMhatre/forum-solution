@@ -1,5 +1,8 @@
 package com.forum.mod.question.service;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.NamedNativeQueries;
@@ -7,34 +10,45 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.forum.app.key.QuestionLikeKey;
 
+/**
+ * This class represents the QuestionLikeEntity POJO and the mapping of the same
+ * to the corresponding database table. It also contains queries used by
+ * QuestionLikeRepo to query the table corresponding to QuestionLikeEntity.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 @Entity
 @Table(name = "table_question_like")
 @NamedQueries({
 		@NamedQuery(name = "getLikesBySpecificQuestionsQuery", query = "select count(*) as likes, "
-				+ "quesLike.quesLikeKey.question.quesId "
+				+ "quesLike.quesLikeKey.question.quesId " 
 				+ "from QuestionLikeEntity quesLike "
 				+ "where quesLike.quesLikeKey.question.quesId in (:quesIds) "
-				+ "group by quesLike.quesLikeKey.question.quesId "
+				+ "group by quesLike.quesLikeKey.question.quesId " 
 				+ "order by likes"),
 		@NamedQuery(name = "getLikesByQuestionsQuery", query = "select count(*) as likes, "
-				+ "quesLike.quesLikeKey.question.quesId "
+				+ "quesLike.quesLikeKey.question.quesId " 
 				+ "from QuestionLikeEntity quesLike, QuestionEntity ques "
 				+ "where quesLike.quesLikeKey.question.quesId = ques.quesId "
-				+ "and lower(ques.ques) like lower(:keyword) "
+				+ "and lower(ques.ques) like lower(:keyword) " 
 				+ "and lower(ques.category) like lower(:category) "
-				+ "group by quesLike.quesLikeKey.question.quesId "
+				+ "group by quesLike.quesLikeKey.question.quesId " 
 				+ "order by likes"),
 		@NamedQuery(name = "getLikesByQuestionQuery", query = "select count(*) as likes "
-				+ "from QuestionLikeEntity quesLike "
+				+ "from QuestionLikeEntity quesLike " 
 				+ "where quesLike.quesLikeKey.question.quesId = :quesId"),
 		@NamedQuery(name = "getQuestionsLikedByUserQuery", query = "select quesLike.quesLikeKey.question.quesId "
-				+ "from QuestionLikeEntity quesLike "
+				+ "from QuestionLikeEntity quesLike " 
 				+ "where quesLike.quesLikeKey.user.userId = :userId"),
 		@NamedQuery(name = "deleteQuesLikesByQuesIdQuery", query = "delete from QuestionLikeEntity quesLike "
 				+ "where quesLike.quesLikeKey.question.quesId = :quesId"),
@@ -42,38 +56,43 @@ import com.forum.app.key.QuestionLikeKey;
 				+ "where quesLike.quesLikeKey.user.userId = :userId") })
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "getLikesByQuestionsByUserQuery", query = "select count(*) as qLikes, "
-				+ "ques_id as quesId "
-				+ "from table_question_like "
-				+ "where ques_id "
-				+ "in ("
+				+ "ques_id as quesId " 
+				+ "from table_question_like " 
+				+ "where ques_id " 
+				+ "in (" 
 				+ "select ques_id "
-				+ "from table_question "
-				+ "where asked_by = :userId "
-				+ ") group by ques_id "
+				+ "from table_question " 
+				+ "where asked_by = :userId " 
+				+ ") group by ques_id " 
 				+ "order by qLikes"),
 		@NamedNativeQuery(name = "getLikesByQuestionsAnsweredByUserQuery", query = "select count(*) as qLikes, "
-				+ "ques_id as quesId "
-				+ "from table_question_like "
-				+ "where ques_id "
-				+ "in ("
+				+ "ques_id as quesId " 
+				+ "from table_question_like " 
+				+ "where ques_id " 
+				+ "in (" 
 				+ "select ques_id "
-				+ "from table_answer "
-				+ "where answered_by = :userId "
-				+ ") group by ques_id "
+				+ "from table_answer " 
+				+ "where answered_by = :userId " 
+				+ ") group by ques_id " 
 				+ "order by qLikes"),
 		@NamedNativeQuery(name = "getAllUsersQuestionsLikesQuery", query = "select count(*), x.user_id "
 				+ "from table_question ques, table_question_like likes, table_user x "
-				+ "where ques.ques_id = likes.ques_id and ques.asked_by = x.user_id "
+				+ "where ques.ques_id = likes.ques_id and ques.asked_by = x.user_id " 
 				+ "group by x.user_id "
-				+ "order by x.user_id"), 
+				+ "order by x.user_id"),
 		@NamedNativeQuery(name = "getUsersQuestionsLikesQuery", query = "select count(*) as qLikes "
-				+ "from table_question ques, table_question_like likes "
+				+ "from table_question ques, table_question_like likes " 
 				+ "where ques.ques_id = likes.ques_id and "
 				+ "ques.asked_by = :userId") })
 public class QuestionLikeEntity {
 	@EmbeddedId
 	@JsonIgnore
 	private QuestionLikeKey quesLikeKey;
+
+	@Column(name = "ques_liked_on")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+	private Date quesLikedOn;
 
 	@Transient
 	@JsonProperty(value = "quesId")
@@ -105,6 +124,14 @@ public class QuestionLikeEntity {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public Date getQuesLikedOn() {
+		return quesLikedOn;
+	}
+
+	public void setQuesLikedOn(Date quesLikedOn) {
+		this.quesLikedOn = quesLikedOn;
 	}
 
 }

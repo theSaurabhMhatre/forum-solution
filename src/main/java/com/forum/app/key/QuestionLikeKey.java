@@ -9,6 +9,13 @@ import javax.persistence.OneToOne;
 import com.forum.mod.question.service.QuestionEntity;
 import com.forum.mod.user.service.UserEntity;
 
+/**
+ * This serves as the composite key for the table which stores the likes
+ * corresponding to questions.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 @Embeddable
 public class QuestionLikeKey implements Serializable {
 	private static final long serialVersionUID = 1L;

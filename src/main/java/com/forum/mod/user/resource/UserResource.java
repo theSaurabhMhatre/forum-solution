@@ -17,6 +17,13 @@ import com.forum.mod.user.service.UserEntity;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
+/**
+ * This class exposes a collection of user API end points which can be used
+ * to perform a variety of operations related to UserEntity.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 @Path(value = "/forum/users")
 public class UserResource {
 	private UserResponseFactory responseFactory;
@@ -31,9 +38,8 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser(@PathParam("userId") Long userId) {
 		ResponseEntity responseEntity = responseFactory.getUser(userId);
-		Response response = Response
-				.status(responseEntity.getResponseStatus().getStatusCode())
-				.entity(responseEntity).build();
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
 		return response;
 	}
 
@@ -43,9 +49,8 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addUser(UserEntity userEntity) {
 		ResponseEntity responseEntity = responseFactory.addUser(userEntity);
-		Response response = Response
-				.status(responseEntity.getResponseStatus().getStatusCode())
-				.entity(responseEntity).build();
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
 		return response;
 	}
 
@@ -54,13 +59,11 @@ public class UserResource {
 	@Path(value = "/{userId}/{attribute}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateUser(@PathParam("userId") Long userId,
-			@PathParam("attribute") String attribute, UserEntity userEntity) {
-		ResponseEntity responseEntity = responseFactory.updateUser(userId,
-				userEntity, attribute);
-		Response response = Response
-				.status(responseEntity.getResponseStatus().getStatusCode())
-				.entity(responseEntity).build();
+	public Response updateUser(@PathParam("userId") Long userId, @PathParam("attribute") String attribute,
+			UserEntity userEntity) {
+		ResponseEntity responseEntity = responseFactory.updateUser(userId, userEntity, attribute);
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
 		return response;
 	}
 
@@ -70,9 +73,8 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteUser(@PathParam("userId") Long userId) {
 		ResponseEntity responseEntity = responseFactory.deleteUser(userId);
-		Response response = Response
-				.status(responseEntity.getResponseStatus().getStatusCode())
-				.entity(responseEntity).build();
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
 		return response;
 	}
 
@@ -81,13 +83,10 @@ public class UserResource {
 	@Path(value = "/{userName}/validate")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response validateUser(@PathParam("userName") String userName,
-			UserEntity userEntity) {
-		ResponseEntity responseEntity = responseFactory.validateUser(userName,
-				userEntity);
-		Response response = Response
-				.status(responseEntity.getResponseStatus().getStatusCode())
-				.entity(responseEntity).build();
+	public Response validateUser(@PathParam("userName") String userName, UserEntity userEntity) {
+		ResponseEntity responseEntity = responseFactory.validateUser(userName, userEntity);
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
 		return response;
 	}
 
@@ -98,21 +97,19 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkAvailability(@PathParam("userName") String userName) {
 		ResponseEntity responseEntity = responseFactory.checkAvailability(userName);
-		Response response = Response
-				.status(responseEntity.getResponseStatus().getStatusCode())
-				.entity(responseEntity).build();
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
 		return response;
-	}	
-	
+	}
+
 	@GET
 	@UnitOfWork
 	@Path(value = "/ranking")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsersRanking() {
 		ResponseEntity responseEntity = responseFactory.getUserRankings();
-		Response response = Response
-				.status(responseEntity.getResponseStatus().getStatusCode())
-				.entity(responseEntity).build();
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
 		return response;
 	}
 

@@ -5,15 +5,19 @@ import javax.persistence.EntityManagerFactory;
 
 import com.forum.app.util.HibernateUtility;
 
+/**
+ * This class performs database CRUD operates for UserEntity.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 @Deprecated
 public class UserDao {
 
 	public UserEntity getUser(Long userId) {
 		UserEntity userEntity = null;
-		EntityManagerFactory entityManagerFactory = HibernateUtility
-				.getEntityManagerFactory();
-		EntityManager entityManager = entityManagerFactory
-				.createEntityManager();
+		EntityManagerFactory entityManagerFactory = HibernateUtility.getEntityManagerFactory();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		userEntity = entityManager.find(UserEntity.class, userId);
 		entityManager.getTransaction().commit();
@@ -21,10 +25,8 @@ public class UserDao {
 	}
 
 	public UserEntity modifyUser(UserEntity userEntity) {
-		EntityManagerFactory entityManagerFactory = HibernateUtility
-				.getEntityManagerFactory();
-		EntityManager entityManager = entityManagerFactory
-				.createEntityManager();
+		EntityManagerFactory entityManagerFactory = HibernateUtility.getEntityManagerFactory();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.persist(userEntity);
 		entityManager.getTransaction().commit();
@@ -32,10 +34,8 @@ public class UserDao {
 	}
 
 	public void deleteUser(UserEntity userEntity) {
-		EntityManagerFactory entityManagerFactory = HibernateUtility
-				.getEntityManagerFactory();
-		EntityManager entityManager = entityManagerFactory
-				.createEntityManager();
+		EntityManagerFactory entityManagerFactory = HibernateUtility.getEntityManagerFactory();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.remove(entityManager);
 		entityManager.getTransaction().commit();

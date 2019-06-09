@@ -8,6 +8,14 @@ import com.forum.app.exception.FetchException;
 import com.forum.app.exception.ModifyException;
 import com.forum.app.key.QuestionLikeKey;
 
+/**
+ * This class acts as an intermediate class between the QuestionBusinessFactory 
+ * and the QuestionRepo/QuestionLikeRepo and throws exceptions in case something
+ * fails.   
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class QuestionService {
 	private QuestionRepo questionRepo;
 	private QuestionLikeRepo likeRepo;
@@ -17,8 +25,7 @@ public class QuestionService {
 		this.likeRepo = new QuestionLikeRepo();
 	}
 
-	public QuestionEntity getQuestion(Long quesId)
-			throws FetchException {
+	public QuestionEntity getQuestion(Long quesId) throws FetchException {
 		try {
 			QuestionEntity question = questionRepo.getQuestion(quesId);
 			if (question != null) {
@@ -31,8 +38,7 @@ public class QuestionService {
 		}
 	}
 
-	public List<QuestionEntity> getQuestions(String keyword, String category) 
-			throws FetchException {
+	public List<QuestionEntity> getQuestions(String keyword, String category) throws FetchException {
 		try {
 			List<QuestionEntity> questions = questionRepo.getQuestions(keyword, category);
 			if (questions != null) {
@@ -45,8 +51,7 @@ public class QuestionService {
 		}
 	}
 
-	public QuestionEntity modifyQuestion(QuestionEntity question)
-			throws ModifyException {
+	public QuestionEntity modifyQuestion(QuestionEntity question) throws ModifyException {
 		try {
 			question = questionRepo.modifyQuestion(question);
 			if (question != null) {
@@ -59,8 +64,7 @@ public class QuestionService {
 		}
 	}
 
-	public void deleteQuestion(Long quesId)
-			throws DeleteException {
+	public void deleteQuestion(Long quesId) throws DeleteException {
 		try {
 			questionRepo.deleteQuestion(quesId);
 		} catch (Exception ex) {
@@ -68,8 +72,7 @@ public class QuestionService {
 		}
 	}
 
-	public void deleteQuesByUserId(Long userId)
-			throws DeleteException {
+	public void deleteQuesByUserId(Long userId) throws DeleteException {
 		try {
 			questionRepo.deleteQuesByUserId(userId);
 		} catch (Exception ex) {
@@ -77,8 +80,7 @@ public class QuestionService {
 		}
 	}
 
-	public void deleteQuesLikesByQuesId(Long quesId)
-			throws DeleteException {
+	public void deleteQuesLikesByQuesId(Long quesId) throws DeleteException {
 		try {
 			likeRepo.deleteQuesLikesByQuesId(quesId);
 		} catch (Exception ex) {
@@ -86,8 +88,7 @@ public class QuestionService {
 		}
 	}
 
-	public void deleteQuesLikesByUserId(Long userId)
-			throws DeleteException {
+	public void deleteQuesLikesByUserId(Long userId) throws DeleteException {
 		try {
 			likeRepo.deleteQuesLikesByUserId(userId);
 		} catch (Exception ex) {
@@ -95,8 +96,7 @@ public class QuestionService {
 		}
 	}
 
-	public List<Object> getLikesByQuestions(String keyword, String category)
-			throws FetchException {
+	public List<Object> getLikesByQuestions(String keyword, String category) throws FetchException {
 		try {
 			List<Object> questionLikes = likeRepo.getLikesByQuestions(keyword, category);
 			if (questionLikes != null) {
@@ -109,8 +109,7 @@ public class QuestionService {
 		}
 	}
 
-	public List<Object> getLikesBySpecificQuestions(List<Long> quesIds)
-			throws FetchException {
+	public List<Object> getLikesBySpecificQuestions(List<Long> quesIds) throws FetchException {
 		try {
 			List<Object> questionLikes = likeRepo.getLikesBySpecificQuestions(quesIds);
 			if (questionLikes != null) {
@@ -122,9 +121,8 @@ public class QuestionService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
-	public List<Object> getLikesByQuestionsByUser(Long userId)
-			throws FetchException {
+
+	public List<Object> getLikesByQuestionsByUser(Long userId) throws FetchException {
 		try {
 			List<Object> questionLikes = likeRepo.getLikesByQuestionsByUser(userId);
 			if (questionLikes != null) {
@@ -137,8 +135,7 @@ public class QuestionService {
 		}
 	}
 
-	public List<Object> getLikesByQuestionsAnsweredByUser(Long userId)
-			throws FetchException {
+	public List<Object> getLikesByQuestionsAnsweredByUser(Long userId) throws FetchException {
 		try {
 			List<Object> questionLikes = likeRepo.getLikesByQuestionsAnsweredByUser(userId);
 			if (questionLikes != null) {
@@ -150,9 +147,8 @@ public class QuestionService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
-	public Long getLikesByQuestion(Long quesId)
-			throws FetchException {
+
+	public Long getLikesByQuestion(Long quesId) throws FetchException {
 		try {
 			Long likes = likeRepo.getLikesByQuestion(quesId);
 			if (likes != null) {
@@ -165,8 +161,7 @@ public class QuestionService {
 		}
 	}
 
-	public QuestionLikeKey likeQuestion(QuestionLikeEntity quesLike)
-			throws ModifyException {
+	public QuestionLikeKey likeQuestion(QuestionLikeEntity quesLike) throws ModifyException {
 		try {
 			QuestionLikeKey key = likeRepo.likeQuestion(quesLike);
 			if (quesLike != null) {
@@ -179,20 +174,17 @@ public class QuestionService {
 		}
 	}
 
-	public void dislikeQuestion(QuestionLikeEntity quesLike)
-			throws ModifyException {
+	public void dislikeQuestion(QuestionLikeEntity quesLike) throws ModifyException {
 		try {
 			likeRepo.dislikeQuestion(quesLike);
 		} catch (Exception ex) {
 			throw new ModifyException(ForumError.DELETE_ERROR.getMessage());
 		}
-	}	
-	
-	public List<Integer> getQuestionsLikedByUser(Long userId)
-			throws FetchException {
+	}
+
+	public List<Integer> getQuestionsLikedByUser(Long userId) throws FetchException {
 		try {
-			List<Integer> questionLikes = likeRepo
-					.getQuestionsLikedByUser(userId);
+			List<Integer> questionLikes = likeRepo.getQuestionsLikedByUser(userId);
 			if (questionLikes != null) {
 				return questionLikes;
 			} else {
@@ -203,8 +195,7 @@ public class QuestionService {
 		}
 	}
 
-	public Long getUsersQuestionsLikes(Long userId)
-			throws FetchException {
+	public Long getUsersQuestionsLikes(Long userId) throws FetchException {
 		try {
 			Long totalLikes = likeRepo.getUsersQuestionsLikes(userId);
 			if (totalLikes != null) {
@@ -216,9 +207,8 @@ public class QuestionService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
-	public List<Object> getAllUsersQuestionsLikes()
-			throws FetchException {
+
+	public List<Object> getAllUsersQuestionsLikes() throws FetchException {
 		try {
 			List<Object> quesLikesByUsers = likeRepo.getAllUsersQuestionsLikes();
 			if (quesLikesByUsers != null) {
@@ -230,12 +220,10 @@ public class QuestionService {
 			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 		}
 	}
-	
-	public List<QuestionEntity> getQuestionsByUser(Long userId)
-			throws FetchException {
+
+	public List<QuestionEntity> getQuestionsByUser(Long userId) throws FetchException {
 		try {
-			List<QuestionEntity> questions = questionRepo
-					.getQuestionsByUser(userId);
+			List<QuestionEntity> questions = questionRepo.getQuestionsByUser(userId);
 			if (questions != null) {
 				return questions;
 			} else {

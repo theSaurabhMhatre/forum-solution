@@ -10,6 +10,14 @@ import com.forum.app.exception.ForumException;
 import com.forum.mod.question.service.QuestionEntity;
 import com.forum.mod.question.service.QuestionLikeEntity;
 
+/**
+ * This class wraps the response returned by the QuestionBusinessFactory
+ * into a ResponseEntity object and sets the appropriate response message
+ * and the response status code.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class QuestionResponseFactory {
 	private QuestionBusinessFactory businessFactory;
 
@@ -17,14 +25,28 @@ public class QuestionResponseFactory {
 		this.businessFactory = businessFactory;
 	}
 
+	public ResponseEntity getQuestion(Long quesId) {
+		ResponseEntity response = new ResponseEntity();
+		try {
+			QuestionEntity question = businessFactory.getQuestion(quesId);
+			response.setResponseStatus(Response.Status.OK);
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseObject(question);
+			return response;
+		} catch (ForumException ex) {
+			response.setResponseStatus(Response.Status.BAD_REQUEST);
+			response.setResponseMessage(ex.getMessage());
+			response.setResponseObject(ex.getMessage());
+			return response;
+		}
+	}
+
 	public ResponseEntity getQuestionsWithMostLikedAns() {
 		ResponseEntity response = new ResponseEntity();
 		try {
-			List<Object> quesWithAns = businessFactory
-					.getQuestionsWithMostLikedAns();
+			List<Object> quesWithAns = businessFactory.getQuestionsWithMostLikedAns();
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(quesWithAns);
 			return response;
 		} catch (ForumException ex) {
@@ -40,8 +62,7 @@ public class QuestionResponseFactory {
 		try {
 			question = businessFactory.addQuestion(question);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS.getMessage());
 			response.setResponseObject(question);
 			return response;
 		} catch (ForumException ex) {
@@ -57,8 +78,7 @@ public class QuestionResponseFactory {
 		try {
 			question = businessFactory.updateQuestion(quesId, question);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS.getMessage());
 			response.setResponseObject(question);
 			return response;
 		} catch (ForumException ex) {
@@ -74,10 +94,8 @@ public class QuestionResponseFactory {
 		try {
 			businessFactory.deleteQuestion(quesId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS
-					.getMessage());
-			response.setResponseObject(ForumSuccess.DELETE_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS.getMessage());
+			response.setResponseObject(ForumSuccess.DELETE_SUCCESS.getMessage());
 			return response;
 		} catch (ForumException ex) {
 			response.setResponseStatus(Response.Status.BAD_REQUEST);
@@ -92,8 +110,7 @@ public class QuestionResponseFactory {
 		try {
 			quesLike = businessFactory.likeQuestion(quesId, quesLike);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS.getMessage());
 			response.setResponseObject(quesLike);
 			return response;
 		} catch (ForumException ex) {
@@ -109,10 +126,8 @@ public class QuestionResponseFactory {
 		try {
 			businessFactory.dislikeQuestion(quesId, quesLike);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS
-					.getMessage());
-			response.setResponseObject(ForumSuccess.DELETE_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS.getMessage());
+			response.setResponseObject(ForumSuccess.DELETE_SUCCESS.getMessage());
 			return response;
 		} catch (ForumException ex) {
 			response.setResponseStatus(Response.Status.BAD_REQUEST);
@@ -120,16 +135,14 @@ public class QuestionResponseFactory {
 			response.setResponseObject(ex.getMessage());
 			return response;
 		}
-	}	
-	
+	}
+
 	public ResponseEntity getQuestionsLikedByUser(Long userId) {
 		ResponseEntity response = new ResponseEntity();
 		try {
-			List<Integer> questionLikes = businessFactory
-					.getQuestionsLikedByUser(userId);
+			List<Integer> questionLikes = businessFactory.getQuestionsLikedByUser(userId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(questionLikes);
 			return response;
 		} catch (ForumException ex) {
@@ -143,11 +156,9 @@ public class QuestionResponseFactory {
 	public ResponseEntity getUsersQuestionsLikes(Long userId) {
 		ResponseEntity response = new ResponseEntity();
 		try {
-			Long answerLikes = businessFactory
-					.getUsersQuestionsLikes(userId);
+			Long answerLikes = businessFactory.getUsersQuestionsLikes(userId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(answerLikes);
 			return response;
 		} catch (ForumException ex) {
@@ -157,16 +168,14 @@ public class QuestionResponseFactory {
 			return response;
 		}
 	}
-	
+
 	public ResponseEntity getQuestionsByUser(Long userId) {
 		ResponseEntity response = new ResponseEntity();
 		try {
 			Boolean withLikes = true;
-			List<QuestionEntity> questions = businessFactory
-					.getQuestionsByUser(userId, withLikes);
+			List<QuestionEntity> questions = businessFactory.getQuestionsByUser(userId, withLikes);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(questions);
 			return response;
 		} catch (ForumException ex) {
@@ -180,11 +189,9 @@ public class QuestionResponseFactory {
 	public ResponseEntity getQuestionsAnsweredByUser(Long userId) {
 		ResponseEntity response = new ResponseEntity();
 		try {
-			List<QuestionEntity> questions = businessFactory
-					.getQuestionsAnsweredByUser(userId);
+			List<Object> questions = businessFactory.getQuestionsAnsweredByUser(userId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(questions);
 			return response;
 		} catch (ForumException ex) {
@@ -194,23 +201,5 @@ public class QuestionResponseFactory {
 			return response;
 		}
 	}
-	
-	public ResponseEntity getSearchResults(String type, String category, String keyword) {
-		ResponseEntity response = new ResponseEntity();
-		try {
-			List<Object> searchResult = businessFactory
-					.getSearchResults(type, category, keyword);
-			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
-			response.setResponseObject(searchResult);
-			return response;
-		} catch (ForumException ex) {
-			response.setResponseStatus(Response.Status.BAD_REQUEST);
-			response.setResponseMessage(ex.getMessage());
-			response.setResponseObject(ex.getMessage());
-			return response;
-		}
-	} 
-	
+
 }

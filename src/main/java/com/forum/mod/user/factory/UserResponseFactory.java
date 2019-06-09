@@ -1,6 +1,7 @@
 package com.forum.mod.user.factory;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
@@ -10,6 +11,14 @@ import com.forum.app.constant.ForumValidation;
 import com.forum.app.exception.ForumException;
 import com.forum.mod.user.service.UserEntity;
 
+/**
+ * This class wraps the response returned by the UserBusinessFactory
+ * into a ResponseEntity object and sets the appropriate response message
+ * and the response status code.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class UserResponseFactory {
 	private UserBusinessFactory businessFactory;
 
@@ -22,8 +31,7 @@ public class UserResponseFactory {
 		try {
 			UserEntity userEntity = businessFactory.getUser(userId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(userEntity);
 			return response;
 		} catch (ForumException ex) {
@@ -39,8 +47,7 @@ public class UserResponseFactory {
 		try {
 			userEntity = businessFactory.addUser(userEntity);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS.getMessage());
 			response.setResponseObject(userEntity);
 			return response;
 		} catch (ForumException ex) {
@@ -56,8 +63,7 @@ public class UserResponseFactory {
 		try {
 			userEntity = businessFactory.updateUser(userId, userEntity, attribute);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS.getMessage());
 			response.setResponseObject(userEntity);
 			return response;
 		} catch (ForumException ex) {
@@ -73,10 +79,8 @@ public class UserResponseFactory {
 		try {
 			businessFactory.deleteUser(userId);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS
-					.getMessage());
-			response.setResponseObject(ForumSuccess.DELETE_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.DELETE_SUCCESS.getMessage());
+			response.setResponseObject(ForumSuccess.DELETE_SUCCESS.getMessage());
 			return response;
 		} catch (ForumException ex) {
 			response.setResponseStatus(Response.Status.BAD_REQUEST);
@@ -91,8 +95,7 @@ public class UserResponseFactory {
 		try {
 			userEntity = businessFactory.validateUser(userName, userEntity);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumValidation.VALIDATION_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumValidation.VALIDATION_SUCCESS.getMessage());
 			response.setResponseObject(userEntity);
 			return response;
 		} catch (ForumException ex) {
@@ -102,15 +105,14 @@ public class UserResponseFactory {
 			return response;
 		}
 	}
-	
+
 	public ResponseEntity checkAvailability(String userName) {
 		ResponseEntity response = new ResponseEntity();
 		try {
-			Boolean available = businessFactory.checkAvailability(userName);
+			Map<String, Object> userAvailable = businessFactory.checkAvailability(userName);
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
-			response.setResponseObject(available);
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseObject(userAvailable);
 			return response;
 		} catch (ForumException ex) {
 			response.setResponseStatus(Response.Status.BAD_REQUEST);
@@ -118,15 +120,14 @@ public class UserResponseFactory {
 			response.setResponseObject(ex.getMessage());
 			return response;
 		}
-	}	
-	
+	}
+
 	public ResponseEntity getUserRankings() {
 		ResponseEntity response = new ResponseEntity();
 		try {
 			List<List<Object>> userRankings = businessFactory.getUserRankings();
 			response.setResponseStatus(Response.Status.OK);
-			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS
-					.getMessage());
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(userRankings);
 			return response;
 		} catch (ForumException ex) {

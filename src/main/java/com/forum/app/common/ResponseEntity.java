@@ -2,9 +2,17 @@ package com.forum.app.common;
 
 import javax.ws.rs.core.Response.Status;
 
+/**
+ * This serves as the wrapper for all the responses returned by the application.
+ * 
+ * @author Saurabh Mhatre
+ *
+ */
 public class ResponseEntity {
 	private Status responseStatus;
+
 	private String responseMessage;
+
 	private Object responseObject;
 
 	public String getResponseMessage() {
