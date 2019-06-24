@@ -17,7 +17,7 @@ public class HibernateUtility {
 	 * This creates an instance of EntityManagerFactory using the configurations
 	 * defined in persistence.xml file.
 	 * 
-	 * @return EntityManagerFactory entityManagerFactory
+	 * @return EntityManagerFactory entityManagerFactory - EMF instance used for health check.
 	 */
 	public static EntityManagerFactory getEntityManagerFactory() {
 		if (entityManagerFactory == null) {

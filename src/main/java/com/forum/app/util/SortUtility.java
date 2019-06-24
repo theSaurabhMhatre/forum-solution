@@ -21,8 +21,8 @@ public class SortUtility {
 	 * Sorts questions according to the number of likes each has, also eliminates
 	 * duplicate questions if any.
 	 * 
-	 * @param List<QuestionEntity> questions
-	 * @return Set<QuestionEntity> sortedQuestions
+	 * @param List<QuestionEntity> questions - list of questions to be sorted.
+	 * @return Set<QuestionEntity> sortedQuestions - sorted list.
 	 */
 	public static Set<QuestionEntity> sortQuestions(List<QuestionEntity> questions) {
 		Set<QuestionEntity> sortedQuestions = new TreeSet<QuestionEntity>(new Comparator<QuestionEntity>() {
@@ -46,8 +46,8 @@ public class SortUtility {
 	 * Sorts answers according to the number of likes each has, also eliminates
 	 * duplicate answers if any.
 	 * 
-	 * @param List<AnswerEntity> answers
-	 * @return Set<AnswerEntity> sortedAnswers
+	 * @param List<AnswerEntity> answers - list of answers to be sorted.
+	 * @return Set<AnswerEntity> sortedAnswers - sorted list.
 	 */
 	public static Set<AnswerEntity> sortAnswers(List<AnswerEntity> answers) {
 		Set<AnswerEntity> sortedAnswers = new TreeSet<AnswerEntity>(new Comparator<AnswerEntity>() {

@@ -10,7 +10,7 @@ import com.forum.app.util.HibernateUtility;
  * This performs a basic health check to prevent the health check warning from
  * being displayed during application start.
  * 
- * TODO: Add more actual, solid health checks.
+ * TODO: Add more health checks.
  * 
  * @author Saurabh Mhatre
  *
@@ -27,7 +27,7 @@ public class ForumHealthCheck extends HealthCheck {
 	/**
 	 * Performs a simple health check by trying to create an EntityManagerFactory.
 	 * 
-	 * @return Result
+	 * @return Result result - result (Healthy/Unhealthy) of the health check.
 	 * 
 	 */
 	@Override

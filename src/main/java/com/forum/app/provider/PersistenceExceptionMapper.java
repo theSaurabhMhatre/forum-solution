@@ -36,8 +36,8 @@ public class PersistenceExceptionMapper implements ExceptionMapper<PersistenceEx
 	 * This identifies the type of exception thrown and returns an appropriate
 	 * response status, message and object wrapped in ReponseEntity.
 	 * 
-	 * @param PersistenceException exception
-	 * @return ResponseEntity object
+	 * @param PersistenceException exception - thrown exception.
+	 * @return ResponseEntity object - resolved response.
 	 */
 	public ResponseEntity resolveResponse(PersistenceException exception) {
 		String message = null;

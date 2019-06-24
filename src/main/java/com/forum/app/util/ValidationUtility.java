@@ -42,8 +42,8 @@ public class ValidationUtility {
 	/**
 	 * This checks if a given object is null.
 	 * 
-	 * @param Object object
-	 * @return Boolean object
+	 * @param Object object - object to be validated.
+	 * @return Boolean object - true/false.
 	 */
 	public static Boolean isNull(Object object) {
 		if (object == null) {
@@ -56,8 +56,8 @@ public class ValidationUtility {
 	/**
 	 * This checks if a given object is not null.
 	 * 
-	 * @param Object object
-	 * @return Boolean object
+	 * @param Object object - object to be validated.
+	 * @return Boolean object - true/false.
 	 */
 	public static Boolean isNotNull(Object object) {
 		if (object != null) {
@@ -70,8 +70,8 @@ public class ValidationUtility {
 	/**
 	 * This checks if the given category is valid.
 	 * 
-	 * @param String category
-	 * @return Boolean object
+	 * @param String category - category to be validated.
+	 * @return Boolean object - true/false.
 	 */
 	public static Boolean validateCategory(String category) {
 		try {
@@ -84,8 +84,8 @@ public class ValidationUtility {
 	/**
 	 * This checks if the given type is valid.
 	 * 
-	 * @param String type
-	 * @return Boolean object
+	 * @param String type - type to be validated.
+	 * @return Boolean object - true/false.
 	 */
 	public static Boolean validateType(String type) {
 		try {
@@ -98,8 +98,8 @@ public class ValidationUtility {
 	/**
 	 * This checks if the given attribute is valid.
 	 * 
-	 * @param String attribute
-	 * @return Boolean object
+	 * @param String attribute - attribute to be validated.
+	 * @return Boolean object - true/false.
 	 */
 	public static Boolean validateAttribute(String attribute) {
 		try {

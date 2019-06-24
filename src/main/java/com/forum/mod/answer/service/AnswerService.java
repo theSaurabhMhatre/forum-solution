@@ -9,9 +9,9 @@ import com.forum.app.exception.ModifyException;
 import com.forum.app.key.AnswerLikeKey;
 
 /**
- * This class acts as an intermediate class between the AnswerBusinessFactory 
+ * This class acts as an intermediate class between the AnswerBusinessFactory
  * and the AnswerRepo/AnswerLikeRepo and throws exceptions in case something
- * fails.   
+ * fails.
  * 
  * @author Saurabh Mhatre
  *
@@ -255,6 +255,19 @@ public class AnswerService {
 			List<Object> answerLikes = likeRepo.getLikesByAnswers(keyword, category);
 			if (answerLikes != null) {
 				return answerLikes;
+			} else {
+				throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+			}
+		} catch (Exception ex) {
+			throw new FetchException(ForumError.FETCH_ERROR.getMessage());
+		}
+	}
+
+	public AnswerEntity getAnswerByQuesAnsPair(Long ansId, Long quesId) throws FetchException {
+		try {
+			AnswerEntity answerEntity = answerRepo.getAnswerByQuesAnsPair(ansId, quesId);
+			if (answerEntity != null) {
+				return answerEntity;
 			} else {
 				throw new FetchException(ForumError.FETCH_ERROR.getMessage());
 			}

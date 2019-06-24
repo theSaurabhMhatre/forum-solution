@@ -1,6 +1,7 @@
 package com.forum.mod.answer.factory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.core.Response;
@@ -12,9 +13,9 @@ import com.forum.mod.answer.service.AnswerEntity;
 import com.forum.mod.answer.service.AnswerLikeEntity;
 
 /**
- * This class wraps the response returned by the AnswerBusinessFactory
- * into a ResponseEntity object and sets the appropriate response message
- * and the response status code.
+ * This class wraps the response returned by the AnswerBusinessFactory into a
+ * ResponseEntity object and sets the appropriate response message and the
+ * response status code.
  * 
  * @author Saurabh Mhatre
  *
@@ -145,6 +146,22 @@ public class AnswerResponseFactory {
 			response.setResponseStatus(Response.Status.OK);
 			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(answerLikes);
+			return response;
+		} catch (ForumException ex) {
+			response.setResponseStatus(Response.Status.BAD_REQUEST);
+			response.setResponseMessage(ex.getMessage());
+			response.setResponseObject(ex.getMessage());
+			return response;
+		}
+	}
+
+	public ResponseEntity getAnswerByQuesAnsPair(Long ansId, Long quesId) {
+		ResponseEntity response = new ResponseEntity();
+		try {
+			Map<String, Object> pairExists = businessFactory.getAnswerByQuesAnsPair(ansId, quesId);
+			response.setResponseStatus(Response.Status.OK);
+			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
+			response.setResponseObject(pairExists);
 			return response;
 		} catch (ForumException ex) {
 			response.setResponseStatus(Response.Status.BAD_REQUEST);

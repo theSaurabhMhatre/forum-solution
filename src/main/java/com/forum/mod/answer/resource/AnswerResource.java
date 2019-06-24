@@ -125,4 +125,15 @@ public class AnswerResource {
 		return response;
 	}
 
+	@GET
+	@UnitOfWork
+	@Path(value = "/{ansId}/question/{quesId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAnswerByQuesAnsPair(@PathParam("ansId") Long ansId, @PathParam("quesId") Long quesId) {
+		ResponseEntity responseEntity = responseFactory.getAnswerByQuesAnsPair(ansId, quesId);
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
+		return response;
+	}
+
 }

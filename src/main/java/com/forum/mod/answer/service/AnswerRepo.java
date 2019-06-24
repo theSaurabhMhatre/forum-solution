@@ -9,8 +9,8 @@ import javax.persistence.Query;
 import com.forum.app.core.DatabaseUtility;
 
 /**
- * This class uses the queries defined in AnswerEntity to query
- * the corresponding database table.
+ * This class uses the queries defined in AnswerEntity to query the
+ * corresponding database table.
  * 
  * @author Saurabh Mhatre
  *
@@ -71,6 +71,12 @@ public class AnswerRepo extends AbstractDAO<AnswerEntity> {
 		List<AnswerEntity> answers = super.namedQuery("getAnswersQuery").setParameter("keyword", keyword)
 				.setParameter("category", category).list();
 		return answers;
+	}
+
+	public AnswerEntity getAnswerByQuesAnsPair(Long ansId, Long quesId) {
+		AnswerEntity answer = (AnswerEntity) super.namedQuery("getAnswerByQuesAnsPairQuery")
+				.setParameter("ansId", ansId).setParameter("quesId", quesId).getSingleResult();
+		return answer;
 	}
 
 }

@@ -30,16 +30,35 @@ public class UserBusinessFactory {
 	private AnswerBusinessFactory ansBusinessFactory;
 	private QuestionBusinessFactory quesBusinessFactory;
 
+	/**
+	 * This is the default constructor, initializes UserService. This is the
+	 * only place where UserService is initialized.
+	 * 
+	 */
 	public UserBusinessFactory() {
 		userService = new UserService();
 	}
 
+	/**
+	 * This sets the other business factory objects to the respective instance
+	 * variables which are then used to communicate with other modules. 
+	 * 
+	 * @param AnswerBusinessFactory ansBusinessFactory - answer factory to set.
+	 * @param QuestionBusinessFactory quesBusinessFactory - question factory to set.
+	 */
 	public void setBusinessFactories(AnswerBusinessFactory ansBusinessFactory,
 			QuestionBusinessFactory quesBusinessFactory) {
 		this.ansBusinessFactory = ansBusinessFactory;
 		this.quesBusinessFactory = quesBusinessFactory;
 	}
 
+	/**
+	 * This fetches the user corresponding to the passed user Id.  
+	 * 
+	 * @param Long userId - Id of of the user to be fetched.
+	 * @return UserEntity userView - user corresponding to userId.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public UserEntity getUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
 		UserEntity userEntity = null;
@@ -56,6 +75,13 @@ public class UserBusinessFactory {
 		return userView;
 	}
 
+	/**
+	 * This adds a question to the DB if validation is successful.
+	 * 
+	 * @param UserEntity userEntity - object to be added. 
+	 * @return UserEntity userView - added object.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public UserEntity addUser(UserEntity userEntity) throws ForumException {
 		UserValidationFactory.validateAddUser(userEntity);
 		String password = userEntity.getUserPswd();
@@ -76,6 +102,17 @@ public class UserBusinessFactory {
 		return userView;
 	}
 
+	/**
+	 * This modifies an existing question if validation is successful. It 
+	 * modifies a single property or all the properties depending on the value
+	 * of the passed attribute.
+	 * 
+	 * @param Long userId - Id of the user to be modified.
+	 * @param UserEntity userEntity - object to be modified.
+	 * @param String attribute - determines which property/properties to modify.
+	 * @return UserEntity userView - modified object.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public UserEntity updateUser(Long userId, UserEntity userEntity, String attribute) throws ForumException {
 		UserValidationFactory.validateUpdateUser(userEntity, userId, attribute);
 		UserEntity currentUserEntity = userService.getUser(userId);
@@ -116,6 +153,16 @@ public class UserBusinessFactory {
 		return userView;
 	}
 
+	/**
+	 * This deletes the user corresponding to the passed user Id. It also
+	 * deletes all the questions asked by the user, the answers for those 
+	 * questions and the likes the questions and the answers have. All the 
+	 * answers submitted by the user and the likes corresponding to those 
+	 * answers are also deleted.
+	 * 
+	 * @param Long userId - Id of the user to be deleted.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public void deleteUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
 		// all answer likes by user
@@ -141,6 +188,14 @@ public class UserBusinessFactory {
 		return;
 	}
 
+	/**
+	 * This validates the existence of the passed user.
+	 * 
+	 * @param String userName - the name of the user to be validated.
+	 * @param UserEntity userEntity - object containing validation information.
+	 * @return UserEntity userView - user object, if passed information is valid.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public UserEntity validateUser(String userName, UserEntity userEntity) throws ForumException {
 		UserValidationFactory.validateValidateUser(userName, userEntity);
 		String password = userEntity.getUserPswd();
@@ -159,6 +214,13 @@ public class UserBusinessFactory {
 		return userView;
 	}
 
+	/**
+	 * This checks if the passed user name exists.
+	 * 
+	 * @param String userName - name to be checked for availability.
+	 * @return Map<String, Object> userAvailable - user object, if userName exists.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public Map<String, Object> checkAvailability(String userName) throws ForumException {
 		UserValidationFactory.validateUserName(userName);
 		UserEntity userEntity = userService.checkAvailability(userName.toLowerCase());
@@ -177,6 +239,15 @@ public class UserBusinessFactory {
 		return userAvailable;
 	}
 
+	/**
+	 * This fetches the total likes received by all users for the questions
+	 * asked and/or answers answered by those users. It then sorts the entries 
+	 * in the descending order of total likes received by each user, which is 
+	 * then returned as userRankings object.
+	 * 
+	 * @return List<List<Object>> userRankings - object containing ranking information.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public List<List<Object>> getUserRankings() throws ForumException {
 		List<Long> userIds = userService.getUserIds();
 		List<Object> users = userService.getAllUsers();

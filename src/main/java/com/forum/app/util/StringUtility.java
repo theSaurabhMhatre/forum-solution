@@ -13,8 +13,8 @@ public class StringUtility {
 	/**
 	 * Encodes a given plain text into base64 string.
 	 * 
-	 * @param String plainString
-	 * @return String encodedString
+	 * @param String plainString - user readable string.
+	 * @return String encodedString - encoded string. 
 	 */
 	public static String encodeString(String plainString) {
 		String encodedString = Base64.getEncoder().encodeToString(plainString.getBytes());
@@ -24,8 +24,8 @@ public class StringUtility {
 	/**
 	 * Decodes a given base64 string into plain text.
 	 * 
-	 * @param String encodedString
-	 * @return String decodedString
+	 * @param String encodedString - encoded string.
+	 * @return String decodedString - decoded string.
 	 */
 	public static String decodeString(String encodedString) {
 		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);

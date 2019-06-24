@@ -50,7 +50,9 @@ import com.forum.mod.user.service.UserEntity;
 		@NamedQuery(name = "getAnsByQuesIdQuery", query = "from AnswerEntity ans "
 				+ "where ans.question.quesId = :quesId "),
 		@NamedQuery(name = "getAnswersByUserQuery", query = "from AnswerEntity ans "
-				+ "where ans.user.userId = :userId") })
+				+ "where ans.user.userId = :userId"),
+		@NamedQuery(name = "getAnswerByQuesAnsPairQuery", query = "from AnswerEntity ans "
+				+ "where ans.ansId = :ansId and ans.question.quesId = :quesId") })
 public class AnswerEntity {
 	@Id
 	@Column(name = "ans_id")

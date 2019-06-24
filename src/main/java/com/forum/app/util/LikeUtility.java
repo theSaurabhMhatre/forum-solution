@@ -18,11 +18,11 @@ public class LikeUtility {
 
 	/**
 	 * Maps likes to the corresponding users, maps 0 to a user if no likes are
-	 * present corresponding to the user.
+	 * present corresponding to the user. Assumes users to have Id's in order. 
 	 * 
-	 * @param List<Object> likes
-	 * @param Integer totalUsers
-	 * @return Long[][] normalizedLikes
+	 * @param List<Object> likes - likes corresponding to all users.
+	 * @param Integer totalUsers - total number of registered users.
+	 * @return Long[][] normalizedLikes - mapping between likes and users.
 	 */
 	@Deprecated
 	public static Long[][] normalizeLikesArray(List<Object> likes, Integer totalUsers) {
@@ -47,9 +47,9 @@ public class LikeUtility {
 	 * Maps likes to the corresponding users, maps 0 to a user if no likes are
 	 * present corresponding to the user.
 	 * 
-	 * @param List<Object> likes
-	 * @param List<Long> userIds
-	 * @return Map<Long, Long> normalizedLikes
+	 * @param List<Object> likes - likes corresponding to all users.
+	 * @param List<Long> userIds - list of registered user Id's.
+	 * @return Map<Long, Long> normalizedLikes - mapping between likes and users.
 	 */
 	public static Map<Long, Long> normalizeLikes(List<Object> likes, List<Long> userIds) {
 		Map<Long, Long> normalizedLikes = new HashMap<Long, Long>();
@@ -76,7 +76,7 @@ public class LikeUtility {
 	 * Sorts the List<List<Object>> passed according to the total number of likes
 	 * present at the 4th index in descending order.
 	 * 
-	 * @param List<List<Object>> userRankings
+	 * @param List<List<Object>> userRankings - all registered users details. 
 	 */
 	public static void sortLikes(List<List<Object>> userRankings) {
 		Collections.sort(userRankings, new Comparator<List<Object>>() {

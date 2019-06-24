@@ -3,7 +3,9 @@ package com.forum.mod.answer.factory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.forum.app.exception.FetchException;
@@ -22,8 +24,8 @@ import com.forum.mod.user.factory.UserValidationFactory;
 import com.forum.mod.user.service.UserEntity;
 
 /**
- * This class performs all the business logic before and/or after storing
- * and retrieving data to and from the database for AnswerEntity and
+ * This class performs all the business logic before and/or after storing and
+ * retrieving data to and from the database for AnswerEntity and
  * AnswerLikeEntity objects. All other business factories communicate with
  * AnswerService via this class.
  * 
@@ -36,17 +38,37 @@ public class AnswerBusinessFactory {
 	private AnswerService ansService;
 	private UserBusinessFactory userBusinessFactory;
 	private QuestionBusinessFactory quesBusinessFactory;
-
+	
+	/**
+	 * This is the default constructor, initializes AnswerService. This is the
+	 * only place where AnswerService is initialized.
+	 * 
+	 */
 	public AnswerBusinessFactory() {
 		ansService = new AnswerService();
 	}
 
+	/**
+	 * This sets the other business factory objects to the respective instance
+	 * variables which are then used to communicate with other modules. 
+	 * 
+	 * @param UserBusinessFactory userBusinessFactory - user factory to set.
+	 * @param QuestionBusinessFactory quesBusinessFactory - question factory to set.
+	 */
 	public void setBusinessFactories(UserBusinessFactory userBusinessFactory,
 			QuestionBusinessFactory quesBusinessFactory) {
 		this.userBusinessFactory = userBusinessFactory;
 		this.quesBusinessFactory = quesBusinessFactory;
 	}
 
+	/**
+	 * This returns all the answers corresponding to a particular question.
+	 * Also sorts all the answers in the descending order of likes.
+	 * 
+	 * @param Long quesId - question Id for which answers are to be fetched.
+	 * @return Set<AnswerEntity> sortedAnswers - answers corresponding to quesId.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public Set<AnswerEntity> getAnswersByQuestion(Long quesId) throws ForumException {
 		QuestionValidationFactory.validateQuestionId(quesId);
 		List<AnswerEntity> answers = ansService.getAnswersByQuestion(quesId);
@@ -72,6 +94,13 @@ public class AnswerBusinessFactory {
 		return sortedAnswers;
 	}
 
+	/**
+	 * This adds an answer to the DB if validation is successful.
+	 * 
+	 * @param AnswerEntity answer - object to be added.
+	 * @return AnswerEntity answer - added object.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public AnswerEntity addAnswer(AnswerEntity answer) throws ForumException {
 		AnswerValidationFactory.validateAddAnswer(answer);
 		Long userId = answer.getAnsweredBy();
@@ -87,6 +116,14 @@ public class AnswerBusinessFactory {
 		return answer;
 	}
 
+	/**
+	 * This modifies an existing answer if validation is successful.
+	 * 
+	 * @param Long ansId - answer Id of answer to be modified.
+	 * @param AnswerEntity answer - object to be modified.
+	 * @return AnswerEntity answer - modified object.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public AnswerEntity updateAnswer(Long ansId, AnswerEntity answer) throws ForumException {
 		AnswerValidationFactory.validateUpdateAnswer(ansId, answer);
 		Long userId = answer.getAnsweredBy();
@@ -102,12 +139,27 @@ public class AnswerBusinessFactory {
 		return answer;
 	}
 
+	/**
+	 * This deletes the answer corresponding to the passed answer Id. It also
+	 * deletes all the likes corresponding to the answer.
+	 * 
+	 * @param Long ansId - Id of answer to be deleted.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public void deleteAnswer(Long ansId) throws ForumException {
 		AnswerValidationFactory.validateAnswerId(ansId);
 		ansService.deleteAnsLikesByAnsId(ansId);
 		ansService.deleteAnswer(ansId);
 	}
 
+	/**
+	 * This is used to like an answer i.e., inserts an entry for every answer liked.
+	 * 
+	 * @param Long ansId - Id of answer to be liked.
+	 * @param AnswerLikeEntity ansLike - object containing like information. 
+	 * @return AnswerLikeEntity ansLike - DB entry for the answer liked.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public AnswerLikeEntity likeAnswer(Long ansId, AnswerLikeEntity ansLike) throws ForumException {
 		AnswerValidationFactory.validateLikeOperation(ansId, ansLike);
 		Long userId = ansLike.getUserId();
@@ -128,6 +180,15 @@ public class AnswerBusinessFactory {
 		return ansLike;
 	}
 
+	/**
+	 * This is used to dislike an answer i.e., deletes an entry for every
+	 * answer disliked.
+	 * 
+	 * @param Long ansId - Id of answer to be disliked.
+	 * @param AnswerLikeEntity ansLike - object containing like information. 
+	 * @return
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public void dislikeAnswer(Long ansId, AnswerLikeEntity ansLike) throws ForumException {
 		AnswerValidationFactory.validateLikeOperation(ansId, ansLike);
 		Long userId = ansLike.getUserId();
@@ -144,6 +205,15 @@ public class AnswerBusinessFactory {
 		return;
 	}
 
+	/**
+	 * This returns the most liked answer corresponding to every question in the 
+	 * list of questions passed to this method. Returns a dummy answer object if
+	 * a question has not been answered yet.
+	 * 
+	 * @param List<Long> quesIds - list of questions for which answers are to be fetched.
+	 * @return List<Object> ansByQuestions - answers corresponding to quesIds.
+	 * @throws FetchException - wrapped exception thrown during processing.
+	 */
 	public List<Object> getMostLikedAnsByQuestions(List<Long> quesIds) throws FetchException {
 		List<Object> ansByQuestionsTemp = ansService.getMostLikedAnsByQuestions();
 		List<Object> ansByQuestions = new ArrayList<Object>();
@@ -186,7 +256,15 @@ public class AnswerBusinessFactory {
 		}
 		return ansByQuestions;
 	}
-
+	
+	/**
+	 * This fetches all or some answers depending on whether the search criteria 
+	 * is specified or not. Also sets the question object for every answer fetched. 
+	 * 
+	 * @param String[] searchCriteria - optional criteria object.
+	 * @return List<Object> result - all answers or the ones matching searchCriteria. 
+	 * @throws ForumException exception - wrapped exception thrown during processing. 
+	 */
 	public List<Object> getAnswersByCriteria(String... searchCriteria) throws ForumException {
 		AnswerValidationFactory.validateSearchCriteria(searchCriteria);
 		// default values to be used when fetching all answers
@@ -257,38 +335,98 @@ public class AnswerBusinessFactory {
 		return result;
 	}
 
+	/**
+	 * This fetches Id's of all the answers liked by a user.
+	 * 
+	 * @param Long userId - Id of user for which liked answers are to be fetched.
+	 * @return List<Integer> answerLikes - Id's of all answers liked by userId.
+	 * @throws ForumException exception - wrapped exception thrown during processing. 
+	 */
 	public List<Integer> getAnswersLikedByUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
 		List<Integer> answerLikes = ansService.getAnswersLikedByUser(userId);
 		return answerLikes;
 	}
-
+	
+	/**
+	 * This fetches the total number of likes received by all the answers
+	 * answered by a user. 
+	 * 
+	 * @param userId - Id of the user, the likes for whose answers are to be fetched.
+	 * @return Long totalLikes - likes received by answers answered by userId.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public Long getUsersAnswersLikes(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
 		Long totalLikes = ansService.getUsersAnswersLikes(userId);
 		return totalLikes;
 	}
 
+	/**
+	 * This fetches the mapping between the likes received for all the answers 
+	 * answered by a particular user and the user for all the registered users.   
+	 * 
+	 * @return List<Object> ansLikesByUsers - mapping between likes and users.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public List<Object> getAllUsersAnswersLikes() throws ForumException {
 		List<Object> ansLikesByUsers = ansService.getAllUsersAnswersLikes();
 		return ansLikesByUsers;
 	}
 
+	/**
+	 * This fetches all answers answered by a user.
+	 * 
+	 * @param Long userId - Id of the user for which answers are to be fetched.
+	 * @return List<AnswerEntity> answers - answers answered by userId.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public List<AnswerEntity> getAnswersByUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
 		List<AnswerEntity> answers = ansService.getAnswersByUser(userId);
 		return answers;
 	}
 
+	/**
+	 * This deletes all the answer likes corresponding to a user.  
+	 * 
+	 * @param Long userId - Id of the user whose answer likes are to be deleted.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public void deleteAnsLikesByUserId(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
 		ansService.deleteAnsLikesByUserId(userId);
 	}
 
+	/**
+	 * This deletes all the answers corresponding to a question.
+	 * 
+	 * @param Long quesId - Id of the question, the answers for which are to be deleted.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
 	public void deleteAnswerByQuesId(Long quesId) throws ForumException {
 		QuestionValidationFactory.validateQuestionId(quesId);
 		ansService.deleteAnsLikesByQuesId(quesId);
 		ansService.deleteAnsByQuesId(quesId);
+	}
+
+	/**
+	 * This fetches the question answer pair for the specified Id's if it
+	 * exists.
+	 * 
+	 * @param Long ansId - Id of the answer which is part of the pair.
+	 * @param Long quesId - Id of the question which is part of the pair.
+	 * @return Map<String, Object> pairExists - object representing the pair existence.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
+	public Map<String, Object> getAnswerByQuesAnsPair(Long ansId, Long quesId) throws ForumException {
+		AnswerValidationFactory.validateAnswerId(ansId);
+		QuestionValidationFactory.validateQuestionId(quesId);
+		AnswerEntity answer = ansService.getAnswerByQuesAnsPair(ansId, quesId);
+		Map<String, Object> pairExists = new HashMap<String, Object>();
+		pairExists.put("exists", true);
+		pairExists.put("answer", answer);
+		return pairExists;
 	}
 
 }
