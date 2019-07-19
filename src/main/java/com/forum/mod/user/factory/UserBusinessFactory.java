@@ -1,12 +1,16 @@
 package com.forum.mod.user.factory;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+
 import com.forum.app.exception.ForumException;
+import com.forum.app.util.FileUtility;
 import com.forum.app.util.LikeUtility;
 import com.forum.app.util.StringUtility;
 import com.forum.mod.answer.factory.AnswerBusinessFactory;
@@ -138,6 +142,10 @@ public class UserBusinessFactory {
 			currentUserEntity.setUserMail(userEntity.getUserMail());
 			currentUserEntity.setUserBio(userEntity.getUserBio());
 			break;
+		case USER_AVATAR:
+			// avatar update will be handled separately for now
+			// adding this case here to get rid of warning
+			break;
 		}
 		currentUserEntity.setUserModifiedOn(new Date());
 		userEntity = userService.modifyUser(currentUserEntity);
@@ -165,6 +173,7 @@ public class UserBusinessFactory {
 	 */
 	public void deleteUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
+		UserEntity userEntity = getUser(userId);
 		// all answer likes by user
 		ansBusinessFactory.deleteAnsLikesByUserId(userId);
 		// all question likes by user
@@ -184,6 +193,13 @@ public class UserBusinessFactory {
 			Long quesId = question.getQuesId();
 			quesBusinessFactory.deleteQuestion(quesId);
 		}
+		// delete user avatar
+		String fileName =userEntity.getUserAvatar(); 
+		if(fileName != null) {
+			fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+			FileUtility.deleteFile(fileName);
+		}
+		// delete user
 		userService.deleteUser(userId);
 		return;
 	}
@@ -273,6 +289,44 @@ public class UserBusinessFactory {
 		}
 		LikeUtility.sortLikes(userRankings);
 		return userRankings;
+	}
+
+	/**
+	 * This is used to upload user profile pictures i.e., avatars. It is also
+	 * used to update an existing user avatar in which case it deletes the existing
+	 * avatar before uploading the new avatar.
+	 * 
+	 * @param String userName - name of the user corresponding to the avatar.
+	 * @param InputStream inputStream - uploaded file input stream.
+	 * @param FormDataContentDisposition fileDetails - uploaded file details.
+	 * @return UserEntity userEntity - user object with the avatar URL.
+	 * @param String mode - determines if a file is being uploaded for the first time.
+	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 */
+	public UserEntity uploadUserAvatar(String userName, InputStream inputStream,
+			FormDataContentDisposition fileDetails, String mode) throws ForumException {
+		UserEntity userEntity = userService.checkAvailability(userName);
+		UserValidationFactory.validateUploadUserAvatar(userEntity, inputStream, fileDetails, mode);
+		String fileName = userEntity.getUserId() + fileDetails.getFileName()
+				.substring(fileDetails.getFileName().indexOf("."), fileDetails.getFileName().length());
+		String previousFilePath = userEntity.getUserAvatar();
+		String previousFileName = null;
+		if(previousFilePath != null) {
+			previousFileName = previousFilePath.substring(previousFilePath.lastIndexOf("/") + 1);
+		}
+		String userAvatar = FileUtility.uploadFile(inputStream,mode, fileName, previousFileName);
+		userEntity.setUserAvatar(userAvatar);
+		userEntity.setUserModifiedOn(new Date());
+		userEntity = userService.modifyUser(userEntity);
+		UserEntity userView = (UserEntity) userEntity.cloneUser();
+		// uncomment if password is to be sent in response
+		/*
+		String encodedPassword = userView.getUserPswd();
+		String decodedPassword = StringUtility.decodeString(encodedPassword);
+		userView.setUserPswd(decodedPassword);
+		*/
+		userView.setUserPswd(Attribute.USER_SECRET.getAttribute());
+		return userView;
 	}
 
 }

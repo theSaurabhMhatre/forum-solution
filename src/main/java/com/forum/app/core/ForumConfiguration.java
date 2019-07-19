@@ -20,7 +20,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ForumConfiguration extends Configuration {
 	@NotNull
 	private String appName;
+	
+	@NotNull
+	private String uploadFileLocation;
 
+	@NotNull
+	private String contextPath;
+	
 	@NotNull
 	private String allowedOrigins;
 
@@ -37,6 +43,14 @@ public class ForumConfiguration extends Configuration {
 
 	public String getAppName() {
 		return appName;
+	}
+	
+	public String getUploadFileLocation() {
+		return uploadFileLocation;
+	}
+
+	public String getContextPath() {
+		return contextPath;
 	}
 
 	public String getAllowedOrigins() {

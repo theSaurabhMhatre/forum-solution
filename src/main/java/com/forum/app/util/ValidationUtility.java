@@ -2,6 +2,7 @@ package com.forum.app.util;
 
 import java.util.Arrays;
 
+import com.forum.app.util.FileUtility.Mode;
 import com.forum.mod.question.service.QuestionEntity.Category;
 import com.forum.mod.user.service.UserEntity.Attribute;
 
@@ -104,6 +105,20 @@ public class ValidationUtility {
 	public static Boolean validateAttribute(String attribute) {
 		try {
 			return (Arrays.asList(Attribute.values()).contains(Attribute.valueOf(attribute.toUpperCase())) == false);
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
+	/**
+	 * This checks if the given mode is valid.
+	 * 
+	 * @param Strin mode - mode to be validated.
+	 * @return Boolean object - true/false.
+	 */
+	public static Boolean validateMode(String mode) {
+		try {
+			return (Arrays.asList(Mode.values()).contains(Mode.valueOf(mode.toUpperCase())) == false);
 		} catch (Exception ex) {
 			return false;
 		}

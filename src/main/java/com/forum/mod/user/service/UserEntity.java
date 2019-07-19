@@ -81,7 +81,7 @@ public class UserEntity implements Cloneable {
 		
 		USER_MAIL("USER_MAIL"),
 		
-		// USER_AVATAR("USER_AVATAR"),
+		USER_AVATAR("USER_AVATAR"),
 		
 		USER_SECRET("USER_SECRET");
 

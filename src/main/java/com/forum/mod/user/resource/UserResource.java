@@ -1,5 +1,7 @@
 package com.forum.mod.user.resource;
 
+import java.io.InputStream;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,6 +13,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
 import com.forum.app.common.ResponseEntity;
 import com.forum.mod.user.factory.UserResponseFactory;
 import com.forum.mod.user.service.UserEntity;
@@ -18,8 +23,8 @@ import com.forum.mod.user.service.UserEntity;
 import io.dropwizard.hibernate.UnitOfWork;
 
 /**
- * This class exposes a collection of user API end points which can be used
- * to perform a variety of operations related to UserEntity.
+ * This class exposes a collection of user API end points which can be used to
+ * perform a variety of operations related to UserEntity.
  * 
  * @author Saurabh Mhatre
  *
@@ -85,6 +90,20 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response validateUser(@PathParam("userName") String userName, UserEntity userEntity) {
 		ResponseEntity responseEntity = responseFactory.validateUser(userName, userEntity);
+		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
+				.build();
+		return response;
+	}
+
+	@POST
+	@UnitOfWork
+	@Path(value = "/{userName}/avatar/{mode}")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response uploadUserAvatar(@PathParam("userName") String userName, @PathParam("mode") String mode,
+			@FormDataParam("userAvatar") InputStream inputStream,
+			@FormDataParam("userAvatar") FormDataContentDisposition fileDetails) {
+		ResponseEntity responseEntity = responseFactory.uploadUserAvatar(userName, inputStream, fileDetails, mode);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
 		return response;

@@ -1,8 +1,12 @@
 #application name
 appName: forum-solution
 
+#file upload location and relative path
+uploadFileLocation: C:/xampp/htdocs/forum/assets/avatars/
+contextPath: /forum/assets/avatars/
+
 #CORS configuration
-allowedOrigins: http://localhost:8080
+allowedOrigins: http://localhost
 allowedHeaders: X-Requested-With, Content-Type, Accept, Origin
 allowedMethods: OPTIONS, GET, PUT, POST, DELETE, HEAD
 

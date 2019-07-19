@@ -10,6 +10,7 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 
 import com.forum.app.provider.PersistenceExceptionMapper;
+import com.forum.app.util.FileUtility;
 import com.forum.mod.answer.factory.AnswerBusinessFactory;
 import com.forum.mod.answer.factory.AnswerResponseFactory;
 import com.forum.mod.answer.resource.AnswerResource;
@@ -24,6 +25,7 @@ import com.forum.mod.user.factory.UserResponseFactory;
 import com.forum.mod.user.resource.UserResource;
 
 import io.dropwizard.Application;
+import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -47,6 +49,7 @@ public class ForumApplication extends Application<ForumConfiguration> {
 	public void initialize(Bootstrap<ForumConfiguration> bootstrap) {
 		super.initialize(bootstrap);
 		bootstrap.addBundle(DatabaseUtility.getHibernateBundle());
+		bootstrap.addBundle(new MultiPartBundle());
 	}
 
 	@Override
@@ -68,7 +71,12 @@ public class ForumApplication extends Application<ForumConfiguration> {
 		QuestionResponseFactory quesResponseFactory = new QuestionResponseFactory(quesBusinessFactory);
 		AnswerResponseFactory ansResponseFactory = new AnswerResponseFactory(ansBusinessFactory);
 		SearchResponseFactory searchResponseFactory = new SearchResponseFactory(searchBusinessFactory);
-
+		
+		// Setting upload file location for uploading user avatars
+		FileUtility.uploadLocation = configuration.getUploadFileLocation();
+		// Setting context path which will be stored in the DB
+		FileUtility.contextPath = configuration.getContextPath();
+		
 		// Registering UserResource
 		environment.jersey().register(new UserResource(userResponseFactory));
 		// Registering QuestionResource

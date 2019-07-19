@@ -79,8 +79,19 @@ public class QuestionEntity {
 	private Date quesModifiedOn;
 
 	public enum Category {
-		TECHNOLOGY("TECHNOLOGY"), SCIENCE("SCIENCE"), HISTORY("HISTORY"), COMICS("COMICS"), OTHERS("OTHERS"), ALL(
-				"ALL");
+		TECHNOLOGY("TECHNOLOGY"), 
+		
+		SCIENCE("SCIENCE"), 
+		
+		HISTORY("HISTORY"),
+		
+		GEOGRAPHY("GEOGRAPHY"),
+		
+		COMICS("COMICS"), 
+		
+		OTHERS("OTHERS"), 
+		
+		ALL("ALL");
 
 		private String value;
 

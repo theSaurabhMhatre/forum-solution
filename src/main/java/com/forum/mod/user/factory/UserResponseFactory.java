@@ -1,9 +1,12 @@
 package com.forum.mod.user.factory;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import com.forum.app.common.ResponseEntity;
 import com.forum.app.constant.ForumSuccess;
@@ -12,9 +15,9 @@ import com.forum.app.exception.ForumException;
 import com.forum.mod.user.service.UserEntity;
 
 /**
- * This class wraps the response returned by the UserBusinessFactory
- * into a ResponseEntity object and sets the appropriate response message
- * and the response status code.
+ * This class wraps the response returned by the UserBusinessFactory into a
+ * ResponseEntity object and sets the appropriate response message and the
+ * response status code.
  * 
  * @author Saurabh Mhatre
  *
@@ -129,6 +132,23 @@ public class UserResponseFactory {
 			response.setResponseStatus(Response.Status.OK);
 			response.setResponseMessage(ForumSuccess.FETCH_SUCCESS.getMessage());
 			response.setResponseObject(userRankings);
+			return response;
+		} catch (ForumException ex) {
+			response.setResponseStatus(Response.Status.BAD_REQUEST);
+			response.setResponseMessage(ex.getMessage());
+			response.setResponseObject(ex.getMessage());
+			return response;
+		}
+	}
+
+	public ResponseEntity uploadUserAvatar(String userName, InputStream inputStream,
+			FormDataContentDisposition fileDetails, String mode) {
+		ResponseEntity response = new ResponseEntity();
+		try {
+			UserEntity userEntity = businessFactory.uploadUserAvatar(userName, inputStream, fileDetails, mode);
+			response.setResponseStatus(Response.Status.OK);
+			response.setResponseMessage(ForumSuccess.MODIFY_SUCCESS.getMessage());
+			response.setResponseObject(userEntity);
 			return response;
 		} catch (ForumException ex) {
 			response.setResponseStatus(Response.Status.BAD_REQUEST);
