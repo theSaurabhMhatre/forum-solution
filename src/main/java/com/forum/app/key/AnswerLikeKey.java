@@ -15,7 +15,6 @@ import com.forum.mod.user.service.UserEntity;
  * corresponding to answers.
  * 
  * @author Saurabh Mhatre
- *
  */
 @Embeddable
 public class AnswerLikeKey implements Serializable {

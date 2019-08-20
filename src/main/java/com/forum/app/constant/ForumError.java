@@ -5,7 +5,6 @@ package com.forum.app.constant;
  * operations.
  * 
  * @author Saurabh Mhatre
- *
  */
 public enum ForumError {
 	FETCH_ERROR("Fetch Unsuccessful"),

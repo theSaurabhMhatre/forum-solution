@@ -15,13 +15,14 @@ These APIs are being used by - [forum-solution-ui](https://github.com/theSaurabh
     PUT     /forum/answers/{ansId} (com.forum.mod.answer.resource.AnswerResource)
     DELETE  /forum/answers/{ansId}/dislike (com.forum.mod.answer.resource.AnswerResource)
     POST    /forum/answers/{ansId}/like (com.forum.mod.answer.resource.AnswerResource)
+    GET     /forum/answers/{ansId}/question/{quesId} (com.forum.mod.answer.resource.AnswerResource)
     GET     /forum/answers/{quesId} (com.forum.mod.answer.resource.AnswerResource)
     GET     /forum/answers/{userId}/likes (com.forum.mod.answer.resource.AnswerResource)
     GET     /forum/answers/{userId}/totallikes (com.forum.mod.answer.resource.AnswerResource)
     GET     /forum/questions (com.forum.mod.question.resource.QuestionResource)
     POST    /forum/questions (com.forum.mod.question.resource.QuestionResource)
-    GET     /forum/questions/search (com.forum.mod.question.resource.QuestionResource)
     DELETE  /forum/questions/{questionId} (com.forum.mod.question.resource.QuestionResource)
+    GET     /forum/questions/{questionId} (com.forum.mod.question.resource.QuestionResource)
     PUT     /forum/questions/{questionId} (com.forum.mod.question.resource.QuestionResource)
     DELETE  /forum/questions/{questionId}/dislike (com.forum.mod.question.resource.QuestionResource)
     POST    /forum/questions/{questionId}/like (com.forum.mod.question.resource.QuestionResource)
@@ -36,6 +37,7 @@ These APIs are being used by - [forum-solution-ui](https://github.com/theSaurabh
     GET     /forum/users/{userId} (com.forum.mod.user.resource.UserResource)
     PUT     /forum/users/{userId}/{attribute} (com.forum.mod.user.resource.UserResource)
     GET     /forum/users/{userName}/available (com.forum.mod.user.resource.UserResource)
+    POST    /forum/users/{userName}/avatar/{mode} (com.forum.mod.user.resource.UserResource)
     POST    /forum/users/{userName}/validate (com.forum.mod.user.resource.UserResource)
 
 ## Dependencies
@@ -44,4 +46,6 @@ These APIs are being used by - [forum-solution-ui](https://github.com/theSaurabh
 - dropwizard-core
 - dropwizard-hibernate
 - dropwizard-db
+- dropwizard-forms
+- dropwizard-auth
 - h2

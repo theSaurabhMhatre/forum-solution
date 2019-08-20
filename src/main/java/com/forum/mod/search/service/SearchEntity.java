@@ -11,7 +11,6 @@ import com.forum.mod.question.service.QuestionEntity;
  * results of the search operations.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class SearchEntity {
 	private List<QuestionEntity> questions;

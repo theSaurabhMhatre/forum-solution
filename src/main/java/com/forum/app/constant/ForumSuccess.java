@@ -5,7 +5,6 @@ package com.forum.app.constant;
  * successfully.
  * 
  * @author Saurabh Mhatre
- *
  */
 public enum ForumSuccess {
 	FETCH_SUCCESS("Fetch Successful"),

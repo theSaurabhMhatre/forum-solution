@@ -20,7 +20,6 @@ import com.forum.app.constant.PersistenceError;
  * runtime and returns an appropriate response message and status.
  * 
  * @author Saurabh Mhatre
- *
  */
 @Provider
 public class PersistenceExceptionMapper implements ExceptionMapper<PersistenceException> {
@@ -34,10 +33,11 @@ public class PersistenceExceptionMapper implements ExceptionMapper<PersistenceEx
 
 	/**
 	 * This identifies the type of exception thrown and returns an appropriate
-	 * response status, message and object wrapped in ReponseEntity.
+	 * response status, message and object wrapped in ResponseEntity.
 	 * 
-	 * @param PersistenceException exception - thrown exception.
-	 * @return ResponseEntity object - resolved response.
+	 * @param exception the thrown exception.
+	 *
+	 * @return A ResponseEntity instance which encapsulates the resolved response.
 	 */
 	public ResponseEntity resolveResponse(PersistenceException exception) {
 		String message = null;

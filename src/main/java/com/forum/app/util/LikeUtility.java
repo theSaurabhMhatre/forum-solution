@@ -11,7 +11,6 @@ import java.util.Map;
  * Utility class to perform various likes related operations.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class LikeUtility {
 	public static final Integer COLUMNS = 2;
@@ -20,9 +19,12 @@ public class LikeUtility {
 	 * Maps likes to the corresponding users, maps 0 to a user if no likes are
 	 * present corresponding to the user. Assumes users to have Id's in order. 
 	 * 
-	 * @param List<Object> likes - likes corresponding to all users.
-	 * @param Integer totalUsers - total number of registered users.
-	 * @return Long[][] normalizedLikes - mapping between likes and users.
+	 * @param likes			the likes corresponding to all users.
+	 * @param totalUsers	the total number of registered users.
+	 *
+	 * @return A Long[][] instance which holds the mapping between likes and users.
+	 *
+	 * @deprecated This method is no longer being used. Please refer {@link #normalizeLikes(List, List)}.
 	 */
 	@Deprecated
 	public static Long[][] normalizeLikesArray(List<Object> likes, Integer totalUsers) {
@@ -47,9 +49,10 @@ public class LikeUtility {
 	 * Maps likes to the corresponding users, maps 0 to a user if no likes are
 	 * present corresponding to the user.
 	 * 
-	 * @param List<Object> likes - likes corresponding to all users.
-	 * @param List<Long> userIds - list of registered user Id's.
-	 * @return Map<Long, Long> normalizedLikes - mapping between likes and users.
+	 * @param likes		the likes corresponding to all users.
+	 * @param userIds	the list of registered user Id's.
+	 *
+	 * @return A Map instance which holds the mapping between likes and users.
 	 */
 	public static Map<Long, Long> normalizeLikes(List<Object> likes, List<Long> userIds) {
 		Map<Long, Long> normalizedLikes = new HashMap<Long, Long>();
@@ -73,10 +76,10 @@ public class LikeUtility {
 	}
 
 	/**
-	 * Sorts the List<List<Object>> passed according to the total number of likes
+	 * Sorts the List passed according to the total number of likes
 	 * present at the 4th index in descending order.
 	 * 
-	 * @param List<List<Object>> userRankings - all registered users details. 
+	 * @param userRankings the list of details of all the registered users.
 	 */
 	public static void sortLikes(List<List<Object>> userRankings) {
 		Collections.sort(userRankings, new Comparator<List<Object>>() {

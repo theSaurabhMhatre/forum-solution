@@ -17,7 +17,6 @@ import io.dropwizard.hibernate.HibernateBundle;
  * application for all database related operations.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class DatabaseUtility {
 	private static HibernateBundle<ForumConfiguration> hibernateBundle;

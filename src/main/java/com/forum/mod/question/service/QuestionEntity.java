@@ -28,7 +28,6 @@ import com.forum.mod.user.service.UserEntity;
  * QuestionRepo to query the table corresponding to QuestionEntity.
  * 
  * @author Saurabh Mhatre
- *
  */
 @Entity
 @Table(name = "table_question")
@@ -78,6 +77,13 @@ public class QuestionEntity {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
 	private Date quesModifiedOn;
 
+	/**
+	 * This describes the different types of values which can be assigned
+	 * to the category parameter passed along with the search API. It also
+	 * indicates the different categories of questions.
+	 *
+	 * @author Saurabh Mhatre
+	 */
 	public enum Category {
 		TECHNOLOGY("TECHNOLOGY"), 
 		

@@ -1,5 +1,6 @@
 package com.forum.mod.user.service;
 
+import java.security.Principal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.security.auth.Subject;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.forum.app.constant.ForumError;
@@ -24,7 +26,6 @@ import com.forum.app.exception.ForumException;
  * query the table corresponding to UserEntity.
  * 
  * @author Saurabh Mhatre
- *
  */
 @Entity
 @Table(name = "table_user")
@@ -40,7 +41,7 @@ import com.forum.app.exception.ForumException;
 				+ "order by user.userId"),
 		@NamedQuery(name = "getAllUsersQuery", query = "select user.userId, user.userName from UserEntity user "
 				+ "order by user.userId") })
-public class UserEntity implements Cloneable {
+public class UserEntity implements Cloneable, Principal {
 	@Id
 	@Column(name = "user_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -72,6 +73,12 @@ public class UserEntity implements Cloneable {
 	@Column(name = "user_avatar")
 	private String userAvatar;
 
+	/**
+	 * This indicates the different user attributes which can be
+	 * updated.
+	 *
+	 * @author Saurabh Mhatre
+	 */
 	public enum Attribute {
 		USER_NAME("USER_NAME"),
 		
@@ -95,6 +102,16 @@ public class UserEntity implements Cloneable {
 			return this.value.toLowerCase();
 		}
 
+	}
+
+	@Override
+	public String getName() {
+		return userName;
+	}
+
+	@Override
+	public boolean implies(Subject subject) {
+		return false;
 	}
 
 	public Long getUserId() {

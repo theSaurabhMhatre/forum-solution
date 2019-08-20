@@ -4,7 +4,6 @@ package com.forum.app.constant;
  * This provides descriptions for validation related operations.
  * 
  * @author Saurabh Mhatre
- *
  */
 public enum ForumValidation {
 	VALIDATION_SUCCESS("Validation Successful"),

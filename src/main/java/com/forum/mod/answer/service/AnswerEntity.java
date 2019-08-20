@@ -29,7 +29,6 @@ import com.forum.mod.user.service.UserEntity;
  * to query the table corresponding to AnswerEntity.
  * 
  * @author Saurabh Mhatre
- *
  */
 @Entity
 @Table(name = "table_answer")

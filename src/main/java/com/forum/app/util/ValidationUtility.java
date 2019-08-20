@@ -10,16 +10,14 @@ import com.forum.mod.user.service.UserEntity.Attribute;
  * Utility class used for performing various validation operations on objects.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class ValidationUtility {
 
 	/**
-	 * This describes the different types of values which can be assigned to the
-	 * type parameter passed along with the search API.
+	 * This describes the different types of values which can be assigned
+	 * to the type parameter passed along with the search API.
 	 * 
 	 * @author Saurabh Mhatre
-	 *
 	 */
 	public enum Type {
 		QUESTION("QUESTION"),
@@ -43,8 +41,9 @@ public class ValidationUtility {
 	/**
 	 * This checks if a given object is null.
 	 * 
-	 * @param Object object - object to be validated.
-	 * @return Boolean object - true/false.
+	 * @param object the object to be validated.
+	 *
+	 * @return A Boolean instance (true/false) indicating if the object is null or not null.
 	 */
 	public static Boolean isNull(Object object) {
 		if (object == null) {
@@ -57,8 +56,9 @@ public class ValidationUtility {
 	/**
 	 * This checks if a given object is not null.
 	 * 
-	 * @param Object object - object to be validated.
-	 * @return Boolean object - true/false.
+	 * @param object the object to be validated.
+	 *
+	 * @return A Boolean instance (true/false) indicating if the object is not null or null.
 	 */
 	public static Boolean isNotNull(Object object) {
 		if (object != null) {
@@ -71,8 +71,9 @@ public class ValidationUtility {
 	/**
 	 * This checks if the given category is valid.
 	 * 
-	 * @param String category - category to be validated.
-	 * @return Boolean object - true/false.
+	 * @param category the category to be validated.
+	 *
+	 * @return A Boolean instance (true/false) indicating if the category is valid or not.
 	 */
 	public static Boolean validateCategory(String category) {
 		try {
@@ -85,8 +86,9 @@ public class ValidationUtility {
 	/**
 	 * This checks if the given type is valid.
 	 * 
-	 * @param String type - type to be validated.
-	 * @return Boolean object - true/false.
+	 * @param type the type to be validated.
+	 *
+	 * @return A Boolean instance (true/false) indicating if the type is valid or not.
 	 */
 	public static Boolean validateType(String type) {
 		try {
@@ -99,8 +101,9 @@ public class ValidationUtility {
 	/**
 	 * This checks if the given attribute is valid.
 	 * 
-	 * @param String attribute - attribute to be validated.
-	 * @return Boolean object - true/false.
+	 * @param attribute the attribute to be validated.
+	 *
+	 * @return A Boolean instance (true/false) indicating if the attribute is valid or not.
 	 */
 	public static Boolean validateAttribute(String attribute) {
 		try {
@@ -113,8 +116,9 @@ public class ValidationUtility {
 	/**
 	 * This checks if the given mode is valid.
 	 * 
-	 * @param Strin mode - mode to be validated.
-	 * @return Boolean object - true/false.
+	 * @param mode the mode to be validated.
+	 *
+	 * @return A Boolean instance (true/false) indicating if the mode is valid or not.
 	 */
 	public static Boolean validateMode(String mode) {
 		try {

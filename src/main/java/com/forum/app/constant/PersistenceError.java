@@ -5,7 +5,6 @@ package com.forum.app.constant;
  * when processing a request.
  * 
  * @author Saurabh Mhatre
- *
  */
 public enum PersistenceError {
 	CONSTRAINT_VIOLATION_EXCEPTION("Integrity constraint violation"),

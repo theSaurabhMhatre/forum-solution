@@ -16,7 +16,6 @@ import com.forum.mod.question.service.QuestionLikeEntity;
  * and the response status code.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class QuestionResponseFactory {
 	private QuestionBusinessFactory businessFactory;

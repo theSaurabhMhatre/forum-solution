@@ -5,7 +5,6 @@ package com.forum.app.exception;
  * extend it.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class ForumException extends Exception {
 	private static final long serialVersionUID = 1L;

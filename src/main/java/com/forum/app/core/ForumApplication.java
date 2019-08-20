@@ -6,6 +6,12 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.ws.rs.client.Client;
 
+import com.forum.app.auth.BasicAuthenticator;
+import com.forum.mod.user.service.UserEntity;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
+import io.dropwizard.hibernate.UnitOfWorkAwareProxyFactory;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 
@@ -31,13 +37,12 @@ import io.dropwizard.setup.Environment;
 
 /**
  * This is the entry point of the application. It initializes all the resources,
- * health checks, exception mappers and sets up the CORS configuration. It also
- * sets up the dependencies required by the resources.
+ * health checks, exception mappers, basic authentication and sets up the CORS
+ * configuration. It also sets up the dependencies required by the resources.
  * 
  * TODO: Integrate swagger.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class ForumApplication extends Application<ForumConfiguration> {
 
@@ -98,14 +103,24 @@ public class ForumApplication extends Application<ForumConfiguration> {
 		PersistenceExceptionMapper exceptionMapper = new PersistenceExceptionMapper();
 		environment.jersey().register(exceptionMapper);
 
-		// Enable CORS headers
+		// Security configuration and registration (Basic Authentication)
+		BasicAuthenticator basicAuthenticator = new UnitOfWorkAwareProxyFactory(DatabaseUtility.getHibernateBundle())
+				.create(BasicAuthenticator.class, UserBusinessFactory.class, userBusinessFactory);
+		// this is for authenticating requests from the UI
+		basicAuthenticator.setAppId(configuration.getAppId());
+		basicAuthenticator.setAppPswd(configuration.getAppPswd());
+		environment.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<UserEntity>()
+				.setAuthenticator(basicAuthenticator).setRealm("BASIC-AUTH-REALM").buildAuthFilter()));
+		environment.jersey().register(new AuthValueFactoryProvider.Binder<>(UserEntity.class));
+
+		// Enabling CORS headers
 		final FilterRegistration.Dynamic cors = environment.servlets().addFilter("crossOriginRequests",
 				CrossOriginFilter.class);
-		// Configure CORS parameters
+		// Configuring CORS parameters
 		cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, configuration.getAllowedOrigins());
 		cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, configuration.getAllowedHeaders());
 		cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, configuration.getAllowedMethods());
-		// Add URL mapping
+		// Adding URL mapping(s)
 		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 	}
 

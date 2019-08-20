@@ -6,15 +6,15 @@ import java.util.Base64;
  * Utility class for performing various operations on strings.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class StringUtility {
 
 	/**
 	 * Encodes a given plain text into base64 string.
 	 * 
-	 * @param String plainString - user readable string.
-	 * @return String encodedString - encoded string. 
+	 * @param plainString the user readable string.
+	 *
+	 * @return A String instance of the encoded plainString.
 	 */
 	public static String encodeString(String plainString) {
 		String encodedString = Base64.getEncoder().encodeToString(plainString.getBytes());
@@ -24,8 +24,9 @@ public class StringUtility {
 	/**
 	 * Decodes a given base64 string into plain text.
 	 * 
-	 * @param String encodedString - encoded string.
-	 * @return String decodedString - decoded string.
+	 * @param encodedString the encoded string.
+	 *
+	 * @return A String instance of the decoded encodedString.
 	 */
 	public static String decodeString(String encodedString) {
 		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);

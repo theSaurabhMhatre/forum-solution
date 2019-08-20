@@ -8,7 +8,6 @@ import javax.persistence.Persistence;
  * check.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class HibernateUtility {
 	private static EntityManagerFactory entityManagerFactory = null;
@@ -17,7 +16,7 @@ public class HibernateUtility {
 	 * This creates an instance of EntityManagerFactory using the configurations
 	 * defined in persistence.xml file.
 	 * 
-	 * @return EntityManagerFactory entityManagerFactory - EMF instance used for health check.
+	 * @return A EntityManagerFactory instance which is used to perform health check.
 	 */
 	public static EntityManagerFactory getEntityManagerFactory() {
 		if (entityManagerFactory == null) {

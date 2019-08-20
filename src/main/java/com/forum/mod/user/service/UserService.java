@@ -12,7 +12,6 @@ import com.forum.app.exception.ModifyException;
  * the UserRepo and throws exceptions in case something fails.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class UserService {
 	private UserRepo userRepo;

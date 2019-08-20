@@ -14,7 +14,6 @@ import com.forum.mod.user.service.UserEntity;
  * corresponding to questions.
  * 
  * @author Saurabh Mhatre
- *
  */
 @Embeddable
 public class QuestionLikeKey implements Serializable {

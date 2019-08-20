@@ -28,7 +28,6 @@ import com.forum.mod.user.service.UserEntity;
  * QuestionService via this class.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class QuestionBusinessFactory {
 	private QuestionService questionService;
@@ -38,7 +37,6 @@ public class QuestionBusinessFactory {
 	/**
 	 * This is the default constructor, initializes QuestionService. This is the
 	 * only place where QuestionService is initialized.
-	 * 
 	 */
 	public QuestionBusinessFactory() {
 		questionService = new QuestionService();
@@ -48,8 +46,8 @@ public class QuestionBusinessFactory {
 	 * This sets the other business factory objects to the respective instance
 	 * variables which are then used to communicate with other modules.
 	 * 
-	 * @param UserBusinessFactory userBusinessFactory - user factory to set.
-	 * @param AnswerBusinessFactory ansBusinessFactory - answer factory to set.
+	 * @param userBusinessFactory	the user factory to set.
+	 * @param ansBusinessFactory	the answer factory to set.
 	 */
 	public void setBusinessFactories(UserBusinessFactory userBusinessFactory,
 			AnswerBusinessFactory ansBusinessFactory) {
@@ -58,11 +56,12 @@ public class QuestionBusinessFactory {
 	}
 
 	/**
-	 * This is a helper method which takes a list of question and returns list
-	 * after removing all the duplicate entries.
+	 * This is a helper method which takes a list of questions and returns the
+	 * list after removing all the duplicate entries.
 	 * 
-	 * @param List<QuestionEntity> questions - list with/without duplicated questions.
-	 * @return List<QuestionEntity> distinctQuestions - distinct questions list.
+	 * @param questions the list with/without duplicated questions.
+	 *
+	 * @return A List instance containing distinct questions.
 	 */
 	public List<QuestionEntity> removeDuplicateQuestions(List<QuestionEntity> questions) {
 		Map<Long, QuestionEntity> questionsMap = new HashMap<Long, QuestionEntity>();
@@ -76,11 +75,13 @@ public class QuestionBusinessFactory {
 	}
 
 	/**
-	 * This fetches the question corresponding the passed question Id. 
+	 * This fetches the question corresponding to the passed question Id.
 	 * 
-	 * @param Long quesId - Id of the question which is to be fetched.
-	 * @return QuestionEntity question - question corresponding to quesId.
-	 * @throws ForumException exception - wrapped exception thrown during processing. 
+	 * @param quesId 			the Id of the question which is to be fetched.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A QuestionEntity instance corresponding to quesId.
 	 */
 	public QuestionEntity getQuestion(Long quesId) throws ForumException {
 		QuestionValidationFactory.validateQuestionId(quesId);
@@ -103,9 +104,11 @@ public class QuestionBusinessFactory {
 	 * most likes for every question if the question is answered, sets a dummy answer 
 	 * object for questions which are unanswered.
 	 * 
-	 * @param String[] searchCriteria - optional criteria object.
-	 * @return List<Object> result - all questions or the ones matching searchCriteria.
-	 * @throws ForumException exception - wrapped exception thrown during processing. 
+	 * @param searchCriteria	the optional criteria object.
+	 *
+	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 *
+	 * @return A List instance containing all questions or the ones matching searchCriteria.
 	 */
 	public List<Object> getQuestionsWithMostLikedAns(String... searchCriteria) throws ForumException {
 		QuestionValidationFactory.validateSearchCriteria(searchCriteria);
@@ -151,9 +154,11 @@ public class QuestionBusinessFactory {
 	/**
 	 * This adds a question to the DB is validation is successful.
 	 * 
-	 * @param QuestionEntity question - object to be added.
-	 * @return QuestionEntity question - added object.
-	 * @throws ForumException exception - wrapped exception thrown during processing. 
+	 * @param question			the question object to be added.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A QuestionEntity instance representing the added question.
 	 */
 	public QuestionEntity addQuestion(QuestionEntity question) throws ForumException {
 		QuestionValidationFactory.validateAddQuestion(question);
@@ -170,10 +175,12 @@ public class QuestionBusinessFactory {
 	/**
 	 * This modifies an existing question if validation is successful.
 	 * 
-	 * @param Long quesId - Id of the question to be updated. 
-	 * @param QuestionEntity question - object to be modified. 
-	 * @return QuestionEntity question - modified object.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param quesId 			the Id of the question to be updated.
+	 * @param question 			the question object to be modified.
+	 *
+	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 *
+	 * @return A QuestionEntity instance representing the modified question.
 	 */
 	public QuestionEntity updateQuestion(Long quesId, QuestionEntity question) throws ForumException {
 		QuestionValidationFactory.validateUpdateQuestion(quesId, question);
@@ -192,8 +199,9 @@ public class QuestionBusinessFactory {
 	 * deletes all the answers corresponding those questions, and the likes the
 	 * questions and the answers have.  
 	 * 
-	 * @param Long quesId - Id of answer to be deleted.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param quesId			the Id of question to be deleted.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
 	 */
 	public void deleteQuestion(Long quesId) throws ForumException {
 		QuestionValidationFactory.validateQuestionId(quesId);
@@ -205,10 +213,12 @@ public class QuestionBusinessFactory {
 	/**
 	 * This is used to like a question i.e., inserts an entry for every question liked.
 	 * 
-	 * @param Long quesId - Id of question to be liked.
-	 * @param QuestionLikeEntity quesLike - object containing like information. 
-	 * @return QuestionLikeEntity quesLike - DB entry for the question liked.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param quesId 			the Id of question to be liked.
+	 * @param quesLike 			the object containing like information.
+	 *
+	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 *
+	 * @return A QuestionLikeEntity instance representing the DB entry for the liked question.
 	 */
 	public QuestionLikeEntity likeQuestion(Long quesId, QuestionLikeEntity quesLike) throws ForumException {
 		QuestionValidationFactory.validateLikeOperation(quesId, quesLike);
@@ -230,10 +240,10 @@ public class QuestionBusinessFactory {
 	 * This is used to dislike a question i.e., deletes an entry for every
 	 * question disliked.
 	 * 
-	 * @param Long quesId - Id of question to be disliked.
-	 * @param QuestionLikeEntity quesLike - object containing like information. 
-	 * @return
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param quesId			the Id of question to be disliked.
+	 * @param quesLike			the object containing like information.
+	 *
+	 * @throws ForumException 	the wrapped exception thrown during processing.
 	 */
 	public void dislikeQuestion(Long quesId, QuestionLikeEntity quesLike) throws ForumException {
 		QuestionValidationFactory.validateLikeOperation(quesId, quesLike);
@@ -251,9 +261,11 @@ public class QuestionBusinessFactory {
 	/**
 	 * This fetches Id's of all the questions liked by a user.
 	 * 
-	 * @param Long userId - Id of the user for which liked questions are to be fetched.
-	 * @return List<Integer> questionLikes - Id's of all questions liked by userId.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userId 			the Id of the user for which liked questions are to be fetched.
+	 *
+	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 *
+	 * @return A List instance containing Id's of all questions liked by userId.
 	 */
 	public List<Integer> getQuestionsLikedByUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
@@ -265,9 +277,11 @@ public class QuestionBusinessFactory {
 	 * This fetches the total number of likes received by all questions asked by 
 	 * a user.
 	 * 
-	 * @param Long userId - Id of the user, the likes for whose questions are to be fetched.
-	 * @return Long totalLikes - likes received by questions asked by userId.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userId			the Id of the user, the likes for whose questions are to be fetched.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A Long instance representing the likes received by questions asked by userId.
 	 */
 	public Long getUsersQuestionsLikes(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
@@ -278,10 +292,12 @@ public class QuestionBusinessFactory {
 	/**
 	 * This fetches all questions asked by a user.
 	 * 
-	 * @param Long userId - Id of the user for which questions are to be fetched.
-	 * @param Boolean withLikes - used to decide if likes are to be fetched or not.
-	 * @return List<QuestionEntity> questions - questions asked by userId.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userId 			the Id of the user for which questions are to be fetched.
+	 * @param withLikes			this is used to decide if likes are to be fetched or not.
+	 *
+	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 *
+	 * @return A List instance containing questions asked by userId.
 	 */
 	public List<QuestionEntity> getQuestionsByUser(Long userId, Boolean withLikes) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
@@ -311,9 +327,11 @@ public class QuestionBusinessFactory {
 	/**
 	 * This fetches all the questions answered by a user.
 	 * 
-	 * @param Long userId - Id of the user for which answered questions are to be fetched. 
-	 * @return List<Object> answeredQuestions - questions answered by userId.
-	 * @throws ForumException exception - wrapped exception thrown during processing. 
+	 * @param userId			the Id of the user for which answered questions are to be fetched.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A List instance containing questions answered by userId.
 	 */
 	public List<Object> getQuestionsAnsweredByUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
@@ -359,9 +377,10 @@ public class QuestionBusinessFactory {
 	/**
 	 * This fetches the mapping between the likes received for all the questions 
 	 * asked by a particular user and the user for all the registered users.
-	 * 
-	 * @return List<Object> quesLikesByUsers - mapping between likes and users.
-	 * @throws ForumException exception - wrapped exception thrown during processing. 
+	 *
+	 * @throws ForumException the wrapped exception thrown during processing.
+	 *
+	 * @return A List instance which holds the mapping between likes and users.
 	 */
 	public List<Object> getAllUsersQuestionsLikes() throws ForumException {
 		List<Object> quesLikesByUsers = questionService.getAllUsersQuestionsLikes();
@@ -371,8 +390,9 @@ public class QuestionBusinessFactory {
 	/**
 	 * This deletes all the question likes corresponding to a user.
 	 * 
-	 * @param Long userId - Id of the user whose question likes are to be deleted.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userId			the Id of the user whose question likes are to be deleted.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
 	 */
 	public void deleteQuesLikesByUserId(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
@@ -382,9 +402,11 @@ public class QuestionBusinessFactory {
 	/**
 	 * This fetches the likes for the list of question Id's passed.
 	 * 
-	 * @param List<Long> quesIds - Id's for which the likes are to be fetched.
-	 * @return List<Object> questionLikes - likes corresponding to quesIds.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param quesIds			the Id's for which the likes are to be fetched.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A List instance containing likes corresponding to quesIds.
 	 */
 	public List<Object> getLikesBySpecificQuestions(List<Long> quesIds) throws ForumException {
 		for (Long quesId : quesIds) {

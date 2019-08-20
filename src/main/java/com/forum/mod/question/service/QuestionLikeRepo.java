@@ -16,7 +16,6 @@ import com.forum.app.key.QuestionLikeKey;
  * the corresponding database table.
  * 
  * @author Saurabh Mhatre
- *
  */
 @SuppressWarnings("unchecked")
 public class QuestionLikeRepo {

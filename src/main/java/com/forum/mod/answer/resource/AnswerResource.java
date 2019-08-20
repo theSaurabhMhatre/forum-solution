@@ -1,7 +1,10 @@
 package com.forum.mod.answer.resource;
 
+import com.forum.mod.user.service.UserEntity;
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,8 +26,8 @@ import com.forum.mod.answer.service.AnswerLikeEntity;
  * perform a variety of operations related to AnswerEntity and AnswerLikeEntity.
  * 
  * @author Saurabh Mhatre
- *
  */
+@PermitAll
 @Path(value = "/forum/answers")
 public class AnswerResource {
 	private AnswerResponseFactory responseFactory;
@@ -37,7 +40,7 @@ public class AnswerResource {
 	@UnitOfWork
 	@Path(value = "/{quesId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnswersByQuestion(@PathParam("quesId") Long quesId) {
+	public Response getAnswersByQuestion(@Auth UserEntity userEntityAuth, @PathParam("quesId") Long quesId) {
 		ResponseEntity responseEntity = responseFactory.getAnswersByQuestion(quesId);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
@@ -48,7 +51,7 @@ public class AnswerResource {
 	@UnitOfWork
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addAnswer(AnswerEntity answer) {
+	public Response addAnswer(@Auth UserEntity userEntityAuth, AnswerEntity answer) {
 		ResponseEntity responseEntity = responseFactory.addAnswer(answer);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
@@ -60,7 +63,7 @@ public class AnswerResource {
 	@Path(value = "/{ansId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateAnswer(@PathParam("ansId") Long ansId, AnswerEntity answer) {
+	public Response updateAnswer(@Auth UserEntity userEntityAuth, @PathParam("ansId") Long ansId, AnswerEntity answer) {
 		ResponseEntity responseEntity = responseFactory.updateAnswer(ansId, answer);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
@@ -72,7 +75,7 @@ public class AnswerResource {
 	@Path(value = "/{ansId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteAnswer(@PathParam("ansId") Long ansId) {
+	public Response deleteAnswer(@Auth UserEntity userEntityAuth, @PathParam("ansId") Long ansId) {
 		ResponseEntity responseEntity = responseFactory.deleteAnswer(ansId);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
@@ -84,7 +87,7 @@ public class AnswerResource {
 	@Path(value = "/{ansId}/like")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response likeAnswer(@PathParam("ansId") Long ansId, AnswerLikeEntity ansLike) {
+	public Response likeAnswer(@Auth UserEntity userEntityAuth, @PathParam("ansId") Long ansId, AnswerLikeEntity ansLike) {
 		ResponseEntity responseEntity = responseFactory.likeAnswer(ansId, ansLike);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
@@ -96,7 +99,8 @@ public class AnswerResource {
 	@Path(value = "/{ansId}/dislike")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response dislikeAnswer(@PathParam("ansId") Long ansId, AnswerLikeEntity ansLike) {
+	public Response dislikeAnswer(@Auth UserEntity userEntityAuth, @PathParam("ansId") Long ansId,
+								  AnswerLikeEntity ansLike) {
 		ResponseEntity responseEntity = responseFactory.dislikeAnswer(ansId, ansLike);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
@@ -107,7 +111,7 @@ public class AnswerResource {
 	@UnitOfWork
 	@Path(value = "/{userId}/likes")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnswersLikedByUser(@PathParam("userId") Long userId) {
+	public Response getAnswersLikedByUser(@Auth UserEntity userEntityAuth, @PathParam("userId") Long userId) {
 		ResponseEntity responseEntity = responseFactory.getAnswersLikedByUser(userId);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
@@ -118,7 +122,7 @@ public class AnswerResource {
 	@UnitOfWork
 	@Path(value = "/{userId}/totallikes")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUsersAnswersLikes(@PathParam("userId") Long userId) {
+	public Response getUsersAnswersLikes(@Auth UserEntity userEntityAuth, @PathParam("userId") Long userId) {
 		ResponseEntity responseEntity = responseFactory.getUsersAnswersLikes(userId);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();
@@ -129,7 +133,8 @@ public class AnswerResource {
 	@UnitOfWork
 	@Path(value = "/{ansId}/question/{quesId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnswerByQuesAnsPair(@PathParam("ansId") Long ansId, @PathParam("quesId") Long quesId) {
+	public Response getAnswerByQuesAnsPair(@Auth UserEntity userEntityAuth, @PathParam("ansId") Long ansId,
+										   @PathParam("quesId") Long quesId) {
 		ResponseEntity responseEntity = responseFactory.getAnswerByQuesAnsPair(ansId, quesId);
 		Response response = Response.status(responseEntity.getResponseStatus().getStatusCode()).entity(responseEntity)
 				.build();

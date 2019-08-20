@@ -20,7 +20,6 @@ import com.forum.mod.user.service.UserEntity;
  * response status code.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class UserResponseFactory {
 	private UserBusinessFactory businessFactory;

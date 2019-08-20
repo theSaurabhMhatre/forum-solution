@@ -13,7 +13,6 @@ import com.forum.app.core.DatabaseUtility;
  * corresponding database table.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class AnswerRepo extends AbstractDAO<AnswerEntity> {
 

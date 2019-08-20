@@ -13,7 +13,6 @@ import com.forum.app.util.HibernateUtility;
  * TODO: Add more health checks.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class ForumHealthCheck extends HealthCheck {
 	@SuppressWarnings("unused")
@@ -25,10 +24,9 @@ public class ForumHealthCheck extends HealthCheck {
 	}
 
 	/**
-	 * Performs a simple health check by trying to create an EntityManagerFactory.
+	 * Performs a simple health check by trying to create an EntityManagerFactory instance.
 	 * 
-	 * @return Result result - result (Healthy/Unhealthy) of the health check.
-	 * 
+	 * @return A Result instance indicating the result (Healthy/Unhealthy) of the health check.
 	 */
 	@Override
 	protected Result check() throws Exception {

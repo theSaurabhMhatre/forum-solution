@@ -15,12 +15,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * TODO: Check for hard coded properties if any.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class ForumConfiguration extends Configuration {
 	@NotNull
 	private String appName;
-	
+
+	@NotNull
+	private String appId;
+
+	@NotNull
+	private String appPswd;
+
 	@NotNull
 	private String uploadFileLocation;
 
@@ -44,7 +49,15 @@ public class ForumConfiguration extends Configuration {
 	public String getAppName() {
 		return appName;
 	}
-	
+
+	public String getAppId() {
+		return appId;
+	}
+
+	public String getAppPswd() {
+		return appPswd;
+	}
+
 	public String getUploadFileLocation() {
 		return uploadFileLocation;
 	}

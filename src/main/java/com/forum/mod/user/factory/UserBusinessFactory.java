@@ -27,7 +27,6 @@ import com.forum.mod.user.service.UserService;
  * All other business factories communicate with UserService via this class.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class UserBusinessFactory {
 	private UserService userService;
@@ -37,7 +36,6 @@ public class UserBusinessFactory {
 	/**
 	 * This is the default constructor, initializes UserService. This is the
 	 * only place where UserService is initialized.
-	 * 
 	 */
 	public UserBusinessFactory() {
 		userService = new UserService();
@@ -47,8 +45,8 @@ public class UserBusinessFactory {
 	 * This sets the other business factory objects to the respective instance
 	 * variables which are then used to communicate with other modules. 
 	 * 
-	 * @param AnswerBusinessFactory ansBusinessFactory - answer factory to set.
-	 * @param QuestionBusinessFactory quesBusinessFactory - question factory to set.
+	 * @param ansBusinessFactory	the answer factory to set.
+	 * @param quesBusinessFactory	the question factory to set.
 	 */
 	public void setBusinessFactories(AnswerBusinessFactory ansBusinessFactory,
 			QuestionBusinessFactory quesBusinessFactory) {
@@ -59,9 +57,11 @@ public class UserBusinessFactory {
 	/**
 	 * This fetches the user corresponding to the passed user Id.  
 	 * 
-	 * @param Long userId - Id of of the user to be fetched.
-	 * @return UserEntity userView - user corresponding to userId.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userId			the Id of of the user to be fetched.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A UserEntity instance corresponding to userId.
 	 */
 	public UserEntity getUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
@@ -82,9 +82,11 @@ public class UserBusinessFactory {
 	/**
 	 * This adds a question to the DB if validation is successful.
 	 * 
-	 * @param UserEntity userEntity - object to be added. 
-	 * @return UserEntity userView - added object.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userEntity		the user object to be added.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A UserEntity instance representing the added user.
 	 */
 	public UserEntity addUser(UserEntity userEntity) throws ForumException {
 		UserValidationFactory.validateAddUser(userEntity);
@@ -107,15 +109,17 @@ public class UserBusinessFactory {
 	}
 
 	/**
-	 * This modifies an existing question if validation is successful. It 
+	 * This modifies an existing user if validation is successful. It
 	 * modifies a single property or all the properties depending on the value
 	 * of the passed attribute.
 	 * 
-	 * @param Long userId - Id of the user to be modified.
-	 * @param UserEntity userEntity - object to be modified.
-	 * @param String attribute - determines which property/properties to modify.
-	 * @return UserEntity userView - modified object.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userId			the Id of the user to be modified.
+	 * @param userEntity 		the user object to be modified.
+	 * @param attribute 		this determines which property/properties to modify.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A UserEntity instance representing the modified user.
 	 */
 	public UserEntity updateUser(Long userId, UserEntity userEntity, String attribute) throws ForumException {
 		UserValidationFactory.validateUpdateUser(userEntity, userId, attribute);
@@ -168,8 +172,9 @@ public class UserBusinessFactory {
 	 * answers submitted by the user and the likes corresponding to those 
 	 * answers are also deleted.
 	 * 
-	 * @param Long userId - Id of the user to be deleted.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userId			the Id of the user to be deleted.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
 	 */
 	public void deleteUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
@@ -207,10 +212,12 @@ public class UserBusinessFactory {
 	/**
 	 * This validates the existence of the passed user.
 	 * 
-	 * @param String userName - the name of the user to be validated.
-	 * @param UserEntity userEntity - object containing validation information.
-	 * @return UserEntity userView - user object, if passed information is valid.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userName			the name of the user to be validated.
+	 * @param userEntity		the user object containing validation information.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A UserEntity instance, if passed information is valid.
 	 */
 	public UserEntity validateUser(String userName, UserEntity userEntity) throws ForumException {
 		UserValidationFactory.validateValidateUser(userName, userEntity);
@@ -233,9 +240,11 @@ public class UserBusinessFactory {
 	/**
 	 * This checks if the passed user name exists.
 	 * 
-	 * @param String userName - name to be checked for availability.
-	 * @return Map<String, Object> userAvailable - user object, if userName exists.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userName			the name to be checked for availability.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A Map instance containing user object, if userName exists.
 	 */
 	public Map<String, Object> checkAvailability(String userName) throws ForumException {
 		UserValidationFactory.validateUserName(userName);
@@ -260,9 +269,10 @@ public class UserBusinessFactory {
 	 * asked and/or answers answered by those users. It then sorts the entries 
 	 * in the descending order of total likes received by each user, which is 
 	 * then returned as userRankings object.
-	 * 
-	 * @return List<List<Object>> userRankings - object containing ranking information.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 *
+	 * @throws ForumException the wrapped exception thrown during processing.
+	 *
+	 * @return A List instance containing ranking information.
 	 */
 	public List<List<Object>> getUserRankings() throws ForumException {
 		List<Long> userIds = userService.getUserIds();
@@ -296,12 +306,14 @@ public class UserBusinessFactory {
 	 * used to update an existing user avatar in which case it deletes the existing
 	 * avatar before uploading the new avatar.
 	 * 
-	 * @param String userName - name of the user corresponding to the avatar.
-	 * @param InputStream inputStream - uploaded file input stream.
-	 * @param FormDataContentDisposition fileDetails - uploaded file details.
-	 * @return UserEntity userEntity - user object with the avatar URL.
-	 * @param String mode - determines if a file is being uploaded for the first time.
-	 * @throws ForumException exception - wrapped exception thrown during processing.
+	 * @param userName			the name of the user corresponding to the avatar.
+	 * @param inputStream		the uploaded file input stream.
+	 * @param fileDetails		the uploaded file details.
+	 * @param mode				this determines if a file is being uploaded for the first time.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A UserEntity instance with the corresponding avatar URL.
 	 */
 	public UserEntity uploadUserAvatar(String userName, InputStream inputStream,
 			FormDataContentDisposition fileDetails, String mode) throws ForumException {

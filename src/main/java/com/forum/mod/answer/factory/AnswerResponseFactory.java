@@ -18,7 +18,6 @@ import com.forum.mod.answer.service.AnswerLikeEntity;
  * response status code.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class AnswerResponseFactory {
 	private AnswerBusinessFactory businessFactory;

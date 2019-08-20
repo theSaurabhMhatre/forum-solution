@@ -13,7 +13,6 @@ import com.forum.app.exception.ModifyException;
  * Utility class to perform various file related operations.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class FileUtility {
 	public static final int BUFFER_LENGTH = 1024;
@@ -22,6 +21,12 @@ public class FileUtility {
 
 	public static String contextPath;
 
+    /**
+     * This describes the different types of values which can be assigned
+     * to the mode parameter passed along with the avatar add/update API.
+     *
+     * @author Saurabh Mhatre
+     */
 	public enum Mode {
 		ADD("ADD"),
 
@@ -43,11 +48,14 @@ public class FileUtility {
 	 * This will upload a file to path specified by uploadLocation which is fetched
 	 * from the configuration file.
 	 * 
-	 * @param InputStream inputStream - input stream of the file to be uploaded.
-	 * @param String mode - determines if a file is being uploaded for the first time.
-	 * @param String fileName - name of the file(avatar) to be upload.
-	 * @param String previousFileName - name of the file(avatar) already being used.
-	 * @throws ModifyException exception - wrapped exception thrown during processing.
+	 * @param inputStream		the input stream of the file to be uploaded.
+	 * @param mode				this determines if a file is being uploaded for the first time.
+	 * @param fileName			the name of the file(avatar) to be upload.
+	 * @param previousFileName	the name of the file(avatar) already being used.
+	 *
+	 * @throws ModifyException	the wrapped exception thrown during processing.
+	 *
+	 * @return A String instance of the contextual location at which the file is uploaded.
 	 */
 	public static String uploadFile(InputStream inputStream, String mode, String fileName, String previousFileName)
 			throws ModifyException {
@@ -90,7 +98,7 @@ public class FileUtility {
 	/**
 	 * This deletes the file corresponding to the passed fileName.
 	 * 
-	 * @param String fileName - name of the file to be deleted
+	 * @param fileName the name of the file to be deleted
 	 */
 	public static void deleteFile(String fileName) {
 		String fileLocation = uploadLocation + fileName;

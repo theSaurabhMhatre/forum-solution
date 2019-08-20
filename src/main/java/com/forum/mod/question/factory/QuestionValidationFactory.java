@@ -14,7 +14,6 @@ import com.forum.mod.question.service.QuestionLikeEntity;
  * validation exception if data is invalid.   
  * 
  * @author Saurabh Mhatre
- *
  */
 public class QuestionValidationFactory {
 

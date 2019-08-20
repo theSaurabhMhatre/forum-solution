@@ -25,7 +25,6 @@ import com.forum.app.key.AnswerLikeKey;
  * AnswerLikeRepo to query the table corresponding to AnswerLikeEntity.
  * 
  * @author Saurabh Mhatre
- *
  */
 @Entity
 @Table(name = "table_answer_like")

@@ -10,6 +10,7 @@ import com.forum.app.util.HibernateUtility;
  * 
  * @author Saurabh Mhatre
  *
+ * @deprecated Please refer {@link UserRepo}.
  */
 @Deprecated
 public class UserDao {

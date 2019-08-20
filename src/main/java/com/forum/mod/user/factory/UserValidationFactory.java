@@ -17,7 +17,6 @@ import com.forum.mod.user.service.UserEntity;
  * exception if data is invalid.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class UserValidationFactory {
 

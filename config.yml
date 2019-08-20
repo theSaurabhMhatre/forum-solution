@@ -1,13 +1,17 @@
 #application name
 appName: forum-solution
 
+#basic authentication credentials
+appId: forum-ui-id
+appPswd: forum-ui-p@55w0rd
+
 #file upload location and relative path
 uploadFileLocation: C:/xampp/htdocs/forum/assets/avatars/
 contextPath: /forum/assets/avatars/
 
 #CORS configuration
 allowedOrigins: http://localhost
-allowedHeaders: X-Requested-With, Content-Type, Accept, Origin
+allowedHeaders: X-Requested-With, Content-Type, Accept, Origin, Authorization
 allowedMethods: OPTIONS, GET, PUT, POST, DELETE, HEAD
 
 #port settings
@@ -16,7 +20,7 @@ server:
     - type: http
       port: 9090
 
-#database settings.
+#database settings
 database:
   driverClass: org.h2.Driver
   user: sa

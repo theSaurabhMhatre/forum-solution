@@ -13,7 +13,6 @@ import com.forum.mod.search.service.SearchEntity;
  * and the response status code.
  * 
  * @author Saurabh Mhatre
- *
  */
 public class SearchResponseFactory {
 	private SearchBusinessFactory businessFactory;

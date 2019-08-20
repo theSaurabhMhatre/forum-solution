@@ -12,7 +12,6 @@ import com.forum.app.util.ValidationUtility;
  * validation exception if data is invalid.   
  * 
  * @author Saurabh Mhatre
- *
  */
 public class SearchValidationFactory {
 

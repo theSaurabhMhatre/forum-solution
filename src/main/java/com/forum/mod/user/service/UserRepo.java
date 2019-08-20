@@ -16,7 +16,6 @@ import io.dropwizard.hibernate.AbstractDAO;
  * the corresponding database table.
  * 
  * @author Saurabh Mhatre
- *
  */
 @SuppressWarnings("unchecked")
 public class UserRepo extends AbstractDAO<UserEntity> {
