@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.security.auth.Subject;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.forum.app.constant.ForumError;
 import com.forum.app.exception.ForumException;
 
@@ -105,6 +106,7 @@ public class UserEntity implements Cloneable, Principal {
 	}
 
 	@Override
+	@JsonIgnore
 	public String getName() {
 		return userName;
 	}
