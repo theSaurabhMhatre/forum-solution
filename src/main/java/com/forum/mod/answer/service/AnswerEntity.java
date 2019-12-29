@@ -35,7 +35,8 @@ import com.forum.mod.user.service.UserEntity;
 @NamedQueries({
 		@NamedQuery(name = "getAnswersQuery", query = "from AnswerEntity ans " 
 				+ "where ans.question.quesId in ( "
-				+ "select ques.quesId " + "from QuestionEntity " 
+				+ "select ques.quesId "
+				+ "from QuestionEntity ques "
 				+ "where lower(ques.category) like lower(:category) "
 				+ ") and lower(ans.ans) like lower(:keyword)"),
 		@NamedQuery(name = "getAnswersByQuestionQuery", query = "from AnswerEntity ans "

@@ -346,6 +346,11 @@ public class QuestionBusinessFactory {
 			questions.add(answer.getQuestion());
 			quesAnsMap.put(answer.getQuestion().getQuesId(), answer);
 		}
+		// adding this to handle postgres specific issue
+		if(quesIds.size() == 0){
+			// adding a negative (dummy) value
+			quesIds.add(-1L);
+		}
 		List<Object> quesLikes = questionService.getLikesBySpecificQuestions(quesIds);
 		for (QuestionEntity ques : questions) {
 			ques.setAskedBy(ques.getUser().getUserId());
@@ -411,6 +416,11 @@ public class QuestionBusinessFactory {
 	public List<Object> getLikesBySpecificQuestions(List<Long> quesIds) throws ForumException {
 		for (Long quesId : quesIds) {
 			QuestionValidationFactory.validateQuestionId(quesId);
+		}
+		// adding this to handle postgres specific issue
+		if(quesIds.size() == 0){
+			// adding a negative (dummy) value
+			quesIds.add(-1L);
 		}
 		List<Object> questionLikes = questionService.getLikesBySpecificQuestions(quesIds);
 		return questionLikes;
