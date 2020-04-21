@@ -114,8 +114,8 @@ public class UserBusinessFactory {
 	 * of the passed attribute.
 	 * 
 	 * @param userId			the Id of the user to be modified.
-	 * @param userEntity 		the user object to be modified.
-	 * @param attribute 		this determines which property/properties to modify.
+	 * @param userEntity		the user object to be modified.
+	 * @param attribute			this determines which property/properties to modify.
 	 *
 	 * @throws ForumException	the wrapped exception thrown during processing.
 	 *

@@ -46,11 +46,11 @@ public class SearchBusinessFactory {
 	 * It also returns the count of questions and answers which match the
 	 * criteria along with the matched questions and/or answers.
 	 * 
-	 * @param type				this determines where the keyword is to be searched for.
-	 * @param category			this determines the category of questions to search for.
-	 * @param keyword			the word to be searched for in questions and/or answers.
+	 * @param type              this determines where the keyword is to be searched for.
+	 * @param category          this determines the category of questions to search for.
+	 * @param keyword           the word to be searched for in questions and/or answers.
 	 *
-	 * @throws ForumException	the wrapped exception thrown during processing.
+	 * @throws ForumException   the wrapped exception thrown during processing.
 	 *
 	 * @return A SearchEntity instance which encapsulates matched questions and/or answers and counts.
 	 */
@@ -100,8 +100,7 @@ public class SearchBusinessFactory {
 				for (innerIndex = 0; innerIndex < innerResults; innerIndex++) {
 					if (answersList.get(innerIndex).getAns().equals(NO_ANSWER)) {
 						continue;
-					} else if (questionsList.get(innerIndex).getQuesId()
-							.equals(tempQuesList.get(outerIndex).getQuesId())
+					} else if (questionsList.get(innerIndex).getQuesId().equals(tempQuesList.get(outerIndex).getQuesId())
 							&& answersList.get(innerIndex).getAnsId().equals(tempAnsList.get(outerIndex).getAnsId())) {
 						break;
 					}

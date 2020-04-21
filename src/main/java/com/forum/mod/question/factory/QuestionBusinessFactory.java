@@ -75,9 +75,52 @@ public class QuestionBusinessFactory {
 	}
 
 	/**
+	 * This is a helper method which returns the number of likes corresponding
+	 * to the passed question object. Returns zero if there are no likes yet.
+	 *
+	 * @param ques		the question for which likes need to be found.
+	 *
+	 * @param quesLikes	the list of mapping between questions and likes.
+	 *
+	 * @return A Long instance corresponding to the number of likes.
+	 */
+	public Long getQuestionLikes(QuestionEntity ques, List<Object> quesLikes) {
+		Long likes = 0L;
+		for (Object quesLike : quesLikes) {
+			Object[] currentQuesLike = (Object[]) quesLike;
+			Long quesId = (Long) currentQuesLike[1];
+			if (ques.getQuesId().equals(quesId)) {
+				likes = (Long) currentQuesLike[0];
+				break;
+			}
+		}
+		return likes;
+	}
+
+	/**
+	 * This is a helper method which uses the Ids passed by the client to build
+	 * the complete key object for further processing of the request.
+	 *
+	 * @param quesLike			the wrapped Ids required to build the key.
+	 *
+	 * @throws ForumException	the wrapped exception thrown during processing.
+	 *
+	 * @return A QuestionLikeKey instance built using the passed information.
+	 */
+	public QuestionLikeKey prepareQuestionLikeKey(QuestionLikeEntity quesLike) throws ForumException {
+		Long userId = quesLike.getUserId();
+		QuestionEntity ques = questionService.getQuestion(quesLike.getQuesId());
+		UserEntity user = userBusinessFactory.getUser(userId);
+		QuestionLikeKey key = new QuestionLikeKey();
+		key.setQuestion(ques);
+		key.setUser(user);
+		return key;
+	}
+
+	/**
 	 * This fetches the question corresponding to the passed question Id.
 	 * 
-	 * @param quesId 			the Id of the question which is to be fetched.
+	 * @param quesId			the Id of the question which is to be fetched.
 	 *
 	 * @throws ForumException	the wrapped exception thrown during processing.
 	 *
@@ -123,19 +166,7 @@ public class QuestionBusinessFactory {
 		List<Object> quesLikes = questionService.getLikesByQuestions(keyword, category);
 		for (QuestionEntity ques : questions) {
 			ques.setAskedBy(ques.getUser().getUserId());
-			for (Object quesLike : quesLikes) {
-				Object[] currentQuesLike = (Object[]) quesLike;
-				Long quesId = (Long) currentQuesLike[1];
-				if (ques.getQuesId().equals(quesId)) {
-					Long likes = (Long) currentQuesLike[0];
-					ques.setLikes(likes);
-					break;
-				}
-				ques.setLikes(0L);
-			}
-			if (ques.getLikes() == null) {
-				ques.setLikes(0L);
-			}
+			ques.setLikes(getQuestionLikes(ques, quesLikes));
 		}
 		Set<QuestionEntity> sortedQuestions = SortUtility.sortQuestions(questions);
 		List<Object> questionsList = Arrays.asList(sortedQuestions.toArray());
@@ -175,10 +206,10 @@ public class QuestionBusinessFactory {
 	/**
 	 * This modifies an existing question if validation is successful.
 	 * 
-	 * @param quesId 			the Id of the question to be updated.
-	 * @param question 			the question object to be modified.
+	 * @param quesId			the Id of the question to be updated.
+	 * @param question			the question object to be modified.
 	 *
-	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 * @throws ForumException	the wrapped exception thrown during processing.
 	 *
 	 * @return A QuestionEntity instance representing the modified question.
 	 */
@@ -213,21 +244,16 @@ public class QuestionBusinessFactory {
 	/**
 	 * This is used to like a question i.e., inserts an entry for every question liked.
 	 * 
-	 * @param quesId 			the Id of question to be liked.
-	 * @param quesLike 			the object containing like information.
+	 * @param quesId			the Id of question to be liked.
+	 * @param quesLike			the object containing like information.
 	 *
-	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 * @throws ForumException	the wrapped exception thrown during processing.
 	 *
 	 * @return A QuestionLikeEntity instance representing the DB entry for the liked question.
 	 */
 	public QuestionLikeEntity likeQuestion(Long quesId, QuestionLikeEntity quesLike) throws ForumException {
 		QuestionValidationFactory.validateLikeOperation(quesId, quesLike);
-		Long userId = quesLike.getUserId();
-		QuestionEntity ques = questionService.getQuestion(quesLike.getQuesId());
-		UserEntity user = userBusinessFactory.getUser(userId);
-		QuestionLikeKey key = new QuestionLikeKey();
-		key.setQuestion(ques);
-		key.setUser(user);
+		QuestionLikeKey key = prepareQuestionLikeKey(quesLike);
 		quesLike.setQuesLikeKey(key);
 		quesLike.setQuesLikedOn(new Date());
 		key = questionService.likeQuestion(quesLike);
@@ -243,16 +269,11 @@ public class QuestionBusinessFactory {
 	 * @param quesId			the Id of question to be disliked.
 	 * @param quesLike			the object containing like information.
 	 *
-	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 * @throws ForumException	the wrapped exception thrown during processing.
 	 */
 	public void dislikeQuestion(Long quesId, QuestionLikeEntity quesLike) throws ForumException {
 		QuestionValidationFactory.validateLikeOperation(quesId, quesLike);
-		Long userId = quesLike.getUserId();
-		QuestionEntity ques = questionService.getQuestion(quesLike.getQuesId());
-		UserEntity user = userBusinessFactory.getUser(userId);
-		QuestionLikeKey key = new QuestionLikeKey();
-		key.setQuestion(ques);
-		key.setUser(user);
+		QuestionLikeKey key = prepareQuestionLikeKey(quesLike);
 		quesLike.setQuesLikeKey(key);
 		questionService.dislikeQuestion(quesLike);
 		return;
@@ -261,9 +282,9 @@ public class QuestionBusinessFactory {
 	/**
 	 * This fetches Id's of all the questions liked by a user.
 	 * 
-	 * @param userId 			the Id of the user for which liked questions are to be fetched.
+	 * @param userId			the Id of the user for which liked questions are to be fetched.
 	 *
-	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 * @throws ForumException	the wrapped exception thrown during processing.
 	 *
 	 * @return A List instance containing Id's of all questions liked by userId.
 	 */
@@ -292,10 +313,10 @@ public class QuestionBusinessFactory {
 	/**
 	 * This fetches all questions asked by a user.
 	 * 
-	 * @param userId 			the Id of the user for which questions are to be fetched.
+	 * @param userId			the Id of the user for which questions are to be fetched.
 	 * @param withLikes			this is used to decide if likes are to be fetched or not.
 	 *
-	 * @throws ForumException 	the wrapped exception thrown during processing.
+	 * @throws ForumException	the wrapped exception thrown during processing.
 	 *
 	 * @return A List instance containing questions asked by userId.
 	 */
@@ -306,19 +327,7 @@ public class QuestionBusinessFactory {
 			List<Object> quesLikes = questionService.getLikesByQuestionsByUser(userId);
 			for (QuestionEntity ques : questions) {
 				ques.setAskedBy(ques.getUser().getUserId());
-				for (Object quesLike : quesLikes) {
-					Object[] currentQuesLike = (Object[]) quesLike;
-					Long quesId = (Long) currentQuesLike[1];
-					if (ques.getQuesId().equals(quesId)) {
-						Long likes = (Long) currentQuesLike[0];
-						ques.setLikes(likes);
-						break;
-					}
-					ques.setLikes(0L);
-				}
-				if (ques.getLikes() == null) {
-					ques.setLikes(0L);
-				}
+				ques.setLikes(getQuestionLikes(ques, quesLikes));
 			}
 		}
 		return questions;
@@ -354,19 +363,7 @@ public class QuestionBusinessFactory {
 		List<Object> quesLikes = questionService.getLikesBySpecificQuestions(quesIds);
 		for (QuestionEntity ques : questions) {
 			ques.setAskedBy(ques.getUser().getUserId());
-			for (Object quesLike : quesLikes) {
-				Object[] currentQuesLike = (Object[]) quesLike;
-				Long quesId = (Long) currentQuesLike[1];
-				if (ques.getQuesId().equals(quesId)) {
-					Long likes = (Long) currentQuesLike[0];
-					ques.setLikes(likes);
-					break;
-				}
-				ques.setLikes(0L);
-			}
-			if (ques.getLikes() == null) {
-				ques.setLikes(0L);
-			}
+			ques.setLikes(getQuestionLikes(ques, quesLikes));
 		}
 		answers.clear();
 		List<QuestionEntity> distinctQuestions = removeDuplicateQuestions(questions);
