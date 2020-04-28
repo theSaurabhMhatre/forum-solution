@@ -32,8 +32,8 @@ public class SearchBusinessFactory {
 	 * This sets the other business factory objects to the respective instance
 	 * variables which are then used to communicate with other modules.
 	 * 
-	 * @param ansBusinessFactory	the answer factory to set.
-	 * @param quesBusinessFactory	the question factory to set.
+	 * @param ansBusinessFactory     the answer factory to set.
+	 * @param quesBusinessFactory    the question factory to set.
 	 */
 	public void setBusinessFactories(AnswerBusinessFactory ansBusinessFactory,
 			QuestionBusinessFactory quesBusinessFactory) {
@@ -46,11 +46,11 @@ public class SearchBusinessFactory {
 	 * It also returns the count of questions and answers which match the
 	 * criteria along with the matched questions and/or answers.
 	 * 
-	 * @param type              this determines where the keyword is to be searched for.
-	 * @param category          this determines the category of questions to search for.
-	 * @param keyword           the word to be searched for in questions and/or answers.
+	 * @param type               this determines where the keyword is to be searched for.
+	 * @param category           this determines the category of questions to search for.
+	 * @param keyword            the word to be searched for in questions and/or answers.
 	 *
-	 * @throws ForumException   the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 *
 	 * @return A SearchEntity instance which encapsulates matched questions and/or answers and counts.
 	 */

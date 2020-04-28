@@ -24,10 +24,13 @@ server:
 database:
   driverClass: org.h2.Driver
   user: sa
-  password: 
+  password:
   url: jdbc:h2:~/forum-db
   properties:
     hibernate.dialect: org.hibernate.dialect.H2Dialect
     hibernate.show_sql: false
     hibernate.format_sql: false
     hibernate.hbm2ddl.auto: validate
+
+swagger:
+  resourcePackage: com.forum.mod

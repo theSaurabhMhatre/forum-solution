@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
 /**
  * This is the main configuration class which binds values from the config.yml
@@ -45,6 +46,9 @@ public class ForumConfiguration extends Configuration {
 	@NotNull
 	@JsonProperty("database")
 	private DataSourceFactory dataSourceFactory = new DataSourceFactory();
+
+    @JsonProperty("swagger")
+    public SwaggerBundleConfiguration swaggerBundleConfiguration;
 
 	public String getAppName() {
 		return appName;

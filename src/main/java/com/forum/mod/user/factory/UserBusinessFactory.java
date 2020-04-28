@@ -45,8 +45,8 @@ public class UserBusinessFactory {
 	 * This sets the other business factory objects to the respective instance
 	 * variables which are then used to communicate with other modules. 
 	 * 
-	 * @param ansBusinessFactory	the answer factory to set.
-	 * @param quesBusinessFactory	the question factory to set.
+	 * @param ansBusinessFactory     the answer factory to set.
+	 * @param quesBusinessFactory    the question factory to set.
 	 */
 	public void setBusinessFactories(AnswerBusinessFactory ansBusinessFactory,
 			QuestionBusinessFactory quesBusinessFactory) {
@@ -57,9 +57,9 @@ public class UserBusinessFactory {
 	/**
 	 * This fetches the user corresponding to the passed user Id.  
 	 * 
-	 * @param userId			the Id of of the user to be fetched.
+	 * @param userId             the Id of of the user to be fetched.
 	 *
-	 * @throws ForumException	the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 *
 	 * @return A UserEntity instance corresponding to userId.
 	 */
@@ -82,9 +82,9 @@ public class UserBusinessFactory {
 	/**
 	 * This adds a question to the DB if validation is successful.
 	 * 
-	 * @param userEntity		the user object to be added.
+	 * @param userEntity         the user object to be added.
 	 *
-	 * @throws ForumException	the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 *
 	 * @return A UserEntity instance representing the added user.
 	 */
@@ -113,11 +113,11 @@ public class UserBusinessFactory {
 	 * modifies a single property or all the properties depending on the value
 	 * of the passed attribute.
 	 * 
-	 * @param userId			the Id of the user to be modified.
-	 * @param userEntity		the user object to be modified.
-	 * @param attribute			this determines which property/properties to modify.
+	 * @param userId             the Id of the user to be modified.
+	 * @param userEntity         the user object to be modified.
+	 * @param attribute          this determines which property/properties to modify.
 	 *
-	 * @throws ForumException	the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 *
 	 * @return A UserEntity instance representing the modified user.
 	 */
@@ -172,9 +172,9 @@ public class UserBusinessFactory {
 	 * answers submitted by the user and the likes corresponding to those 
 	 * answers are also deleted.
 	 * 
-	 * @param userId			the Id of the user to be deleted.
+	 * @param userId             the Id of the user to be deleted.
 	 *
-	 * @throws ForumException	the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 */
 	public void deleteUser(Long userId) throws ForumException {
 		UserValidationFactory.validateUserId(userId);
@@ -212,10 +212,10 @@ public class UserBusinessFactory {
 	/**
 	 * This validates the existence of the passed user.
 	 * 
-	 * @param userName			the name of the user to be validated.
-	 * @param userEntity		the user object containing validation information.
+	 * @param userName           the name of the user to be validated.
+	 * @param userEntity         the user object containing validation information.
 	 *
-	 * @throws ForumException	the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 *
 	 * @return A UserEntity instance, if passed information is valid.
 	 */
@@ -240,9 +240,9 @@ public class UserBusinessFactory {
 	/**
 	 * This checks if the passed user name exists.
 	 * 
-	 * @param userName			the name to be checked for availability.
+	 * @param userName           the name to be checked for availability.
 	 *
-	 * @throws ForumException	the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 *
 	 * @return A Map instance containing user object, if userName exists.
 	 */
@@ -270,7 +270,7 @@ public class UserBusinessFactory {
 	 * in the descending order of total likes received by each user, which is 
 	 * then returned as userRankings object.
 	 *
-	 * @throws ForumException the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 *
 	 * @return A List instance containing ranking information.
 	 */
@@ -306,12 +306,12 @@ public class UserBusinessFactory {
 	 * used to update an existing user avatar in which case it deletes the existing
 	 * avatar before uploading the new avatar.
 	 * 
-	 * @param userName			the name of the user corresponding to the avatar.
-	 * @param inputStream		the uploaded file input stream.
-	 * @param fileDetails		the uploaded file details.
-	 * @param mode				this determines if a file is being uploaded for the first time.
+	 * @param userName           the name of the user corresponding to the avatar.
+	 * @param inputStream        the uploaded file input stream.
+	 * @param fileDetails        the uploaded file details.
+	 * @param mode               this determines if a file is being uploaded for the first time.
 	 *
-	 * @throws ForumException	the wrapped exception thrown during processing.
+	 * @throws ForumException    the wrapped exception thrown during processing.
 	 *
 	 * @return A UserEntity instance with the corresponding avatar URL.
 	 */
