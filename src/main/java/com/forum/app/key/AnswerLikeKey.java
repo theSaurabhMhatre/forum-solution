@@ -1,6 +1,7 @@
 package com.forum.app.key;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -54,6 +55,25 @@ public class AnswerLikeKey implements Serializable {
 
 	public void setAnswer(AnswerEntity answer) {
 		this.answer = answer;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(user, question, answer);
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
+		AnswerLikeKey ansLike = (AnswerLikeKey) object;
+		return getUser().getUserId().equals(ansLike.getUser().getUserId()) &&
+				getAnswer().getAnsId().equals(ansLike.getAnswer().getAnsId()) &&
+				getQuestion().getQuesId().equals(ansLike.getQuestion().getQuesId());
 	}
 
 }

@@ -47,8 +47,8 @@ public class ForumConfiguration extends Configuration {
 	@JsonProperty("database")
 	private DataSourceFactory dataSourceFactory = new DataSourceFactory();
 
-    @JsonProperty("swagger")
-    public SwaggerBundleConfiguration swaggerBundleConfiguration;
+	@JsonProperty("swagger")
+	private SwaggerBundleConfiguration swaggerBundleConfiguration;
 
 	public String getAppName() {
 		return appName;
@@ -84,6 +84,10 @@ public class ForumConfiguration extends Configuration {
 
 	public DataSourceFactory getDataSourceFactory() {
 		return dataSourceFactory;
+	}
+
+	public SwaggerBundleConfiguration getSwaggerBundleConfiguration() {
+		return swaggerBundleConfiguration;
 	}
 
 }

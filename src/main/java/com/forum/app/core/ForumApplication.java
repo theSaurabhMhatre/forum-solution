@@ -39,7 +39,6 @@ import java.util.EnumSet;
  * health checks, exception mappers, basic authentication and sets up the CORS
  * configuration. It also sets up the dependencies required by the resources.
  * <p>
- * TODO: Integrate swagger.
  *
  * @author Saurabh Mhatre
  */
@@ -57,7 +56,7 @@ public class ForumApplication extends Application<ForumConfiguration> {
         bootstrap.addBundle(new SwaggerBundle<ForumConfiguration>() {
             @Override
             protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(ForumConfiguration forumConfiguration) {
-                return forumConfiguration.swaggerBundleConfiguration;
+                return forumConfiguration.getSwaggerBundleConfiguration();
             }
         });
     }
